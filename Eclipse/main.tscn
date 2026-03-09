@@ -1,16 +1,11 @@
-[gd_scene format=3 uid="uid://bq6dpquy2j4yg"]
+[gd_scene load_steps=3 format=3 uid="uid://b2y7dn5em2ytj"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
+[ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="1_32q6n"]
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Main" type="Node2D"]
+script = ExtResource("1_1kue1")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
-layout_mode = 2
+[node name="ChoicesDiaglog" parent="." instance=ExtResource("1_32q6n")]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[connection signal="SELECTED" from="ChoicesDiaglog" to="." method="_on_choices_diaglog_selected"]
