@@ -1,0 +1,41 @@
+extends CharacterBody2D
+
+signal dead
+
+const MAX_HEALTH: float = 100.0
+var current_health: float = MAX_HEALTH
+const SPEED: float = 150.0
+var STRENGTH: int = 10
+
+
+var input_vector: Vector2
+var mouse_pos: Vector2
+
+# Wait until we have access to animation tree before calling
+@onready var animation_tree: AnimationTree = $AnimationTree
+
+func _ready():
+	input_vector = Vector2.ZERO
+	mouse_pos = Vector2(position.x, position.y - 1)
+
+func _physics_process(_delta: float) -> void:
+	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	mouse_pos = get_global_mouse_position()
+	
+	velocity = input_vector * SPEED
+	
+	var direction: Vector2 = position.direction_to(mouse_pos)
+	animation_tree.set("parameters/StateMachine/MoveState/RunState/blend_position", direction)
+	animation_tree.set("parameters/StateMachine/MoveState/IdleState/blend_position", direction)
+	
+	move_and_slide()
+	
+	if current_health <= 0.0:
+		_on_death()
+
+# TODO: take damage when hitbox area2d entered
+
+func _on_death():
+	# TODO death animation
+	# TODO emit signal to trigger end of battle
+	queue_free()
