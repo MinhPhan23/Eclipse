@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2y7dn5em2ytj"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
+[ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="1_32q6n"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_1kue1")
+
+[node name="ChoicesDiaglog" parent="." instance=ExtResource("1_32q6n")]
+
+[connection signal="SELECTED" from="ChoicesDiaglog" to="." method="_on_choices_diaglog_selected"]
