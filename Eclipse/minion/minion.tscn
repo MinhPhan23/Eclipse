@@ -1,7 +1,7 @@
 [gd_scene load_steps=40 format=3 uid="uid://dnpno4ytlqbn"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_41aam"]
-[ext_resource type="Texture2D" uid="uid://brqmfd1i7f07g" path="res://player/player_spritesheet_test.png" id="2_52td0"]
+[ext_resource type="Script" path="res://minion/minion.gd" id="1_41aam"]
+[ext_resource type="Texture2D" uid="uid://brqmfd1i7f07g" path="res://minion/minion_spritesheet_test.png" id="2_52td0"]
 
 [sub_resource type="Animation" id="Animation_q00jc"]
 length = 0.001
@@ -335,6 +335,7 @@ states/Start/position = Vector2(251, 100)
 transitions = ["Start", "MoveState", SubResource("AnimationNodeStateMachineTransition_8t0ok")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_0u0bf"]
+graph_offset = Vector2(456.96, 41.28)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_xq8rl")
 nodes/StateMachine/position = Vector2(740, 60)
 nodes/output/position = Vector2(1100, 80)
@@ -368,7 +369,7 @@ libraries = {
 tree_root = SubResource("AnimationNodeBlendTree_0u0bf")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/StateMachine/MoveState/IdleState/blend_position = Vector2(-0.169753, 0.619048)
+parameters/StateMachine/MoveState/IdleState/blend_position = Vector2(0.00058794, 0.989501)
 parameters/StateMachine/MoveState/RunState/blend_position = Vector2(0, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -376,6 +377,8 @@ shape = SubResource("CapsuleShape2D_dl8rd")
 metadata/_edit_lock_ = true
 
 [node name="Hitbox" type="Area2D" parent="."]
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CapsuleShape2D_b0g6w")
+metadata/_edit_lock_ = true
