@@ -2,20 +2,19 @@ extends Area2D
 
 @onready var battle_scene_preload = preload("res://battle/battle.tscn")
 @onready var battle_confirmation_dialog = $"BattleConfirmation"
+@onready var tile_map = $"TileMap"
 
 @export var events: Array[String]
+@export var pattern_index: int
+@export var minion_bonus = 2
+@export var battle_trigger_range = 3
 
-var current_day: int
 var hero: CharacterBody2D
 var minion: CharacterBody2D
 var rng: RandomNumberGenerator
-var MINION_BONUS = 2
-var BATTLE_TRIGGER_RANGE = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	current_day = 0
-	events = ["Secret meeting", "Smoke is spotted from a corner of the castle", "Strange lights flash within the castle tower"]
 	rng = RandomNumberGenerator.new()
 	hero = null
 	minion = null
@@ -24,6 +23,12 @@ func _ready():
 	battle_confirmation_dialog.label_text = "Take over the minion?"
 	battle_confirmation_dialog.visible = false
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
+
+	_load_tile_map_pattern()
+	
+func _load_tile_map_pattern():
+	var pattern = tile_map.tile_set.get_pattern(pattern_index)
+	tile_map.set_pattern(0, Vector2i(-3, -3), pattern)
 
 func generate_events() -> String:
 	var random_number = rng.randf();
@@ -59,11 +64,11 @@ func simulate_battle():
 	var minion_level = minion.level
 	var hero_level = hero.level
 	
-	var minion_dice_roll = rng.randi_range(1, 12) + MINION_BONUS + minion_level
+	var minion_dice_roll = rng.randi_range(1, 12) + minion_bonus + minion_level
 	var hero_dice_roll = rng.randi_range(1, 12) + hero_level
 	
 	if (minion_dice_roll < hero_dice_roll):
-		if (hero_dice_roll - minion_dice_roll <= BATTLE_TRIGGER_RANGE):
+		if (hero_dice_roll - minion_dice_roll <= battle_trigger_range):
 			_open_battle_confirmation_dialog()
 		else:
 			#hero win and level up
@@ -82,9 +87,7 @@ func _transition_to_battle_scene():
 	var root = tree.get_root()
 	var main_scene = tree.get_current_scene()
 	
-	battle_scene.main_scene = main_scene
-	battle_scene.location = self
-	battle_scene.add_hero_and_minion(hero, minion)
+	battle_scene.initialize_battle(main_scene, self, hero, minion)
 	
 	root.add_child(battle_scene)
 	root.remove_child(main_scene)
