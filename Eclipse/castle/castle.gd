@@ -1,7 +1,11 @@
 extends Area2D
 
+@onready var battle_scene_preload = preload("res://battle/battle.tscn")
+@onready var battle_confirmation_dialog = $"BattleConfirmation"
+
+@export var events: Array[String]
+
 var current_day: int
-var events: Array[String]
 var hero: CharacterBody2D
 var minion: CharacterBody2D
 var rng: RandomNumberGenerator
@@ -15,6 +19,11 @@ func _ready():
 	rng = RandomNumberGenerator.new()
 	hero = null
 	minion = null
+	
+	battle_confirmation_dialog.choices = ["Yes", "No"]
+	battle_confirmation_dialog.label_text = "Take over the minion?"
+	battle_confirmation_dialog.visible = false
+	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
 
 func generate_events() -> String:
 	var random_number = rng.randf();
@@ -55,11 +64,34 @@ func simulate_battle():
 	
 	if (minion_dice_roll < hero_dice_roll):
 		if (hero_dice_roll - minion_dice_roll <= BATTLE_TRIGGER_RANGE):
-			#trigger active battle
-			pass
+			_open_battle_confirmation_dialog()
 		else:
 			#hero win and level up
 			hero.level = hero_level + 1
 	else:
 		#minion win and level up
 		minion.level = minion_level + 1
+
+func _open_battle_confirmation_dialog():
+	battle_confirmation_dialog.visible = true
+	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_INHERIT
+
+func _transition_to_battle_scene():
+	var battle_scene = battle_scene_preload.instantiate()
+	var tree = get_tree()
+	var root = tree.get_root()
+	var main_scene = tree.get_current_scene()
+	
+	battle_scene.main_scene = main_scene
+	battle_scene.location = self
+	battle_scene.add_hero_and_minion(hero, minion)
+	
+	root.add_child(battle_scene)
+	root.remove_child(main_scene)
+	tree.set_current_scene(battle_scene)
+
+func _on_battle_confirmation_selected(index):
+	battle_confirmation_dialog.visible = false
+	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
+	if (index == 0):
+		_transition_to_battle_scene()
