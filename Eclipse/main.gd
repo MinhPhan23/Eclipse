@@ -1,24 +1,18 @@
 extends Node2D
 
-@onready var choicesDialog = $"ChoicesDiaglog"
+@onready var next_day = $"Camera2D/NextDay"
 
-var battle_scene_preload = preload("res://battle/battle.tscn")
+@onready var minion_scene_preload = preload("res://minion/minion.tscn")
+@onready var hero_scene_preload = preload("res://minion/minion.tscn")
+@onready var location_array = [$"Castle1", $"Castle2"]
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	choicesDialog.choices = ["click this to change to battle scene"]
-	choicesDialog.visible = true
+func _ready():	
+	next_day.choices = ["Next day"]
+	next_day.label_text = ""
+	
+	location_array[0].hero = hero_scene_preload.instantiate()
+	location_array[0].minion = minion_scene_preload.instantiate()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
-func _on_choices_diaglog_selected(index):
-	var battle_scene = battle_scene_preload.instantiate()
-	var tree = get_tree()
-	var main_scene = tree.get_current_scene()
-	battle_scene.main_scene = main_scene
-	tree.get_root().add_child(battle_scene)
-	tree.get_root().remove_child(main_scene)
-	tree.set_current_scene(battle_scene)
+func _on_next_day_selected(index):
+	location_array[0]._open_battle_confirmation_dialog()
