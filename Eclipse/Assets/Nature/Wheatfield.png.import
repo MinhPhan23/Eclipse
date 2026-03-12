@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dhtajxytshru"
+path="res://.godot/imported/Wheatfield.png-7e7f130087887ba17a2b69ad89430474.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Nature/Wheatfield.png"
+dest_files=["res://.godot/imported/Wheatfield.png-7e7f130087887ba17a2b69ad89430474.ctex"]
 
 [params]
 

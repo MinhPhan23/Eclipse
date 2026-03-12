@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dt1hogbyjtl44"
+path="res://.godot/imported/CyanTaverns.png-24fdb8e77830764df5980784d1782adb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Cyan/CyanTaverns.png"
+dest_files=["res://.godot/imported/CyanTaverns.png-24fdb8e77830764df5980784d1782adb.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://cbmt1id8d6o6r"
+path="res://.godot/imported/AllBuildings-Preview.png-4b8d94f168d0e6f15627f6db41973a6d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Enemy/Orc/AllBuildings-Preview.png"
+dest_files=["res://.godot/imported/AllBuildings-Preview.png-4b8d94f168d0e6f15627f6db41973a6d.ctex"]
 
 [params]
 

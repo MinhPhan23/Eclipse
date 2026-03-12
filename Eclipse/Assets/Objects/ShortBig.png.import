@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dp18s8bv7ahaa"
+path="res://.godot/imported/ShortBig.png-f2e1eba987377a30564476c86d09ad47.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Objects/ShortBig.png"
+dest_files=["res://.godot/imported/ShortBig.png-f2e1eba987377a30564476c86d09ad47.ctex"]
 
 [params]
 

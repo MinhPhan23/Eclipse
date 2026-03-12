@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dkokeakmetw2n"
+path="res://.godot/imported/MusketeerPurple.png-393fb66f5906bea26163f5007083c7e7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Characters/Soldiers/Ranged/PurpleRanged/MusketeerPurple.png"
+dest_files=["res://.godot/imported/MusketeerPurple.png-393fb66f5906bea26163f5007083c7e7.ctex"]
 
 [params]
 

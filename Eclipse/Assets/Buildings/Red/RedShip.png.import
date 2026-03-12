@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://wm4i4jvsqexj"
+path="res://.godot/imported/RedShip.png-4412e2356ad7254adca72f76bbec5e81.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Red/RedShip.png"
+dest_files=["res://.godot/imported/RedShip.png-4412e2356ad7254adca72f76bbec5e81.ctex"]
 
 [params]
 

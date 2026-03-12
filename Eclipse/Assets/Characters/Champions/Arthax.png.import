@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://cn23p2kkn63my"
+path="res://.godot/imported/Arthax.png-d8d0aa0e01f65898aadef6c150dd8880.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Characters/Champions/Arthax.png"
+dest_files=["res://.godot/imported/Arthax.png-d8d0aa0e01f65898aadef6c150dd8880.ctex"]
 
 [params]
 

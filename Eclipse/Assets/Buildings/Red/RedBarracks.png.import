@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://ir1h6bc215fe"
+path="res://.godot/imported/RedBarracks.png-fc9d527e22f8b5d819a2fd6436abfe02.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Red/RedBarracks.png"
+dest_files=["res://.godot/imported/RedBarracks.png-fc9d527e22f8b5d819a2fd6436abfe02.ctex"]
 
 [params]
 

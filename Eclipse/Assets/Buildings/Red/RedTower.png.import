@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://84npicyuty3t"
+path="res://.godot/imported/RedTower.png-e44de45cc2741a2954e82b844201632e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Red/RedTower.png"
+dest_files=["res://.godot/imported/RedTower.png-e44de45cc2741a2954e82b844201632e.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dyob7j5wlv4ow"
+path="res://.godot/imported/CyanBarracks.png-913597b4efca7631070934f85f1fb9f2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Cyan/CyanBarracks.png"
+dest_files=["res://.godot/imported/CyanBarracks.png-913597b4efca7631070934f85f1fb9f2.ctex"]
 
 [params]
 

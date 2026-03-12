@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://xtu3rdismglh"
+path="res://.godot/imported/PurpleTower.png-70fbd86692a716e81d605fb695482abf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Purple/PurpleTower.png"
+dest_files=["res://.godot/imported/PurpleTower.png-70fbd86692a716e81d605fb695482abf.ctex"]
 
 [params]
 

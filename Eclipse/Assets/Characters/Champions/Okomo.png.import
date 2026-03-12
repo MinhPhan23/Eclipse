@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dbetwqvs8m7tx"
+path="res://.godot/imported/Okomo.png-890c6985687d417803b071830f0cf706.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Characters/Champions/Okomo.png"
+dest_files=["res://.godot/imported/Okomo.png-890c6985687d417803b071830f0cf706.ctex"]
 
 [params]
 

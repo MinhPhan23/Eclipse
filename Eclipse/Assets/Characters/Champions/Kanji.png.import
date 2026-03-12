@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dehq01f8j2sbk"
+path="res://.godot/imported/Kanji.png-0d237a0922fef34efd3838191b9d425a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Characters/Champions/Kanji.png"
+dest_files=["res://.godot/imported/Kanji.png-0d237a0922fef34efd3838191b9d425a.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://cv3jwmh7liu0v"
+path="res://.godot/imported/CoconutTrees.png-a0c334c385223e62010810626eb02821.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Nature/CoconutTrees.png"
+dest_files=["res://.godot/imported/CoconutTrees.png-a0c334c385223e62010810626eb02821.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://d1s6s5gq2boua"
+path="res://.godot/imported/QuestBoard.png-30201563919bfbc8ba64676fff829054.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Miscellaneous/QuestBoard.png"
+dest_files=["res://.godot/imported/QuestBoard.png-30201563919bfbc8ba64676fff829054.ctex"]
 
 [params]
 

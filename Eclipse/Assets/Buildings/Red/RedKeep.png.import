@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://cwy7fc6n6b1iv"
+path="res://.godot/imported/RedKeep.png-8edbd84318a0da7c080c1f56c0c720b6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Red/RedKeep.png"
+dest_files=["res://.godot/imported/RedKeep.png-8edbd84318a0da7c080c1f56c0c720b6.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://bgcqi45w5ljri"
+path="res://.godot/imported/UiIcons.png-979e0b063cb53e342518d904b014ea07.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/User Interface/UiIcons.png"
+dest_files=["res://.godot/imported/UiIcons.png-979e0b063cb53e342518d904b014ea07.ctex"]
 
 [params]
 

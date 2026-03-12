@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dp8lsiu0o7yq8"
+path="res://.godot/imported/MageTemplate.png-95f3f11cede11811340c6d24b1951ec3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Characters/Soldiers/Ranged/MageTemplate.png"
+dest_files=["res://.godot/imported/MageTemplate.png-95f3f11cede11811340c6d24b1951ec3.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dyrdvyi5ejl8h"
+path="res://.godot/imported/PirateShip.png-97a86c074f3a5aed9e6ace82da1e3a8e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Miscellaneous/PirateShip.png"
+dest_files=["res://.godot/imported/PirateShip.png-97a86c074f3a5aed9e6ace82da1e3a8e.ctex"]
 
 [params]
 

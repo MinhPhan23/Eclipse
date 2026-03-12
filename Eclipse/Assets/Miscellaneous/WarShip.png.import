@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://cb77qgsxknyxy"
+path="res://.godot/imported/WarShip.png-98858d4e70755f22177271ff2b6d3a9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Miscellaneous/WarShip.png"
+dest_files=["res://.godot/imported/WarShip.png-98858d4e70755f22177271ff2b6d3a9b.ctex"]
 
 [params]
 

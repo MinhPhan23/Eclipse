@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://bpyl823pv0ine"
+path="res://.godot/imported/LimeWell.png-50b8381f2ecd58136fa04b7f222628a2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Lime/LimeWell.png"
+dest_files=["res://.godot/imported/LimeWell.png-50b8381f2ecd58136fa04b7f222628a2.ctex"]
 
 [params]
 

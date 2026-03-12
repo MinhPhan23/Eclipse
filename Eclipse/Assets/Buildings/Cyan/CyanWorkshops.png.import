@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://dtqmaqhkv8dga"
+path="res://.godot/imported/CyanWorkshops.png-eb4ad88e234a2ab3e6fd25934eff5fd3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Cyan/CyanWorkshops.png"
+dest_files=["res://.godot/imported/CyanWorkshops.png-eb4ad88e234a2ab3e6fd25934eff5fd3.ctex"]
 
 [params]
 

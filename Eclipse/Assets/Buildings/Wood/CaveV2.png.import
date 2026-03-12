@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://gf2qwu5qxon1"
+path="res://.godot/imported/CaveV2.png-aac0c6d9d2894a18cce93e8f24cdbc53.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Wood/CaveV2.png"
+dest_files=["res://.godot/imported/CaveV2.png-aac0c6d9d2894a18cce93e8f24cdbc53.ctex"]
 
 [params]
 

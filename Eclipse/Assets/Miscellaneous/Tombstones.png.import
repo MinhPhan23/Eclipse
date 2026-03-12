@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://up01xtc57bhm"
+path="res://.godot/imported/Tombstones.png-61c7e8a77b8f1cb314e472d3f2479dd0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Miscellaneous/Tombstones.png"
+dest_files=["res://.godot/imported/Tombstones.png-61c7e8a77b8f1cb314e472d3f2479dd0.ctex"]
 
 [params]
 

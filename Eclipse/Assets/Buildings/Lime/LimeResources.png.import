@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://bn0qd7gyqli34"
+path="res://.godot/imported/LimeResources.png-19ec47876301bd694444b6e5ff17c0a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Lime/LimeResources.png"
+dest_files=["res://.godot/imported/LimeResources.png-19ec47876301bd694444b6e5ff17c0a9.ctex"]
 
 [params]
 

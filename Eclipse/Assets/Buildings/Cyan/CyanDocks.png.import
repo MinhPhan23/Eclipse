@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://c46vyhtw3f5st"
+path="res://.godot/imported/CyanDocks.png-db12df8287506e38353b95da9cc51b21.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Cyan/CyanDocks.png"
+dest_files=["res://.godot/imported/CyanDocks.png-db12df8287506e38353b95da9cc51b21.ctex"]
 
 [params]
 

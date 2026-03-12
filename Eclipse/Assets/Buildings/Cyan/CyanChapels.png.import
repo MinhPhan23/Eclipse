@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dssv4mst40u3a"
-path="res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"
+uid="uid://x0wb5uexvvgg"
+path="res://.godot/imported/CyanChapels.png-403679597592487965b69acb420f528c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/smbtileset.png"
-dest_files=["res://.godot/imported/smbtileset.png-e1651686c7866ca0685776de965dd17d.ctex"]
+source_file="res://Assets/Buildings/Cyan/CyanChapels.png"
+dest_files=["res://.godot/imported/CyanChapels.png-403679597592487965b69acb420f528c.ctex"]
 
 [params]
 
