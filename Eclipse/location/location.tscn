@@ -406,7 +406,7 @@ sources/27 = SubResource("TileSetAtlasSource_rblld")
 pattern_0 = SubResource("TileMapPattern_n627g")
 pattern_1 = SubResource("TileMapPattern_ip4qi")
 
-[node name="Castle" type="Area2D"]
+[node name="Location" type="Area2D"]
 script = ExtResource("1_w2in5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
