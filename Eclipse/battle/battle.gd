@@ -3,8 +3,12 @@ extends Node2D
 @onready var choicesDialog = $"ChoicesDiaglog"
 @onready var win = false
 
+# the scene that initialize scene switch to battle
 var main_scene: Node2D
+# location where the battle take place, init by location during scene switch
 var location: Area2D
+
+# for testing purpose, characters should have spawn coord store in them
 var minion_spawn_coord = Vector2(30, 30)
 var hero_spawn_coord = Vector2(50, 50)
 
@@ -12,12 +16,10 @@ var hero_spawn_coord = Vector2(50, 50)
 func _ready():
 	choicesDialog.choices = ["click this to change back to main"]
 	choicesDialog.visible = true
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-func add_hero_and_minion(hero, minion):
+	
+func initialize_battle(main_scene: Node2D, location: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
+	self.main_scene = main_scene
+	self.location = location
 	hero.name = "Hero"
 	hero.position = hero_spawn_coord
 	add_child(hero)

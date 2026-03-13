@@ -33,3 +33,6 @@ $RECYCLE.BIN/
 # Linux
 ~
 .nfs
+
+#vscode
+.vscode
