@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=9 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="1_32q6n"]
+[ext_resource type="PackedScene" uid="uid://7ka624xocwj5" path="res://global/global_manager.tscn" id="2_8og1r"]
 [ext_resource type="PackedScene" uid="uid://bf52miayp2ufq" path="res://castle/castle.tscn" id="2_cd1vd"]
-[ext_resource type="Texture2D" uid="uid://dssv4mst40u3a" path="res://assets/smbtileset.png" id="4_vmqeh"]
+[ext_resource type="Texture2D" uid="uid://dssv4mst40u3a" path="res://Assets/smbtileset.png" id="4_vmqeh"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dhph1"]
@@ -159,11 +160,13 @@ sources/0 = SubResource("TileSetAtlasSource_dhph1")
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1kue1")
 
-[node name="Castle1" parent="." instance=ExtResource("2_cd1vd")]
+[node name="GlobalManager" parent="." instance=ExtResource("2_8og1r")]
+
+[node name="Castle1" parent="GlobalManager" instance=ExtResource("2_cd1vd")]
 z_index = 1
 position = Vector2(168, 88)
 
-[node name="Castle2" parent="." instance=ExtResource("2_cd1vd")]
+[node name="Castle2" parent="GlobalManager" instance=ExtResource("2_cd1vd")]
 z_index = 1
 position = Vector2(313, 89)
 
@@ -190,4 +193,4 @@ offset_bottom = 118.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[connection signal="SELECTED" from="Camera2D/NextDay" to="." method="_on_next_day_selected"]
+[connection signal="SELECTED" from="Camera2D/NextDay" to="GlobalManager" method="_on_next_day_selected"]
