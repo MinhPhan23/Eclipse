@@ -96,10 +96,7 @@ func CheckLOS(minion: CharacterBody2D):
 	
 	# Check for collisions and update los accordingly.
 	var wall_collision = space_state.intersect_ray(raycast)
-	if wall_collision.is_empty():
-		los = true
-	else:
-		los = false
+	los = wall_collision.is_empty():		
 
 
 func _on_spell_timer_timeout():
