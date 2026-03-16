@@ -28,7 +28,7 @@ func HandleCollisions():
 		if collision.get_collider() == null:
 			continue
 		
-		if collision.get_collider().is_in_group("slimy"):
+		if collision.get_collider().is_in_group("slimy"):  # TODO: set to minion group
 			hit_player.emit()
 	
 		queue_free()

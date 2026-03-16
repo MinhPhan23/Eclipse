@@ -9,7 +9,6 @@ extends CharacterBody2D
 @export var DAMAGE = 1
 @export var MAX_SPELL_ANGLE = 0.5  # Maximum angle away from slime that spell will be cast.
 
-var v_minion : Vector2  # Vector from mage to MINION.
 var facing : Vector2  # Direction the mage is facing (v_minion.normalized()).
 var los : bool  # Line of sight.
 var spell_ready = true  # Updated by SpellTimer
@@ -30,7 +29,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	v_minion = MINION.global_position - global_position
+	var v_minion = MINION.global_position - global_position
 	facing = v_minion.normalized()
 	
 	if v_minion.length() < SPELL_RANGE and spell_ready:
@@ -49,13 +48,13 @@ func _physics_process(delta):
 	# Pathfinding.
 	NAV_AGENT.target_position = MINION.global_position
 	# v = vector from mage to MINION.
-	var v = MINION.global_position - global_position
+	var v_minion = MINION.global_position - global_position
 	var direction = to_local(NAV_AGENT.get_next_path_position()).normalized()
 	
 	CheckLOS(MINION)
 	
 	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
-	if v.length() > FOLLOW_DISTANCE or !los:
+	if v_minion.length() > FOLLOW_DISTANCE or !los:
 		velocity = direction * SPEED
 	else:
 		velocity = Vector2.ZERO
@@ -81,8 +80,8 @@ func TakeDamage(dmg):
 		dead_mage.emit()  # Battle scene handles end of battle protocols.
 
 
-# Checks whether the wizard has line of sight on the slime by doing a raycast
-# to the slime and seeing whether any walls are hit by the ray.
+# Checks whether the mage has line of sight on the minion by doing a raycast
+# to the minion and seeing whether any walls are hit by the ray.
 func CheckLOS(minion: CharacterBody2D):
 	var space_state = self.get_world_2d().direct_space_state
 	
@@ -96,10 +95,7 @@ func CheckLOS(minion: CharacterBody2D):
 	
 	# Check for collisions and update los accordingly.
 	var wall_collision = space_state.intersect_ray(raycast)
-	if wall_collision.is_empty():
-		los = true
-	else:
-		los = false
+	los = wall_collision.is_empty()
 
 
 func _on_spell_timer_timeout():
