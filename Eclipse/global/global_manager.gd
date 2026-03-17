@@ -25,14 +25,11 @@ func _ready():
 	minion_choice.visible = false
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	generate_hero()
-	generate_event()
 
 func proceed_to_next_day():
 	day += 1
 	
 func send_minion_dialog(location):
-	print("NNN")
 	minion_choice.visible = true
 	minion_choice.process_mode = Node.PROCESS_MODE_INHERIT
 	curr_loc = location
@@ -43,7 +40,6 @@ func set_minion_choice():
 		"Minion %d Atk:%d Lvl:%d Health:%d/%d"%[2 ,minion_list[1].strength,minion_list[1].level, minion_list[1].current_health,minion_list[1].MAX_HEALTH],
 		"Minion %d Atk:%d Lvl:%d Health:%d/%d"%[3 ,minion_list[2].strength,minion_list[2].level, minion_list[2].current_health,minion_list[2].MAX_HEALTH]
 	]
-	
 	#for i in 3:
 	#	minion_choice.choices.append("YES")
 	#print(minion_choice.choices)
@@ -52,8 +48,6 @@ func generate_hero():
 	var index:int = rand_num.randi_range(0, location.size() - 1)
 	if location[index].hero == null:
 		location[index].hero_add(hero_scene_preload.instantiate())
-	# remove later
-	location[index].minion_add(minion_scene_preload.instantiate())
 	
 func send_minion(index):
 	
@@ -70,11 +64,14 @@ func generate_event():
 		location[index].generate_events()
 		
 func _on_next_day_selected(index):
+	start_battle()
 	proceed_to_next_day()
 	generate_hero()
 	generate_event()
-	#location[0]._open_battle_confirmation_dialog()
 	
 func start_battle():
-	pass
+	for i in location :
+		if i.hero != null and i.minion != null:
+			i._open_battle_confirmation_dialog()
+			break
 	

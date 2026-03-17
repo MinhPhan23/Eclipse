@@ -10,6 +10,4 @@ func _ready():
 	next_day.choices = ["Next day"]
 	next_day.label_text = ""
 	
-	#location_array[0].hero = hero_scene_preload.instantiate()
-	#location_array[0].minion = minion_scene_preload.instantiate()
 

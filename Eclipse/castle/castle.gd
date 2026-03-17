@@ -61,7 +61,6 @@ func minion_remove():
 func _input_event(viewport, event, shape_idx):
 	if event.is_action_pressed("left_mouse_click"):
 		emit_signal("selection", self.name)
-		print(1)
 		
 func simulate_battle():
 	var minion_level = minion.level
@@ -81,6 +80,7 @@ func simulate_battle():
 		minion.level = minion_level + 1
 
 func _open_battle_confirmation_dialog():
+	print(hero)
 	if hero == null || minion == null:
 		return
 	battle_confirmation_dialog.visible = true
