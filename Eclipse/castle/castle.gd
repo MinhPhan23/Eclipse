@@ -5,6 +5,9 @@ extends Area2D
 
 @export var events: Array[String]
 
+# Minion Selection
+signal selection(select)
+
 var current_day: int
 var hero: CharacterBody2D
 var minion: CharacterBody2D
@@ -55,6 +58,11 @@ func minion_remove():
 	minion.queue_free()
 	minion = null
 	
+func _input_event(viewport, event, shape_idx):
+	if event.is_action_pressed("left_mouse_click"):
+		emit_signal("selection", self.name)
+		print(1)
+		
 func simulate_battle():
 	var minion_level = minion.level
 	var hero_level = hero.level
@@ -73,6 +81,8 @@ func simulate_battle():
 		minion.level = minion_level + 1
 
 func _open_battle_confirmation_dialog():
+	if hero == null || minion == null:
+		return
 	battle_confirmation_dialog.visible = true
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_INHERIT
 

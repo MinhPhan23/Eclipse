@@ -4,7 +4,6 @@ extends Node2D
 
 @onready var minion_scene_preload = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload = preload("res://minion/minion.tscn")
-@onready var location_array = [$"Castle1", $"Castle2"]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():	

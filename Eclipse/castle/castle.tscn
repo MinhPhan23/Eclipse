@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bf52miayp2ufq"]
 
-[ext_resource type="Texture2D" uid="uid://dssv4mst40u3a" path="res://assets/smbtileset.png" id="1_37lx1"]
+[ext_resource type="Texture2D" uid="uid://dssv4mst40u3a" path="res://Assets/smbtileset.png" id="1_37lx1"]
 [ext_resource type="Script" path="res://castle/castle.gd" id="1_w2in5"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="3_cx3m0"]
 
