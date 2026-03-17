@@ -6,6 +6,10 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_6dig7"]
 
 [node name="Mage" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 7
+motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_2nmn1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -18,5 +22,6 @@ shape = SubResource("CircleShape2D_6dig7")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="SpellTimer" type="Timer" parent="."]
+autostart = true
 
 [connection signal="timeout" from="SpellTimer" to="." method="_on_spell_timer_timeout"]

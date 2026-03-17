@@ -22,9 +22,11 @@ func initialize_battle(main_scene: Node2D, location: Area2D, hero: CharacterBody
 	self.location = location
 	hero.name = "Hero"
 	hero.position = hero_spawn_coord
+	hero.MINION = minion
 	add_child(hero)
 	minion.name = "Minion"
-	minion_spawn_coord = minion_spawn_coord
+	minion.position = minion_spawn_coord
+	minion.HERO = hero
 	add_child(minion)
 
 func _on_choices_diaglog_selected(index):
