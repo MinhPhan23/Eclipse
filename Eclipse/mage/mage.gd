@@ -64,9 +64,9 @@ func _physics_process(delta):
 
 # Called by _process() when in range.
 func CastSpell(direction):
-	var instance = FIREBOLT.instantiate()
+	var instance: CharacterBody2D = FIREBOLT.instantiate()
 	instance.direction = facing.rotated(spell_angle)
-	instance.spawnPos = global_position
+	instance.global_position = global_position
 	instance.spawnRot = global_rotation #spell_angle?
 	MAIN.add_child(instance)
 	spell_ready = false
