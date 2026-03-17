@@ -17,13 +17,14 @@ func _physics_process(_delta):
 func HandleCollisions():
 	for index in range(get_slide_collision_count()):
 		var collision = get_slide_collision(index)
+		var collider = collision.get_collider()
 	
-		if collision.get_collider() == null:
+		if collider == null:
 			continue
 		
-		if collision.get_collider().is_in_group("slimy"):  # TODO: set to minion group
+		if collider.is_in_group("minion"):
 			hit_player.emit()
-	
+		
 		queue_free()
 
 

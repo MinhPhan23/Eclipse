@@ -6,7 +6,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_xdy7g"]
 radius = 13.0
 
-[node name="Firebolt" type="CharacterBody2D"]
+[node name="Firebolt" type="CharacterBody2D" groups=["projectile"]]
+collision_layer = 0
 script = ExtResource("1_ir5l6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
