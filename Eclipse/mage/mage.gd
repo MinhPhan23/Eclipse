@@ -17,7 +17,7 @@ var swing_right = true  # Used to control the swing of the firebolt angle.
 
 @onready var NAV_AGENT = $NavigationAgent2D
 @onready var MAIN = get_tree().get_root().get_node("Main")
-@onready var FIREBOLT = load("res://firebolt.tscn")
+@onready var FIREBOLT = load("res://projectile/firebolt.tscn")
 
 signal dead_mage  # Emitted at 0 hp.
 

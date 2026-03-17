@@ -9,17 +9,10 @@ var spawnRot : float  # Used to orient a sprite with a head/tail.
 
 signal hit_player
 
-
-func _ready():
-	global_position = spawnPos
-	global_rotation = spawnRot
-
-
-func _physics_process(delta):
+func _physics_process(_delta):
 	velocity = direction * SPEED
 	move_and_slide()
 	HandleCollisions()
-
 
 func HandleCollisions():
 	for index in range(get_slide_collision_count()):
