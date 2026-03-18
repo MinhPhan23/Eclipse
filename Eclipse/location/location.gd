@@ -13,6 +13,9 @@ var hero: CharacterBody2D
 var minion: CharacterBody2D
 var rng: RandomNumberGenerator
 
+# Minion Selection
+signal selection(select)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng = RandomNumberGenerator.new()
@@ -33,14 +36,14 @@ func _load_tile_map_pattern():
 func generate_events() -> String:
 	var random_number = rng.randf();
 	if (hero != null && random_number < 0.8) || (hero == null && random_number < 0.2):
-		return events[rng.randi_range(0, 2)]
+		return events[rng.randi_range(0, events.size() - 1)]
 	return ""
 
 func hero_add(new_hero):
 	hero = new_hero
 
 func move_hero(new_location):
-	if (new_location.hero == null) :
+	if (new_location.hero == null):
 		new_location.hero = hero
 	hero = null
 
@@ -59,6 +62,10 @@ func move_minion(new_location):
 func minion_remove():
 	minion.queue_free()
 	minion = null
+
+func _input_event(viewport, event, shape_idx):
+	if event.is_action_pressed("left_mouse_click"):
+		emit_signal("selection", self.name)
 	
 func simulate_battle():
 	var minion_level = minion.level
@@ -78,6 +85,8 @@ func simulate_battle():
 		minion.level = minion_level + 1
 
 func _open_battle_confirmation_dialog():
+	if hero == null || minion == null:
+		return
 	battle_confirmation_dialog.visible = true
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_INHERIT
 
@@ -87,7 +96,7 @@ func _transition_to_battle_scene():
 	var root = tree.get_root()
 	var main_scene = tree.get_current_scene()
 	
-	battle_scene.initialize_battle(main_scene, self, hero, minion)
+	battle_scene.initialize_battle(main_scene, self , hero, minion)
 	
 	root.add_child(battle_scene)
 	root.remove_child(main_scene)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=6 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="1_32q6n"]
 [ext_resource type="PackedScene" uid="uid://bf52miayp2ufq" path="res://location/location.tscn" id="2_cd1vd"]
+[ext_resource type="PackedScene" uid="uid://7ka624xocwj5" path="res://global/global_manager.tscn" id="2_kjo54"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("next_day")]
@@ -19,13 +20,24 @@ offset_right = 8.0
 offset_bottom = 20.0
 metadata/_edit_use_anchors_ = true
 
-[node name="Castle" parent="." instance=ExtResource("2_cd1vd")]
+[node name="GlobalManager" parent="." instance=ExtResource("2_kjo54")]
+
+[node name="Castle" parent="GlobalManager" instance=ExtResource("2_cd1vd")]
 z_index = 1
 position = Vector2(48, 48)
+events = Array[String](["Solo Levling WHO?", "That One Time I Got......"])
 pattern_index = 1
 
-[node name="Capital" parent="." instance=ExtResource("2_cd1vd")]
+[node name="Capital" parent="GlobalManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(248, 47)
+events = Array[String](["But WHY", "Dragon Ball Z", "ZZZ"])
+
+[node name="MinionList" parent="GlobalManager" instance=ExtResource("1_32q6n")]
+z_index = 1
+offset_left = 129.0
+offset_top = 50.0
+offset_right = 169.0
+offset_bottom = 70.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(200, 125)
@@ -33,4 +45,20 @@ offset = Vector2(2.08165e-12, 2.08165e-12)
 zoom = Vector2(4, 4)
 script = ExtResource("5_ljxpg")
 
-[connection signal="SELECTED" from="CanvasLayer/NextDay" to="." method="_on_next_day_selected"]
+[node name="NextDay" parent="Camera2D" instance=ExtResource("1_32q6n")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 180.0
+offset_top = 110.0
+offset_right = 188.0
+offset_bottom = 118.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[connection signal="selection" from="GlobalManager/Castle" to="GlobalManager" method="send_minion_dialog"]
+[connection signal="selection" from="GlobalManager/Capital" to="GlobalManager" method="send_minion_dialog"]
+[connection signal="SELECTED" from="GlobalManager/MinionList" to="GlobalManager" method="send_minion"]
+[connection signal="SELECTED" from="Camera2D/NextDay" to="GlobalManager" method="_on_next_day_selected"]
