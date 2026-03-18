@@ -350,9 +350,8 @@ height = 16.0
 radius = 8.0
 height = 16.0
 
-[node name="Player" type="CharacterBody2D" groups=["minion"]]
-collision_layer = 7
-collision_mask = 17
+[node name="Minion" type="CharacterBody2D" groups=["minion"]]
+collision_layer = 3
 script = ExtResource("1_41aam")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -389,9 +388,8 @@ metadata/_edit_lock_ = true
 [node name="Reticle" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Reticle"]
-visible = false
 scale = Vector2(0.06, 0.06)
 texture = ExtResource("3_jwkix")
 
-[node name="BulletCooldownTimer" type="Timer" parent="."]
+[node name="BulletColldownTimer" type="Timer" parent="."]
 one_shot = true

@@ -1,13 +1,15 @@
 extends CharacterBody2D
 
-@export var SPEED = 50
-@export var MINION : Node2D
-@export var SPELL_RANGE = 300
-@export var FOLLOW_DISTANCE = 200
-@export var MAX_HP = 10
-@export var current_hp = 10
-@export var DAMAGE = 1
-@export var MAX_SPELL_ANGLE = 0.5  # Maximum angle away from slime that spell will be cast.
+@export var SPEED: int = 50
+@export var TARGET : Node2D
+@export var SPELL_RANGE: int = 300
+@export var FOLLOW_DISTANCE: int = 200
+@export var MAX_HP: int = 10
+@export var current_hp: int  = 10
+@export var DAMAGE: int = 1
+@export var MAX_SPELL_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast.
+@export var FIRING_RATE: float = 0.25     # seconds
+@export var RETICLE_DIST: float = 25.0    # distance from model center, pixels
 
 var facing : Vector2  # Direction the mage is facing (v_minion.normalized()).
 var los : bool  # Line of sight.
@@ -15,30 +17,34 @@ var spell_ready = true  # Updated by SpellTimer
 var spell_angle : float  # Angle offset for firebolt attack.
 var swing_right = true  # Used to control the swing of the firebolt angle.
 
+@onready var ROOT = get_tree().current_scene
+@onready var BULLET = preload("res://projectile/firebolt.tscn")
 @onready var NAV_AGENT = $NavigationAgent2D
-@onready var MAIN = get_tree().get_root().get_node("Main")
-@onready var FIREBOLT = load("res://projectile/firebolt.tscn")
+@onready var RETICLE = $Reticle
+@onready var SPELL_TIMER = $SpellTimer
 
 signal dead_mage  # Emitted at 0 hp.
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	EventBus.hero_hit.connect(_on_hit)
+	SPELL_TIMER.wait_time = FIRING_RATE
+	
+	# wait for physics frame to be ready for navigation
+	set_physics_process(false)
+	call_deferred("_navigation_setup")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	var v_minion = MINION.global_position - global_position
+func _process(_delta):
+	var v_minion = TARGET.global_position - global_position
 	facing = v_minion.normalized()
 	
 	if v_minion.length() < SPELL_RANGE and spell_ready:
-		CastSpell(facing)
+		RETICLE.position = facing * RETICLE_DIST
+		_cast_spell(facing)
 	
 	# TODO: movement animations
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# TODO: check for incoming damage.
 	#if hit by player projectile:
 		#get player projectile damage
@@ -46,12 +52,12 @@ func _physics_process(delta):
 	
 	
 	# Pathfinding.
-	NAV_AGENT.target_position = MINION.global_position
+	NAV_AGENT.target_position = TARGET.global_position
 	# v = vector from mage to MINION.
-	var v_minion = MINION.global_position - global_position
+	var v_minion = TARGET.global_position - global_position
 	var direction = to_local(NAV_AGENT.get_next_path_position()).normalized()
 	
-	CheckLOS(MINION)
+	_check_los(TARGET)
 	
 	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
 	if v_minion.length() > FOLLOW_DISTANCE or !los:
@@ -61,34 +67,43 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
+# Called on _read() to enable physics after first frame
+# Prevents navigation map from searching for path before it can synchronize
+func _navigation_setup():
+	await get_tree().physics_frame
+	set_physics_process(true)
 
 # Called by _process() when in range.
-func CastSpell(direction):
-	var instance: CharacterBody2D = FIREBOLT.instantiate()
+func _cast_spell(direction: Vector2):
+	var instance: CharacterBody2D = BULLET.instantiate()
 	instance.direction = facing.rotated(spell_angle)
-	instance.global_position = global_position
-	instance.spawnRot = global_rotation #spell_angle?
-	MAIN.add_child(instance)
+	instance.spawn_pos = RETICLE.global_position
+	
+	instance.set_collision_layer_value(5, true) # hero bullet
+	instance.set_collision_mask_value(2, true)  # player
+	
+	ROOT.add_child(instance)
 	spell_ready = false
+	SPELL_TIMER.start()
 
 
 # Called by _physics_process() when a player projectile collides with the mage.
-func TakeDamage(dmg):
-	current_hp = current_hp - dmg
-	if current_hp <= 0:
+func _on_hit(dmg: int):
+	current_hp -= dmg
+	if current_hp <= 0.0:
 		# animation?
 		dead_mage.emit()  # Battle scene handles end of battle protocols.
-
+		print("mage dead") #TODO: remove
 
 # Checks whether the mage has line of sight on the minion by doing a raycast
 # to the minion and seeing whether any walls are hit by the ray.
-func CheckLOS(minion: CharacterBody2D):
-	var space_state = self.get_world_2d().direct_space_state
+func _check_los(target: CharacterBody2D):
+	var space_state = get_world_2d().direct_space_state
 	
 	# Establish raycast parameters.
 	var raycast = PhysicsRayQueryParameters2D.create(
-		self.global_position,
-		minion.global_position
+		global_position,
+		target.global_position
 	)
 	raycast.exclude = [self]  # Does not collide with self.
 	raycast.collision_mask = 1  # Only collides with walls.

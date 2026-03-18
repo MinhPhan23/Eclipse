@@ -5,7 +5,8 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6dig7"]
 
-[node name="Mage" type="CharacterBody2D"]
+[node name="Mage" type="CharacterBody2D" groups=["hero"]]
+collision_layer = 5
 script = ExtResource("1_2nmn1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -18,5 +19,8 @@ shape = SubResource("CircleShape2D_6dig7")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="SpellTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Reticle" type="Node2D" parent="."]
 
 [connection signal="timeout" from="SpellTimer" to="." method="_on_spell_timer_timeout"]

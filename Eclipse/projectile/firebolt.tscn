@@ -18,3 +18,8 @@ texture = ExtResource("1_h41rx")
 shape = SubResource("CircleShape2D_xdy7g")
 
 [node name="ExpireTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="ExpireTimer" to="." method="_on_expire_timer_timeout"]
