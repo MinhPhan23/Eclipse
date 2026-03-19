@@ -18,7 +18,7 @@ var aim_dir: Vector2
 @onready var ROOT = get_tree().current_scene
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
 @onready var ANIMATION_TREE: AnimationTree = $AnimationTree
-@onready var COOLDOWN: Timer = $BulletColldownTimer
+@onready var COOLDOWN: Timer = $BulletCooldownTimer
 @onready var RETICLE: Node2D = $Reticle
 
 func _ready() -> void:
