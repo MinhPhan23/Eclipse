@@ -36,16 +36,14 @@ func send_minion_dialog(location):
 	curr_loc = location
 
 func set_minion_choice():
-	minion_choice.choices = [
-		"Minion %d Atk:%d Lvl:%d Health:%d/%d"%[1 ,minion_list[0].strength,minion_list[0].level, minion_list[0].current_health,minion_list[0].MAX_HEALTH],
-		"Minion %d Atk:%d Lvl:%d Health:%d/%d"%[2 ,minion_list[1].strength,minion_list[1].level, minion_list[1].current_health,minion_list[1].MAX_HEALTH],
-		"Minion %d Atk:%d Lvl:%d Health:%d/%d"%[3 ,minion_list[2].strength,minion_list[2].level, minion_list[2].current_health,minion_list[2].MAX_HEALTH]
-	]
-	#Might need to implement it using for loop later on
-	#for i in 3:
-	#	minion_choice.choices.append("YES")
-	#print(minion_choice.choices)
+	minion_choice.choices = minion_arr()
 	
+func minion_arr() -> Array[String]:
+	var arr:Array[String] = []
+	for i in 3:
+		arr.append("Minion %d Atk:%d Lvl:%d Health:%d/%d"%[i + 1 ,minion_list[i].strength,minion_list[i].level, minion_list[i].current_health,minion_list[i].MAX_HEALTH])
+	return arr
+
 func generate_hero():
 	var index:int = rand_num.randi_range(0, location.size() - 1)
 	if location[index].hero == null:
