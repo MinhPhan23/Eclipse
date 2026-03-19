@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var next_day = $"Camera2D/NextDay"
+@export var next_day : PanelContainer
 
 @onready var minion_scene_preload = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload = preload("res://minion/minion.tscn")

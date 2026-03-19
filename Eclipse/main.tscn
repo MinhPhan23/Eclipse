@@ -5,8 +5,19 @@
 [ext_resource type="PackedScene" uid="uid://bf52miayp2ufq" path="res://location/location.tscn" id="2_cd1vd"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("next_day")]
 script = ExtResource("1_1kue1")
+next_day = NodePath("CanvasLayer/NextDay")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+offset = Vector2(2.08165e-12, 2.08165e-12)
+scale = Vector2(4, 4)
+transform = Transform2D(4, 4.18544e-15, -4.18544e-15, 4, 2.08165e-12, 2.08165e-12)
+
+[node name="NextDay" parent="CanvasLayer" instance=ExtResource("1_32q6n")]
+offset_right = 8.0
+offset_bottom = 20.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Castle" parent="." instance=ExtResource("2_cd1vd")]
 z_index = 1
@@ -17,21 +28,9 @@ pattern_index = 1
 position = Vector2(248, 47)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(2.08165e-12, 2.08165e-12)
+position = Vector2(200, 125)
+offset = Vector2(2.08165e-12, 2.08165e-12)
 zoom = Vector2(4, 4)
 script = ExtResource("5_ljxpg")
 
-[node name="NextDay" parent="Camera2D" instance=ExtResource("1_32q6n")]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 180.0
-offset_top = 110.0
-offset_right = 188.0
-offset_bottom = 118.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[connection signal="SELECTED" from="Camera2D/NextDay" to="." method="_on_next_day_selected"]
+[connection signal="SELECTED" from="CanvasLayer/NextDay" to="." method="_on_next_day_selected"]
