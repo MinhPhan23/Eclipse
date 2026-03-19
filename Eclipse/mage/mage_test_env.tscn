@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2dteqlr8j0xq"]
+
+[ext_resource type="PackedScene" uid="uid://db06bknag4h86" path="res://mage/mage.tscn" id="1_7dm5h"]
+[ext_resource type="Script" path="res://mage/mage_test_env.gd" id="1_12cp7"]
+[ext_resource type="PackedScene" uid="uid://dnpno4ytlqbn" path="res://minion/minion.tscn" id="2_fjc23"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_luwnc"]
+vertices = PackedVector2Array(1108, 701, 438, 704, 441, 302, 1103, 293)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(432, 293, 428, 715, 1119, 711, 1113, 283)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+
+[node name="MageTestEnv" type="Node2D"]
+script = ExtResource("1_12cp7")
+
+[node name="Mage" parent="." instance=ExtResource("1_7dm5h")]
+position = Vector2(789, 464)
+FOLLOW_DISTANCE = 300
+
+[node name="Minion" parent="." instance=ExtResource("2_fjc23")]
+position = Vector2(1227, 475)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="Node" type="Node" parent="."]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Node"]
+navigation_polygon = SubResource("NavigationPolygon_luwnc")

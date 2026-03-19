@@ -1,16 +1,22 @@
 extends CharacterBody2D
 
 
-@export var SPEED = 200
+@export var SPEED: float = 200.0
 
+var damage: float = 10.0
 var direction : Vector2
-var spawnPos : Vector2
-var spawnRot : float  # Used to orient a sprite with a head/tail.
+var spawn_pos : Vector2
+var spawn_rot : float  # Used to orient a sprite with a head/tail.
 
-signal hit_player
+signal hit_player(damage: float)
+
+func _ready():
+	global_position = spawn_pos
+	global_rotation = spawn_rot
 
 func _physics_process(_delta):
-	velocity = direction * SPEED
+	velocity = direction.normalized() * SPEED
+	
 	move_and_slide()
 	HandleCollisions()
 
@@ -23,11 +29,14 @@ func HandleCollisions():
 			continue
 		
 		if collider.is_in_group("minion"):
-			hit_player.emit()
+			EventBus.player_hit.emit(damage)
+		
+		if collider.is_in_group("hero"):
+			EventBus.hero_hit.emit(damage)
 		
 		queue_free()
 
 
 # Delete the firebolt object after it has traveled a set time.
-func _on_expire_timeout():
+func _on_expire_timer_timeout():
 	queue_free()
