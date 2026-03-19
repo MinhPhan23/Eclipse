@@ -20,7 +20,7 @@ func _ready():
 	# To remove MininonList for our array
 	location.remove_at(location.size() - 1)
 	
-	minion_choice.label_text = "Send Minion ?"
+	minion_choice.label_text = "Send Minion?"
 	set_minion_choice()
 	minion_choice.visible = false
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
