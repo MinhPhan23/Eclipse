@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://bf52miayp2ufq"]
+[gd_scene load_steps=57 format=3 uid="uid://bf52miayp2ufq"]
 
 [ext_resource type="Script" path="res://location/location.gd" id="1_w2in5"]
 [ext_resource type="Texture2D" uid="uid://l0bva3qnbe0y" path="res://Assets/Buildings/Lime/LimeKeep.png" id="2_sa1m8"]
@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://bxsub4mwoctom" path="res://Assets/Buildings/Wood/Keep.png" id="17_iwo08"]
 [ext_resource type="Texture2D" uid="uid://b1puig74elq2b" path="res://Assets/Buildings/Wood/Tower.png" id="18_v6m0v"]
 [ext_resource type="Texture2D" uid="uid://cd54wkb6yuydq" path="res://Assets/Buildings/Wood/Tower2.png" id="19_ijvxb"]
+[ext_resource type="Texture2D" uid="uid://dg7ofu0b12ieg" path="res://Assets/Characters/Champions/Grum.png" id="26_h8ryp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lfpk3"]
 size = Vector2(96, 96)
@@ -406,11 +407,26 @@ sources/27 = SubResource("TileSetAtlasSource_rblld")
 pattern_0 = SubResource("TileMapPattern_n627g")
 pattern_1 = SubResource("TileMapPattern_ip4qi")
 
+[sub_resource type="LabelSettings" id="LabelSettings_skvpa"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18kq3"]
+atlas = ExtResource("26_h8ryp")
+region = Rect2(0, 0, 15, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qnfcg"]
+
 [node name="Location" type="Area2D"]
 script = ExtResource("1_w2in5")
 
+[node name="BattleConfirmation" parent="." instance=ExtResource("3_cx3m0")]
+z_index = 1
+offset_left = 44.0
+offset_top = 40.0
+offset_right = 52.0
+offset_bottom = 60.0
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2.08165e-12, 2.08165e-12)
+position = Vector2(48, 48)
 shape = SubResource("RectangleShape2D_lfpk3")
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -418,15 +434,50 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 tile_set = SubResource("TileSet_x8oxu")
 format = 2
 
-[node name="BattleConfirmation" parent="." instance=ExtResource("3_cx3m0")]
-visible = false
-z_index = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 0.0
-offset_bottom = 0.0
+[node name="DeployedMinionPanel" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -11.0
+offset_top = -50.0
+offset_right = 106.0
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DeployedMinionPanel"]
+layout_mode = 2
+
+[node name="DeployedMinionLabel" type="Label" parent="DeployedMinionPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "No deployed minion"
+label_settings = SubResource("LabelSettings_skvpa")
+horizontal_alignment = 1
+
+[node name="DeployedMinionIcon" type="TextureRect" parent="DeployedMinionPanel/VBoxContainer"]
+visible = false
+layout_mode = 2
+texture = SubResource("AtlasTexture_18kq3")
+stretch_mode = 5
+
+[node name="LocationName" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = 95.0
+offset_right = 105.0
+offset_bottom = 118.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Location name"
+label_settings = SubResource("LabelSettings_qnfcg")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="SELECTED" from="BattleConfirmation" to="." method="_on_battle_confirmation_selected"]

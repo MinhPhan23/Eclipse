@@ -35,15 +35,15 @@ func _on_choices_diaglog_selected(index):
 	var root = tree.get_root()
 	var battle_scene = tree.get_current_scene()
 	
-	if (win):
-		minion.level += 1
-		location.hero = null
-	else:
-		hero.level += 1
-		location.minion = null
-	
 	remove_child(hero)
 	remove_child(minion)
+	
+	if (win):
+		minion.level += 1
+		location.hero_remove()
+	else:
+		hero.level += 1
+		location.minion_remove()
 	
 	root.add_child(main_scene)
 	root.remove_child(battle_scene)
