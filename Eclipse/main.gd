@@ -5,7 +5,9 @@ extends Node2D
 @onready var minion_scene_preload = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload = preload("res://mage/mage.tscn")
 @onready var location_array = [$"Castle"]
+@onready var location_manager : Node2D = $"LocationManager"
 
+var day: int
 # Called when the node enters the scene tree for the first time.
 func _ready():	
 	next_day.choices = ["Next day"]
@@ -17,3 +19,9 @@ func _ready():
 
 func _on_next_day_selected(_index):
 	location_array[0]._open_battle_confirmation_dialog()
+
+
+func proceed_to_next_day(index):
+	day += 1
+	location_manager.update_game_world()
+	
