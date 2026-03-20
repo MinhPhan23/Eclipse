@@ -1,7 +1,7 @@
 extends Node
 
 @onready var minion_scene_preload = preload("res://minion/minion.tscn")
-@onready var hero_scene_preload = preload("res://minion/minion.tscn")
+@onready var hero_scene_preload = preload("res://mage/mage.tscn")
 @onready var minion_choice = $"MinionList"
 
 var location: Array[Node];
