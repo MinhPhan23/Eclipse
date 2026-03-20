@@ -25,7 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://bxsub4mwoctom" path="res://Assets/Buildings/Wood/Keep.png" id="17_iwo08"]
 [ext_resource type="Texture2D" uid="uid://b1puig74elq2b" path="res://Assets/Buildings/Wood/Tower.png" id="18_v6m0v"]
 [ext_resource type="Texture2D" uid="uid://cd54wkb6yuydq" path="res://Assets/Buildings/Wood/Tower2.png" id="19_ijvxb"]
-[ext_resource type="Texture2D" uid="uid://dg7ofu0b12ieg" path="res://Assets/Characters/Champions/Grum.png" id="26_h8ryp"]
+[ext_resource type="Texture2D" uid="uid://bf7afynkf7rja" path="res://minion/Demon-Shaman.png" id="26_73fwt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lfpk3"]
 size = Vector2(96, 96)
@@ -409,9 +409,9 @@ pattern_1 = SubResource("TileMapPattern_ip4qi")
 
 [sub_resource type="LabelSettings" id="LabelSettings_skvpa"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_18kq3"]
-atlas = ExtResource("26_h8ryp")
-region = Rect2(0, 0, 15, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7fw8"]
+atlas = ExtResource("26_73fwt")
+region = Rect2(424, 7, 17, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qnfcg"]
 
@@ -460,7 +460,7 @@ horizontal_alignment = 1
 [node name="DeployedMinionIcon" type="TextureRect" parent="DeployedMinionPanel/VBoxContainer"]
 visible = false
 layout_mode = 2
-texture = SubResource("AtlasTexture_18kq3")
+texture = SubResource("AtlasTexture_l7fw8")
 stretch_mode = 5
 
 [node name="LocationName" type="Label" parent="."]
