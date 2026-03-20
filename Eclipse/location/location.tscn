@@ -430,5 +430,3 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [connection signal="SELECTED" from="BattleConfirmation" to="." method="_on_battle_confirmation_selected"]
-
-[editable path="BattleConfirmation"]
