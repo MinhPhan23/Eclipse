@@ -45,20 +45,7 @@ offset = Vector2(2.08165e-12, 2.08165e-12)
 zoom = Vector2(4, 4)
 script = ExtResource("5_ljxpg")
 
-[node name="NextDay" parent="Camera2D" instance=ExtResource("1_32q6n")]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 180.0
-offset_top = 110.0
-offset_right = 188.0
-offset_bottom = 118.0
-grow_horizontal = 0
-grow_vertical = 0
-
+[connection signal="SELECTED" from="CanvasLayer/NextDay" to="GlobalManager" method="_on_next_day_selected"]
 [connection signal="selection" from="GlobalManager/Castle" to="GlobalManager" method="send_minion_dialog"]
 [connection signal="selection" from="GlobalManager/Capital" to="GlobalManager" method="send_minion_dialog"]
 [connection signal="SELECTED" from="GlobalManager/MinionList" to="GlobalManager" method="send_minion"]
-[connection signal="SELECTED" from="Camera2D/NextDay" to="GlobalManager" method="_on_next_day_selected"]

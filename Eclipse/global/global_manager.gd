@@ -30,7 +30,6 @@ func proceed_to_next_day():
 	day += 1
 	
 func send_minion_dialog(location):
-	print(location)
 	minion_choice.visible = true
 	minion_choice.process_mode = Node.PROCESS_MODE_INHERIT
 	curr_loc = location
@@ -50,7 +49,7 @@ func generate_hero():
 		location[index].hero_add(hero_scene_preload.instantiate())
 	
 func send_minion(index):
-	
+
 	minion_choice.visible = false
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
 	for i in location:
