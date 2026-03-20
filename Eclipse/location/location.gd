@@ -2,6 +2,10 @@ extends Area2D
 
 @onready var battle_scene_preload = preload("res://battle/battle.tscn")
 @onready var battle_confirmation_dialog = $"BattleConfirmation"
+@onready var deployed_minion_label = $"DeployedMinionPanel/VBoxContainer/DeployedMinionLabel"
+@onready var deployed_minion_icon = $"DeployedMinionPanel/VBoxContainer/DeployedMinionIcon"
+@onready var deployed_minion_panel = $"DeployedMinionPanel"
+@onready var location_name = $"LocationName"
 @onready var tile_map = $"TileMap"
 
 @export var events: Array[String]
@@ -30,7 +34,7 @@ func _ready():
 	
 func _load_tile_map_pattern():
 	var pattern = tile_map.tile_set.get_pattern(pattern_index)
-	tile_map.set_pattern(0, Vector2i(-3, -3), pattern)
+	tile_map.set_pattern(0, Vector2i(0, 0), pattern)
 
 func generate_events() -> String:
 	var random_number = rng.randf();
@@ -53,6 +57,8 @@ func hero_remove():
 func minion_add(new_minion):
 	minion = new_minion
 	hero.TARGET = new_minion
+	deployed_minion_label.text = "Minion level " + str(minion.level)
+	deployed_minion_icon.visible = true
 	
 func move_minion(new_location):
 	if (new_location.minion == null):

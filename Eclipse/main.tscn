@@ -11,28 +11,35 @@ next_day = NodePath("CanvasLayer/NextDay")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 offset = Vector2(2.08165e-12, 2.08165e-12)
-scale = Vector2(4, 4)
-transform = Transform2D(4, 4.18544e-15, -4.18544e-15, 4, 2.08165e-12, 2.08165e-12)
+transform = Transform2D(1, 1.04636e-15, -1.04636e-15, 1, 2.08165e-12, 2.08165e-12)
 
 [node name="NextDay" parent="CanvasLayer" instance=ExtResource("1_32q6n")]
-offset_right = 8.0
-offset_bottom = 20.0
-metadata/_edit_use_anchors_ = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -32.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="Castle" parent="." instance=ExtResource("2_cd1vd")]
 z_index = 1
-position = Vector2(48, 48)
+position = Vector2(85, 99)
 pattern_index = 1
 minion_spawn_pos = Vector2(300, 300)
 hero_spawn_pos = Vector2(500, 500)
 
 [node name="Capital" parent="." instance=ExtResource("2_cd1vd")]
-position = Vector2(248, 47)
+position = Vector2(411, 177)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(200, 125)
+position = Vector2(400, 250)
 offset = Vector2(2.08165e-12, 2.08165e-12)
-zoom = Vector2(4, 4)
+zoom = Vector2(2, 2)
 script = ExtResource("5_ljxpg")
 
 [connection signal="SELECTED" from="CanvasLayer/NextDay" to="." method="_on_next_day_selected"]
