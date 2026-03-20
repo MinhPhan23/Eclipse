@@ -3,12 +3,32 @@
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="1_32q6n"]
 [ext_resource type="PackedScene" uid="uid://bf52miayp2ufq" path="res://location/location.tscn" id="2_cd1vd"]
-[ext_resource type="PackedScene" uid="uid://7ka624xocwj5" path="res://global/global_manager.tscn" id="2_kjo54"]
+[ext_resource type="Script" path="res://global/global_manager.gd" id="2_qwhan"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("next_day")]
 script = ExtResource("1_1kue1")
 next_day = NodePath("CanvasLayer/NextDay")
+
+[node name="LocationManager" type="Node2D" parent="."]
+script = ExtResource("2_qwhan")
+
+[node name="Castle" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+z_index = 1
+position = Vector2(48, 48)
+events = Array[String](["Solo Levling WHO?", "That One Time I Got......"])
+pattern_index = 1
+
+[node name="Capital" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(248, 47)
+events = Array[String](["But WHY", "Dragon Ball Z", "ZZZ"])
+
+[node name="MinionList" parent="LocationManager" instance=ExtResource("1_32q6n")]
+z_index = 1
+offset_left = 129.0
+offset_top = 50.0
+offset_right = 169.0
+offset_bottom = 70.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 offset = Vector2(2.08165e-12, 2.08165e-12)
@@ -20,32 +40,13 @@ offset_right = 8.0
 offset_bottom = 20.0
 metadata/_edit_use_anchors_ = true
 
-[node name="GlobalManager" parent="." instance=ExtResource("2_kjo54")]
-
-[node name="Castle" parent="GlobalManager" instance=ExtResource("2_cd1vd")]
-z_index = 1
-position = Vector2(48, 48)
-events = Array[String](["Solo Levling WHO?", "That One Time I Got......"])
-pattern_index = 1
-
-[node name="Capital" parent="GlobalManager" instance=ExtResource("2_cd1vd")]
-position = Vector2(248, 47)
-events = Array[String](["But WHY", "Dragon Ball Z", "ZZZ"])
-
-[node name="MinionList" parent="GlobalManager" instance=ExtResource("1_32q6n")]
-z_index = 1
-offset_left = 129.0
-offset_top = 50.0
-offset_right = 169.0
-offset_bottom = 70.0
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(200, 125)
 offset = Vector2(2.08165e-12, 2.08165e-12)
 zoom = Vector2(4, 4)
 script = ExtResource("5_ljxpg")
 
-[connection signal="SELECTED" from="CanvasLayer/NextDay" to="GlobalManager" method="_on_next_day_selected"]
-[connection signal="selection" from="GlobalManager/Castle" to="GlobalManager" method="send_minion_dialog"]
-[connection signal="selection" from="GlobalManager/Capital" to="GlobalManager" method="send_minion_dialog"]
-[connection signal="SELECTED" from="GlobalManager/MinionList" to="GlobalManager" method="send_minion"]
+[connection signal="selection" from="LocationManager/Castle" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/Capital" to="LocationManager" method="send_minion_dialog"]
+[connection signal="SELECTED" from="LocationManager/MinionList" to="LocationManager" method="send_minion"]
+[connection signal="SELECTED" from="CanvasLayer/NextDay" to="." method="proceed_to_next_day"]

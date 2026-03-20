@@ -3,14 +3,13 @@ extends Node
 @onready var minion_scene_preload = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload = preload("res://minion/minion.tscn")
 @onready var minion_choice = $"MinionList"
-var day: int
+
 var location: Array[Node];
 var minion_list: Array[Node];
 var rand_num:RandomNumberGenerator; 
 var curr_loc:String;
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	day = 0
 	rand_num = RandomNumberGenerator.new()
 	for i in 3:
 		var goon = minion_scene_preload.instantiate()
@@ -21,15 +20,12 @@ func _ready():
 	location.remove_at(location.size() - 1)
 	
 	minion_choice.label_text = "Send Minion?"
-	set_minion_choice()
 	minion_choice.visible = false
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
 	
-
-func proceed_to_next_day():
-	day += 1
 	
 func send_minion_dialog(location):
+	set_minion_choice()
 	minion_choice.visible = true
 	minion_choice.process_mode = Node.PROCESS_MODE_INHERIT
 	curr_loc = location
@@ -59,18 +55,12 @@ func send_minion(index):
 
 func generate_event():
 	var index:int = rand_num.randi_range(0, location.size() - 1)
-	if location[index].has_method("generate_events"):
-		location[index].generate_events()
+	for i in location:
+		if i.has_method("generate_events"):
+			i.generate_events()
 		
-func _on_next_day_selected(index):
-	start_battle()
-	proceed_to_next_day()
+func update_game_world():
 	generate_hero()
 	generate_event()
 	
-func start_battle():
-	for i in location :
-		if i.hero != null and i.minion != null:
-			i._open_battle_confirmation_dialog()
-			break
 	

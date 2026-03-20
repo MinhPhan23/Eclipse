@@ -85,8 +85,6 @@ func simulate_battle():
 		minion.level = minion_level + 1
 
 func _open_battle_confirmation_dialog():
-	if hero == null || minion == null:
-		return
 	battle_confirmation_dialog.visible = true
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_INHERIT
 
@@ -96,7 +94,7 @@ func _transition_to_battle_scene():
 	var root = tree.get_root()
 	var main_scene = tree.get_current_scene()
 	
-	battle_scene.initialize_battle(main_scene, self , hero, minion)
+	battle_scene.initialize_battle(main_scene, self, hero, minion)
 	
 	root.add_child(battle_scene)
 	root.remove_child(main_scene)
