@@ -23,6 +23,8 @@ metadata/_edit_use_anchors_ = true
 z_index = 1
 position = Vector2(48, 48)
 pattern_index = 1
+minion_spawn_pos = Vector2(300, 300)
+hero_spawn_pos = Vector2(500, 500)
 
 [node name="Capital" parent="." instance=ExtResource("2_cd1vd")]
 position = Vector2(248, 47)

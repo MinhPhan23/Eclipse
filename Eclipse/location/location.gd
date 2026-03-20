@@ -6,8 +6,10 @@ extends Area2D
 
 @export var events: Array[String]
 @export var pattern_index: int
-@export var minion_bonus = 2
-@export var battle_trigger_range = 3
+@export var minion_bonus: int = 2
+@export var battle_trigger_range: int = 3
+@export var minion_spawn_pos: Vector2 = Vector2(30, 30)
+@export var hero_spawn_pos: Vector2 = Vector2(50, 50)
 
 var hero: CharacterBody2D
 var minion: CharacterBody2D
@@ -50,6 +52,7 @@ func hero_remove():
 	
 func minion_add(new_minion):
 	minion = new_minion
+	hero.TARGET = new_minion
 	
 func move_minion(new_location):
 	if (new_location.minion == null):
@@ -57,6 +60,7 @@ func move_minion(new_location):
 	minion = null
 	
 func minion_remove():
+	hero.TARGET = null
 	minion.queue_free()
 	minion = null
 	

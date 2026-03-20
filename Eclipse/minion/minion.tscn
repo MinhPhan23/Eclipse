@@ -336,7 +336,6 @@ states/Start/position = Vector2(251, 100)
 transitions = ["Start", "MoveState", SubResource("AnimationNodeStateMachineTransition_8t0ok")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_0u0bf"]
-graph_offset = Vector2(456.96, 41.28)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_xq8rl")
 nodes/StateMachine/position = Vector2(740, 60)
 nodes/output/position = Vector2(1100, 80)
@@ -350,7 +349,7 @@ height = 16.0
 radius = 8.0
 height = 16.0
 
-[node name="Player" type="CharacterBody2D" groups=["minion"]]
+[node name="Player" type="CharacterBody2D" groups=["entity", "minion"]]
 collision_layer = 3
 collision_mask = 21
 script = ExtResource("1_41aam")
@@ -395,3 +394,9 @@ texture = ExtResource("3_jwkix")
 
 [node name="BulletCooldownTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
