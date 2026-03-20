@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btehqjctw1a3x"
-path="res://.godot/imported/Gangblanc.png-4938f16d553dac83985b5b3596ecaac3.ctex"
+uid="uid://kce1bwf1k4ca"
+path="res://.godot/imported/Demon-Shaman.png-8a370c2cf173c72007e4b5534d55d467.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Champions/Gangblanc.png"
-dest_files=["res://.godot/imported/Gangblanc.png-4938f16d553dac83985b5b3596ecaac3.ctex"]
+source_file="res://Assets/Characters/Demon/Demon-Shaman.png"
+dest_files=["res://.godot/imported/Demon-Shaman.png-8a370c2cf173c72007e4b5534d55d467.ctex"]
 
 [params]
 
