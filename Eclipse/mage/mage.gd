@@ -61,13 +61,17 @@ func _physics_process(_delta):
 	_check_los(TARGET)
 	
 	# Animation
-	ANIMATION_TREE.set("parameters/StateMachine/MoveState/RunState/blend_position", direction)
-	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", direction)
+	ANIMATION_TREE.set("parameters/StateMachine/MoveState/RunState/blend_position", v_minion.normalized())
+	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", v_minion.normalized())
 	
 	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
 	if v_minion.length() > FOLLOW_DISTANCE or !los:
+		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/idle"] = false
+		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/running"] = true
 		velocity = direction * SPEED
 	else:
+		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/idle"] = true
+		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/running"] = false
 		velocity = Vector2.ZERO
 	
 	move_and_slide()

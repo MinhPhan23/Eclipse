@@ -405,9 +405,11 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_td10r"]
 advance_mode = 2
+advance_condition = &"idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_n8yg4"]
 advance_mode = 2
+advance_condition = &"running"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_qfnhu"]
 states/End/position = Vector2(900.5, 100)
@@ -461,6 +463,8 @@ libraries = {
 tree_root = SubResource("AnimationNodeBlendTree_c8vj0")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationMage")
+parameters/StateMachine/MoveState/conditions/idle = false
+parameters/StateMachine/MoveState/conditions/running = false
 parameters/StateMachine/MoveState/IdleState/blend_position = Vector2(-0.683782, -0.424436)
 parameters/StateMachine/MoveState/RunState/blend_position = Vector2(-0.523409, 0.833333)
 
