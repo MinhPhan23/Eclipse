@@ -32,30 +32,38 @@ func _physics_process(_delta: float) -> void:
 	animation_tree.set("parameters/StateMachine/MoveState/IdleState/blend_position", direction)
 	
 	move_and_slide()
-	HandleCollisions()
+	#HandleCollisions()
 	
 	if current_health <= 0.0:
 		_on_death()
 
 # TODO: take damage when hitbox area2d entered
+func _on_hitbox_area_entered(area: Area2D):
+	if area.is_in_group("hero_attack"):
+		current_health -= HERO.DAMAGE
+		print("Minion hit! HP = %d" % current_health)
+
 
 func _on_death() -> void:
 	# TODO death animation
 	# TODO emit signal to trigger end of battle
 	queue_free()
 
+
 func level_up() -> void:
 	level += 1
 	# Increase other stats if needed
 
 
-func HandleCollisions() -> void:
-	for index in range(get_slide_collision_count()):
-		var collision = get_slide_collision(index)
-	
-		if collision.get_collider() == null:
-			continue
-		
-		if collision.get_collider().is_in_group("mage_bolt"):
-			current_health -= HERO.DAMAGE
-			print("Minion hit! HP = %d" % current_health)
+#func HandleCollisions() -> void:
+#	for index in range(get_slide_collision_count()):
+#		var collision = get_slide_collision(index)
+#	
+#		if collision.get_collider() == null:
+#			continue
+#		
+#		if collision.get_collider().is_in_group("mage_bolt"):
+#			current_health -= HERO.DAMAGE
+#			print("Minion hit! HP = %d" % current_health)
+
+

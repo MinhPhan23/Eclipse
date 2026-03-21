@@ -378,8 +378,11 @@ shape = SubResource("CapsuleShape2D_dl8rd")
 metadata/_edit_lock_ = true
 
 [node name="Hitbox" type="Area2D" parent="."]
+collision_mask = 15
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CapsuleShape2D_b0g6w")
 metadata/_edit_lock_ = true
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

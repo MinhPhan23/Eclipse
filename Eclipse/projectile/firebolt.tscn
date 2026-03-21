@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_xdy7g"]
 radius = 13.0
 
-[node name="Firebolt" type="CharacterBody2D" groups=["mage_bolt"]]
+[node name="Firebolt" type="Area2D" groups=["hero_attack"]]
 collision_layer = 8
 collision_mask = 5
 script = ExtResource("1_ir5l6")
@@ -19,3 +19,6 @@ texture = ExtResource("1_h41rx")
 shape = SubResource("CircleShape2D_xdy7g")
 
 [node name="ExpireTimer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

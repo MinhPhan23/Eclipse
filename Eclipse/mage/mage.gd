@@ -31,7 +31,7 @@ func _process(delta):
 	var v_minion = MINION.global_position - global_position
 	facing = v_minion.normalized()
 	
-	if v_minion.length() < SPELL_RANGE and spell_ready:
+	if v_minion.length() < SPELL_RANGE and spell_ready and los:
 		CastSpell(facing)
 	
 	# TODO: movement animations
@@ -66,9 +66,11 @@ func _physics_process(delta):
 
 # Called by _process() when in range.
 func CastSpell(direction):
-	var instance: CharacterBody2D = FIREBOLT.instantiate()
+	var instance: Area2D = FIREBOLT.instantiate()
+	# Set distance ahead of the mage for projectiles to spawn.
+	var spawn_offset = facing * 30
 	instance.direction = facing.rotated(spell_angle)
-	instance.global_position = global_position
+	instance.global_position = global_position + spawn_offset
 	instance.spawnRot = global_rotation #spell_angle?
 	get_tree().current_scene.add_child(instance)
 	spell_ready = false
