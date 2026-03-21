@@ -73,7 +73,7 @@ func minion_remove():
 	minion.queue_free()
 	minion = null
 
-func _input_event(viewport, event, shape_idx):
+func _input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("left_mouse_click"):
 		emit_signal("selection", self.name)
 	
