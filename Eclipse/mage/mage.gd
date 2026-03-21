@@ -19,6 +19,7 @@ var swing_right = true  # Used to control the swing of the firebolt angle.
 
 @onready var ROOT = get_tree().current_scene
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
+@onready var ANIMATION_TREE: AnimationTree = $AnimationTree
 @onready var NAV_AGENT = $NavigationAgent2D
 @onready var RETICLE = $Reticle
 @onready var SPELL_TIMER = $SpellTimer
@@ -58,6 +59,10 @@ func _physics_process(_delta):
 	var direction = to_local(NAV_AGENT.get_next_path_position()).normalized()
 	
 	_check_los(TARGET)
+	
+	# Animation
+	ANIMATION_TREE.set("parameters/StateMachine/MoveState/RunState/blend_position", direction)
+	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", direction)
 	
 	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
 	if v_minion.length() > FOLLOW_DISTANCE or !los:
