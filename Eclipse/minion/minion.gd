@@ -15,8 +15,8 @@ var mouse_pos: Vector2
 var aim_dir: Vector2
 
 
-@onready var ROOT = get_tree().current_scene
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
+@onready var BULLET_SPAWN_NODE: Node = get_parent()
 @onready var ANIMATION_TREE: AnimationTree = $AnimationTree
 @onready var COOLDOWN: Timer = $BulletCooldownTimer
 @onready var RETICLE: Node2D = $Reticle
@@ -56,7 +56,6 @@ func _on_hit(damage: int):
 	if current_health <= 0.0:
 		# TODO death animation
 		dead.emit()
-		print("player dead") # TODO: remove
 
 func _shoot(direction: Vector2) -> void:
 	var instance: CharacterBody2D = BULLET.instantiate()
@@ -65,8 +64,11 @@ func _shoot(direction: Vector2) -> void:
 	instance.set_collision_layer_value(4, true)  # player bullet
 	instance.set_collision_mask_value(3, true)   # hero
 	
-	ROOT.add_child(instance)
+	BULLET_SPAWN_NODE.add_child(instance)
 
-func level_up() -> void:
+func level_up():
 	level += 1
 	# Increase other stats if needed
+
+func stop():
+	process_mode = Node.PROCESS_MODE_DISABLED
