@@ -21,7 +21,8 @@ var rng: RandomNumberGenerator
 
 # Minion Selection
 signal selection(select)
-
+# To end battle_trigger
+signal end_battle
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng = RandomNumberGenerator.new()
@@ -88,9 +89,9 @@ func _input_event(viewport, event, shape_idx):
 	if event.is_action_pressed("left_mouse_click") and minion == null:
 		emit_signal("selection", self.name)
 	
-func simulate_battle():
+func simulate_battle() -> bool:
 	if minion == null or hero == null:
-		return
+		return false
 	
 	var minion_level = minion.level
 	var hero_level = hero.level
@@ -100,6 +101,7 @@ func simulate_battle():
 	if (minion_dice_roll < hero_dice_roll):
 		if (hero_dice_roll - minion_dice_roll <= battle_trigger_range):
 			_open_battle_confirmation_dialog()
+			return true
 		else:
 			#hero win and level up
 			hero.level = hero_level + 1
@@ -107,6 +109,7 @@ func simulate_battle():
 	else:
 		#minion win and level up
 		minion.level = minion_level + 1
+	return false
 
 func _open_battle_confirmation_dialog():
 	battle_confirmation_dialog.visible = true

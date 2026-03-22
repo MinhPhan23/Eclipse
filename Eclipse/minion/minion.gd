@@ -55,7 +55,7 @@ func _on_hit(damage: int):
 	current_health -= damage
 	if current_health <= 0.0:
 		# TODO death animation
-		dead.emit()
+		dead.emit(self)
 
 func _shoot(direction: Vector2) -> void:
 	var instance: CharacterBody2D = BULLET.instantiate()
