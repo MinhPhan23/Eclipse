@@ -11,7 +11,7 @@ extends Area2D
 @export var events: Array[String]
 @export var pattern_index: int
 @export var minion_bonus: int = 2
-@export var battle_trigger_range: int = 12
+@export var battle_trigger_range: int = 6
 @export var minion_spawn_pos: Vector2 = Vector2(0, 0)
 @export var hero_spawn_pos: Vector2 = Vector2(100, 100)
 
@@ -46,25 +46,25 @@ func generate_events() -> String:
 		return events[rng.randi_range(0, events.size() - 1)]
 	return ""
 
-func hero_add(new_hero):
+func add_hero(new_hero):
 	hero = new_hero
-	hero.dead.connect(_hero_remove)
+	hero.dead.connect(_remove_hero)
 
 func move_hero(new_location):
 	if (new_location.hero == null):
-		new_location.hero_add(hero)
+		new_location.add_hero(hero)
 	hero = null
 
-func _hero_remove():
-	if hero == null:
+func _remove_hero(removed_hero):
+	if hero == null or hero != removed_hero:
 		return
-	hero.dead.disconnect(_hero_remove)
+	hero.dead.disconnect(_remove_hero)
 	hero.queue_free()
 	hero = null
 	
-func minion_add(new_minion):
+func add_minion(new_minion):
 	minion = new_minion
-	minion.dead.connect(_minion_remove.unbind(1)) # unbind to ignore passed argument
+	minion.dead.connect(_remove_minion) # unbind to ignore passed argument
 	if hero != null:
 		hero.TARGET = new_minion
 	deployed_minion_label.text = "Minion level " + str(minion.level)
@@ -75,15 +75,15 @@ func callback_minion():
 		return
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
-	minion.dead.disconnect(_minion_remove)
+	minion.dead.disconnect(_remove_minion)
 	minion = null
 	
-func _minion_remove():
-	if minion == null:
+func _remove_minion(removed_minion):
+	if minion == null or minion != removed_minion:
 		return
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
-	minion.dead.disconnect(_minion_remove)
+	minion.dead.disconnect(_remove_minion)
 	if hero != null:
 		hero.TARGET = null
 	minion.queue_free()
@@ -113,7 +113,7 @@ func simulate_battle() -> bool:
 	else:
 		#minion win and level up
 		minion.level = minion_level + 1
-		hero.dead.emit()
+		hero.dead.emit(hero)
 	return false
 
 func _open_battle_confirmation_dialog():

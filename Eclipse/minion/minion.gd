@@ -26,9 +26,6 @@ func _ready() -> void:
 	input_vector = Vector2.ZERO
 	mouse_pos = Vector2(position.x, position.y)
 	COOLDOWN.wait_time = FIRING_RATE
-	
-	# Listen for bullet hits
-	EventBus.player_hit.connect(_on_hit)
 
 func _physics_process(_delta: float) -> void:
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -73,11 +70,11 @@ func level_up():
 	# Increase other stats if needed
 
 func stop():
+	EventBus.player_hit.disconnect(_on_hit)
 	process_mode = Node.PROCESS_MODE_DISABLED
 
-func run():
-	process_mode = Node.PROCESS_MODE_INHERIT
-
 func reset():
+	EventBus.player_hit.connect(_on_hit)
 	bullet_spawn_node = get_parent()
 	current_health = MAX_HEALTH
+	process_mode = Node.PROCESS_MODE_INHERIT

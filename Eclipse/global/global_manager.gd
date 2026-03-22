@@ -49,17 +49,16 @@ func remove_minion(dead_minion):
 func generate_hero():
 	var index: int = rand_num.randi_range(0, _location.size() - 1)
 	if _location[index].hero == null:
-		_location[index].hero_add(hero_scene_preload.instantiate())
+		_location[index].add_hero(hero_scene_preload.instantiate())
 	
 func send_minion(index):
 	minion_choice.visible = false
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
 	for i in _location:
 		if i.name == curr_loc:
-			i.minion_add(minion_list[index])
+			i.add_minion(minion_list[index])
 	
 func generate_event():
-	var index: int = rand_num.randi_range(0, _location.size() - 1)
 	for i in _location:
 		if i.has_method("generate_events"):
 			i.generate_events()
