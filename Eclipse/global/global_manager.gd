@@ -39,7 +39,7 @@ func send_minion_dialog(location):
 func minion_arr() -> Array[String]:
 	var arr: Array[String] = []
 	for i in minion_list:
-		arr.append("%s Atk:%d Lvl:%d Health:%d/%d" % [i.name, i.strength, i.level, i.current_health, i.MAX_HEALTH])
+		arr.append("%s Atk:%d Lvl:%d Health:%d" % [i.name, i.strength, i.level, i.MAX_HEALTH])
 	return arr
 	
 func remove_minion(dead_minion):

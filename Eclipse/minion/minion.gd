@@ -14,10 +14,10 @@ var dead_emit_flag: bool = false
 var input_vector: Vector2
 var mouse_pos: Vector2
 var aim_dir: Vector2
+var bullet_spawn_node: Node
 
 
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
-@onready var BULLET_SPAWN_NODE: Node = get_parent()
 @onready var ANIMATION_TREE: AnimationTree = $AnimationTree
 @onready var COOLDOWN: Timer = $BulletCooldownTimer
 @onready var RETICLE: Node2D = $Reticle
@@ -66,7 +66,7 @@ func _shoot(direction: Vector2) -> void:
 	instance.set_collision_layer_value(4, true)  # player bullet
 	instance.set_collision_mask_value(3, true)   # hero
 	
-	BULLET_SPAWN_NODE.add_child(instance)
+	bullet_spawn_node.add_child(instance)
 
 func level_up():
 	level += 1
@@ -79,4 +79,5 @@ func run():
 	process_mode = Node.PROCESS_MODE_INHERIT
 
 func reset():
+	bullet_spawn_node = get_parent()
 	current_health = MAX_HEALTH

@@ -11,6 +11,9 @@ var main: Node2D
 var location: Area2D
 var _minion_name: String
 
+func _ready() -> void:
+	get_tree().call_group("entity", "reset")
+
 func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
 	main = main_scene
 	location = location_scene
@@ -26,7 +29,6 @@ func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: Charact
 	minion.dead.connect(_on_minion_dead.unbind(1))
 	minion.run()
 	add_child(minion)
-	
 	# TODO: pause entities with a warmup timer
 
 func _on_hero_dead():
@@ -37,7 +39,6 @@ func _on_minion_dead():
 	_game_over()
 	
 func _game_over():
-	get_tree().call_group("entity", "reset")
 	if (win):
 		var minion = get_node("/root/Battle/"+_minion_name)
 		minion.level_up()
