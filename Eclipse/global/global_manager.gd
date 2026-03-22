@@ -29,7 +29,6 @@ func _ready():
 	minion_choice.visible = false
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	
 func send_minion_dialog(location):
 	if !minion_list.is_empty():
 		minion_choice.choices = minion_arr()
@@ -43,10 +42,9 @@ func minion_arr() -> Array[String]:
 		arr.append("%s Atk:%d Lvl:%d Health:%d/%d" % [i.name, i.strength, i.level, i.current_health, i.MAX_HEALTH])
 	return arr
 	
-
 func remove_minion(dead_minion):
 	minion_list.erase(dead_minion)
-	dead_minion.dead.disconnect(Callable(self, "remove_minion"))
+	dead_minion.dead.disconnect(remove_minion)
 		
 func generate_hero():
 	var index: int = rand_num.randi_range(0, _location.size() - 1)
@@ -60,7 +58,6 @@ func send_minion(index):
 		if i.name == curr_loc:
 			i.minion_add(minion_list[index])
 	
-
 func generate_event():
 	var index: int = rand_num.randi_range(0, _location.size() - 1)
 	for i in _location:

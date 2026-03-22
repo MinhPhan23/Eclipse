@@ -17,6 +17,7 @@ var los : bool  # Line of sight.
 var spell_ready = true  # Updated by SpellTimer
 var spell_angle : float  # Angle offset for firebolt attack.
 var swing_right = true  # Used to control the swing of the firebolt angle.
+var dead_emit_flag: bool = false
 
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
 @onready var ANIMATION_TREE: AnimationTree = $AnimationTree
@@ -94,8 +95,9 @@ func _cast_spell(direction: Vector2):
 # Called by _physics_process() when a player projectile collides with the mage.
 func _on_hit(dmg: int):
 	current_hp -= dmg
-	if current_hp <= 0.0:
+	if current_hp <= 0.0 and !dead_emit_flag:
 		# animation?
+		dead_emit_flag = true
 		dead.emit()  # Battle scene handles end of battle protocols.
 
 # Checks whether the mage has line of sight on the minion by doing a raycast
@@ -138,3 +140,9 @@ func level_up():
 
 func stop():
 	process_mode = Node.PROCESS_MODE_DISABLED
+
+func run():
+	process_mode = Node.PROCESS_MODE_INHERIT
+
+func reset():
+	current_hp = MAX_HP

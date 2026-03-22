@@ -9,6 +9,7 @@ const FIRING_RATE: float = 0.25   # seconds
 var current_health: int = MAX_HEALTH
 var strength: int = 10
 var level: int = 1
+var dead_emit_flag: bool = false
 
 var input_vector: Vector2
 var mouse_pos: Vector2
@@ -53,8 +54,9 @@ func _physics_process(_delta: float) -> void:
 
 func _on_hit(damage: int):
 	current_health -= damage
-	if current_health <= 0.0:
+	if current_health <= 0.0 and !dead_emit_flag:
 		# TODO death animation
+		dead_emit_flag = true
 		dead.emit(self)
 
 func _shoot(direction: Vector2) -> void:
@@ -72,3 +74,9 @@ func level_up():
 
 func stop():
 	process_mode = Node.PROCESS_MODE_DISABLED
+
+func run():
+	process_mode = Node.PROCESS_MODE_INHERIT
+
+func reset():
+	current_health = MAX_HEALTH
