@@ -14,16 +14,20 @@ source_geometry_group_name = &"navigation_polygon_source_group"
 script = ExtResource("1_12cp7")
 
 [node name="Mage" parent="." instance=ExtResource("1_7dm5h")]
-position = Vector2(789, 464)
+position = Vector2(272, 212)
+scale = Vector2(2, 2)
 FOLLOW_DISTANCE = 300
 
 [node name="Minion" parent="." instance=ExtResource("2_fjc23")]
-position = Vector2(1227, 475)
+position = Vector2(80, 112)
+scale = Vector2(2, 2)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
+zoom = Vector2(4, 4)
 
 [node name="Node" type="Node" parent="."]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Node"]
+position = Vector2(-446, -312)
 navigation_polygon = SubResource("NavigationPolygon_luwnc")
