@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var TARGET : Node2D
 @export var SPELL_RANGE: int = 300
 @export var FOLLOW_DISTANCE: int = 200
-@export var MAX_HP: int = 100
+@export var MAX_HP: int = 10
 @export var current_hp: int  = MAX_HP
 @export var DAMAGE: int = 1
 @export var MAX_SPELL_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast.

@@ -76,10 +76,11 @@ func _on_choices_diaglog_selected(_index: int):
 	if (win):
 		location.hero_remove()
 	else:
-		location.minion_remove()
+		hero.level += 1
 	
 	
 	root.add_child(main)
 	root.remove_child(battle_scene)
 	tree.set_current_scene(main)
+	location.end_battle.emit()
 	queue_free()
