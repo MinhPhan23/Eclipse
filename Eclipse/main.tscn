@@ -15,12 +15,12 @@ script = ExtResource("2_qwhan")
 
 [node name="Castle" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 z_index = 1
-position = Vector2(48, 48)
+position = Vector2(70, 57)
 events = Array[String](["Solo Levling WHO?", "That One Time I Got......"])
 pattern_index = 1
 
 [node name="Capital" parent="LocationManager" instance=ExtResource("2_cd1vd")]
-position = Vector2(248, 47)
+position = Vector2(248, 57)
 events = Array[String](["But WHY", "Dragon Ball Z", "ZZZ"])
 
 [node name="MinionList" parent="LocationManager" instance=ExtResource("1_32q6n")]

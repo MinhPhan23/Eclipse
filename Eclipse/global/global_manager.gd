@@ -4,7 +4,7 @@ extends Node
 @onready var hero_scene_preload = preload("res://mage/mage.tscn")
 @onready var minion_choice = $"MinionList"
 
-var _location: Array[Node];
+var location: Array[Node];
 var minion_list: Array[Node];
 var rand_num: RandomNumberGenerator;
 var curr_loc: String;
@@ -19,10 +19,10 @@ func _ready():
 		goon.dead.connect(remove_minion)
 		minion_list.append(goon)
 		
-	_location = get_children()
+	location = get_children()
 	# To remove MininonList for our array
-	_location.remove_at(location.size() - 1)
-	for i in _location:
+	location.remove_at(location.size() - 1)
+	for i in location:
 		callback.connect(i.callback_minion)
 	
 	minion_choice.label_text = "Send Minion?"
@@ -49,21 +49,21 @@ func remove_minion(dead_minion):
 	dead_minion.dead.disconnect(Callable(self, "remove_minion"))
 		
 func generate_hero():
-	var index: int = rand_num.randi_range(0, _location.size() - 1)
-	if _location[index].hero == null:
-		_location[index].hero_add(hero_scene_preload.instantiate())
+	var index: int = rand_num.randi_range(0, location.size() - 1)
+	if location[index].hero == null:
+		location[index].hero_add(hero_scene_preload.instantiate())
 	
 func send_minion(index):
 	minion_choice.visible = false
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
-	for i in _location:
+	for i in location:
 		if i.name == curr_loc:
 			i.minion_add(minion_list[index])
 	
 
 func generate_event():
-	var index: int = rand_num.randi_range(0, _location.size() - 1)
-	for i in _location:
+	var index: int = rand_num.randi_range(0, location.size() - 1)
+	for i in location:
 		if i.has_method("generate_events"):
 			i.generate_events()
 		

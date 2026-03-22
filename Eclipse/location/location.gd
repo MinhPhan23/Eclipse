@@ -60,7 +60,8 @@ func hero_remove():
 func minion_add(new_minion):
 	minion = new_minion
 	minion.dead.connect(minion_remove.unbind(1)) # unbind to ignore passed argument
-	hero.TARGET = new_minion
+	if hero != null:
+		hero.TARGET = new_minion
 	deployed_minion_label.text = "Minion level " + str(minion.level)
 	deployed_minion_icon.visible = true
 	
@@ -78,7 +79,8 @@ func minion_remove():
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(Callable(self, "minion_remove"))
-  hero.TARGET = null
+	if hero != null:
+		hero.TARGET = null
 	minion.queue_free()
 	minion = null
 
