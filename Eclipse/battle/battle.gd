@@ -1,33 +1,68 @@
 extends Node2D
 
-@onready var choicesDialog = $"ChoicesDiaglog"
-@onready var win = false
+@onready var choices_dialog: PanelContainer = $CanvasLayer/ChoicesDiaglog
+@onready var win: bool = false
+
+const GAME_OVER_DIALOG_CHOICES = ["Continue"]
 
 # the scene that initialize scene switch to battle
-var main_scene: Node2D
+var main: Node2D
 # location where the battle take place, init by location during scene switch
 var location: Area2D
 
-# for testing purpose, characters should have spawn coord store in them
-var minion_spawn_coord = Vector2(30, 30)
-var hero_spawn_coord = Vector2(50, 50)
+func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
+	main = main_scene
+	location = location_scene
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	choicesDialog.choices = ["click this to change back to main"]
-	choicesDialog.visible = true
-	
-func initialize_battle(main_scene: Node2D, location: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
-	self.main_scene = main_scene
-	self.location = location
 	hero.name = "Hero"
-	hero.position = hero_spawn_coord
+	hero.position = location.hero_spawn_pos
+	hero.dead.connect(_on_hero_dead)
+	hero.TARGET = minion # TODO extract this to location
 	add_child(hero)
+
 	minion.name = "Minion"
-	minion_spawn_coord = minion_spawn_coord
+	minion.position = location.minion_spawn_pos
+	minion.dead.connect(_on_minion_dead)
+	
+	# TODO: pause entities with a warmup timer
+	
 	add_child(minion)
 
-func _on_choices_diaglog_selected(index):
+func _on_hero_dead():
+	win = true
+	_game_over()
+	
+func _on_minion_dead():
+	_game_over()
+	
+func _game_over():
+	var hero = $Hero
+	var minion = $Minion
+	
+	# Stop movement
+	get_tree().call_group("entity", "stop")
+	
+	# Compute battle statistics
+	if (win):
+		minion.level_up()
+	else:
+		hero.level_up()
+	
+	# Show game over dialog
+	_display_dialog()
+
+func _display_dialog():
+	var win_status_msg: String
+	
+	if (win):
+		win_status_msg = "Victory"
+	else:
+		win_status_msg = "Defeat"
+	choices_dialog.label_text = win_status_msg
+	choices_dialog.choices = GAME_OVER_DIALOG_CHOICES
+	choices_dialog.show()
+
+func _on_choices_diaglog_selected(_index: int):
 	var hero = $"Hero"
 	var minion = $"Minion"
 	
@@ -39,13 +74,12 @@ func _on_choices_diaglog_selected(index):
 	remove_child(minion)
 	
 	if (win):
-		minion.level += 1
 		location.hero_remove()
 	else:
-		hero.level += 1
 		location.minion_remove()
 	
-	root.add_child(main_scene)
+	
+	root.add_child(main)
 	root.remove_child(battle_scene)
-	tree.set_current_scene(main_scene)
+	tree.set_current_scene(main)
 	queue_free()

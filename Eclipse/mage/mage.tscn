@@ -441,7 +441,7 @@ node_connections = [&"output", 0, &"StateMachine"]
 radius = 8.0
 height = 16.0
 
-[node name="Mage" type="CharacterBody2D" groups=["hero"]]
+[node name="Mage" type="CharacterBody2D" groups=["entity", "hero"]]
 collision_layer = 5
 script = ExtResource("1_2nmn1")
 
