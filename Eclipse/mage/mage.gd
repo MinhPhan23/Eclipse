@@ -6,25 +6,26 @@ extends CharacterBody2D
 @export var FOLLOW_DISTANCE: int = 200
 @export var level = 1
 @export var MAX_HP: int = 10
-@export var current_hp: int  = 10
+@export var current_hp: int  = MAX_HP
 @export var DAMAGE: int = 1
 @export var MAX_SPELL_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast.
 @export var FIRING_RATE: float = 0.25     # seconds
 @export var RETICLE_DIST: float = 25.0    # distance from model center, pixels
 
+var level: int = 1
 var facing : Vector2  # Direction the mage is facing (v_minion.normalized()).
 var los : bool  # Line of sight.
 var spell_ready = true  # Updated by SpellTimer
 var spell_angle : float  # Angle offset for firebolt attack.
 var swing_right = true  # Used to control the swing of the firebolt angle.
 
-@onready var ROOT = get_tree().current_scene
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
+@onready var BULLET_SPAWN_NODE: Node = get_parent()
 @onready var NAV_AGENT = $NavigationAgent2D
 @onready var RETICLE = $Reticle
 @onready var SPELL_TIMER = $SpellTimer
 
-signal dead_mage  # Emitted at 0 hp.
+signal dead  # Emitted at 0 hp.
 
 func _ready():
 	EventBus.hero_hit.connect(_on_hit)
@@ -46,12 +47,6 @@ func _process(_delta):
 
 
 func _physics_process(_delta):
-	# TODO: check for incoming damage.
-	#if hit by player projectile:
-		#get player projectile damage
-		#TakeDamage(damage value)
-	
-	
 	# Pathfinding.
 	NAV_AGENT.target_position = TARGET.global_position
 	# v = vector from mage to MINION.
@@ -83,7 +78,7 @@ func _cast_spell(direction: Vector2):
 	instance.set_collision_layer_value(5, true) # hero bullet
 	instance.set_collision_mask_value(2, true)  # player
 	
-	ROOT.add_child(instance)
+	BULLET_SPAWN_NODE.add_child(instance)
 	spell_ready = false
 	SPELL_TIMER.start()
 
@@ -93,8 +88,7 @@ func _on_hit(dmg: int):
 	current_hp -= dmg
 	if current_hp <= 0.0:
 		# animation?
-		dead_mage.emit()  # Battle scene handles end of battle protocols.
-		print("mage dead") #TODO: remove
+		dead.emit()  # Battle scene handles end of battle protocols.
 
 # Checks whether the mage has line of sight on the minion by doing a raycast
 # to the minion and seeing whether any walls are hit by the ray.
@@ -130,3 +124,9 @@ func _on_spell_timer_timeout():
 			spell_angle += 0.1
 		else:
 			spell_angle -= 0.1
+
+func level_up():
+	level += 1
+
+func stop():
+	process_mode = Node.PROCESS_MODE_DISABLED
