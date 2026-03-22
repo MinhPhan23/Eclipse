@@ -57,35 +57,47 @@ func hero_remove():
 	
 func minion_add(new_minion):
 	minion = new_minion
+	minion.dead.connect(minion_remove.unbind(1)) # unbind to ignore passed argument
 	deployed_minion_label.text = "Minion level " + str(minion.level)
 	deployed_minion_icon.visible = true
 	
-func move_minion(new_location):
-	if (new_location.minion == null):
-		new_location.minion = minion
+func callback_minion():
+	if (minion == null):
+		return
+	deployed_minion_label.text = "No deployed minion"
+	deployed_minion_icon.visible = false
+	minion.dead.disconnect(Callable(self, "minion_remove"))
 	minion = null
 	
 func minion_remove():
+	if minion == null:
+		return
+	deployed_minion_label.text = "No deployed minion"
+	deployed_minion_icon.visible = false
+	minion.dead.disconnect(Callable(self, "minion_remove"))
 	minion.queue_free()
 	minion = null
 
 func _input_event(viewport, event, shape_idx):
-	if event.is_action_pressed("left_mouse_click"):
+	if event.is_action_pressed("left_mouse_click") and minion == null:
 		emit_signal("selection", self.name)
 	
 func simulate_battle():
+	if minion == null or hero == null:
+		return
+	
 	var minion_level = minion.level
 	var hero_level = hero.level
-	
+
 	var minion_dice_roll = rng.randi_range(1, 12) + minion_bonus + minion_level
 	var hero_dice_roll = rng.randi_range(1, 12) + hero_level
-	
 	if (minion_dice_roll < hero_dice_roll):
 		if (hero_dice_roll - minion_dice_roll <= battle_trigger_range):
 			_open_battle_confirmation_dialog()
 		else:
 			#hero win and level up
 			hero.level = hero_level + 1
+			minion.dead.emit(minion)
 	else:
 		#minion win and level up
 		minion.level = minion_level + 1
@@ -101,10 +113,10 @@ func _transition_to_battle_scene():
 	var main_scene = tree.get_current_scene()
 	
 	battle_scene.initialize_battle(main_scene, self, hero, minion)
-	
 	root.add_child(battle_scene)
 	root.remove_child(main_scene)
 	tree.set_current_scene(battle_scene)
+	
 
 func _on_battle_confirmation_selected(index):
 	battle_confirmation_dialog.visible = false

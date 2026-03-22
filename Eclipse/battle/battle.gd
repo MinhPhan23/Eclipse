@@ -22,6 +22,7 @@ func initialize_battle(main_scene: Node2D, location: Area2D, hero: CharacterBody
 	self.location = location
 	hero.name = "Hero"
 	hero.position = hero_spawn_coord
+	hero.TARGET = minion
 	add_child(hero)
 	minion.name = "Minion"
 	minion_spawn_coord = minion_spawn_coord
@@ -43,7 +44,7 @@ func _on_choices_diaglog_selected(index):
 		location.hero_remove()
 	else:
 		hero.level += 1
-		location.minion_remove()
+		minion.dead.emit(minion)
 	
 	root.add_child(main_scene)
 	root.remove_child(battle_scene)
