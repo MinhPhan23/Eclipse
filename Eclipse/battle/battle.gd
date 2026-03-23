@@ -15,27 +15,17 @@ func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: Charact
 	location = location_scene
 
 	hero.name = "Hero"
-<<<<<<< mage_battle
-	hero.position = hero_spawn_coord
-	hero.MINION = minion
-=======
 	hero.position = location.hero_spawn_pos
 	hero.dead.connect(_on_hero_dead)
 	hero.TARGET = minion # TODO extract this to location
->>>>>>> main
 	add_child(hero)
 
 	minion.name = "Minion"
-<<<<<<< mage_battle
-	minion.position = minion_spawn_coord
-	minion.HERO = hero
-=======
 	minion.position = location.minion_spawn_pos
 	minion.dead.connect(_on_minion_dead)
 	
 	# TODO: pause entities with a warmup timer
 	
->>>>>>> main
 	add_child(minion)
 
 func _on_hero_dead():

@@ -19,13 +19,6 @@ tracks/0/keys = {
 "values": [14]
 }
 
-<<<<<<< mage_battle
-[node name="Mage" type="CharacterBody2D"]
-collision_layer = 2
-collision_mask = 7
-motion_mode = 1
-wall_min_slide_angle = 0.0
-=======
 [sub_resource type="Animation" id="Animation_tm8f5"]
 resource_name = "idle_e"
 length = 0.6
@@ -450,7 +443,6 @@ height = 16.0
 
 [node name="Mage" type="CharacterBody2D" groups=["entity", "hero"]]
 collision_layer = 5
->>>>>>> main
 script = ExtResource("1_2nmn1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -482,12 +474,8 @@ shape = SubResource("CapsuleShape2D_a1kjs")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="SpellTimer" type="Timer" parent="."]
-<<<<<<< mage_battle
-autostart = true
-=======
 one_shot = true
 
 [node name="Reticle" type="Node2D" parent="."]
->>>>>>> main
 
 [connection signal="timeout" from="SpellTimer" to="." method="_on_spell_timer_timeout"]

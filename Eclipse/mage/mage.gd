@@ -1,29 +1,17 @@
 extends CharacterBody2D
 
-<<<<<<< mage_battle
-@export var SPEED = 50
-@export var SPELL_RANGE = 300
-@export var FOLLOW_DISTANCE = 200
-@export var MAX_HP : float = 10.0
-@export var current_hp : float = 10.0
-@export var DAMAGE : float = 1.0
-@export var MAX_SPELL_ANGLE : float = 0.5  # Maximum angle away from slime that spell will be cast.
-
-var MINION : CharacterBody2D
-=======
 @export var SPEED: int = 50
-@export var TARGET : Node2D
 @export var SPELL_RANGE: int = 300
 @export var FOLLOW_DISTANCE: int = 200
-@export var MAX_HP: int = 10
-@export var current_hp: int  = MAX_HP
-@export var DAMAGE: int = 1
+@export var MAX_HP: float = 10.0
+@export var current_hp: float = MAX_HP
+@export var DAMAGE: float = 1.0
 @export var MAX_SPELL_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast.
 @export var FIRING_RATE: float = 0.25     # seconds
 @export var RETICLE_DIST: float = 25.0    # distance from model center, pixels
 
 var level: int = 1
->>>>>>> main
+var target: CharacterBody2D
 var facing : Vector2  # Direction the mage is facing (v_minion.normalized()).
 var los : bool  # Line of sight.
 var spell_ready = true  # Updated by SpellTimer
@@ -34,14 +22,8 @@ var swing_right = true  # Used to control the swing of the firebolt angle.
 @onready var ANIMATION_TREE: AnimationTree = $AnimationTree
 @onready var BULLET_SPAWN_NODE: Node = get_parent()
 @onready var NAV_AGENT = $NavigationAgent2D
-<<<<<<< mage_battle
-@onready var FIREBOLT = load("res://projectile/firebolt.tscn")
-
-signal dead_mage  # Emitted at 0 hp.
-=======
 @onready var RETICLE = $Reticle
 @onready var SPELL_TIMER = $SpellTimer
->>>>>>> main
 
 signal dead  # Emitted at 0 hp.
 
@@ -54,51 +36,34 @@ func _ready():
 	call_deferred("_navigation_setup")
 
 func _process(_delta):
-	var v_minion = TARGET.global_position - global_position
+	var v_minion = target.global_position - global_position
 	facing = v_minion.normalized()
 	
-<<<<<<< mage_battle
 	if v_minion.length() < SPELL_RANGE and spell_ready and los:
-		CastSpell(facing)
-=======
-	if v_minion.length() < SPELL_RANGE and spell_ready:
 		RETICLE.position = facing * RETICLE_DIST
 		_cast_spell(facing)
->>>>>>> main
 	
 	# TODO: movement animations
 
 
 func _physics_process(_delta):
 	# Pathfinding.
-	NAV_AGENT.target_position = TARGET.global_position
+	NAV_AGENT.target_position = target.global_position
 	# v = vector from mage to MINION.
-<<<<<<< mage_battle
-	var v_minion = MINION.global_position - global_position
+	var v_minion = target.global_position - global_position
 	var next_pos = NAV_AGENT.get_next_path_position()
 	var direction = (next_pos - global_position).normalized()
 	
-	CheckLOS()
-	
-	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
-	if !los:
-		velocity = direction * SPEED
-	elif v_minion.length() > FOLLOW_DISTANCE:
-=======
-	var v_minion = TARGET.global_position - global_position
-	var direction = to_local(NAV_AGENT.get_next_path_position()).normalized()
-	
-	_check_los(TARGET)
+	_check_los()
 	
 	# Animation
 	ANIMATION_TREE.set("parameters/StateMachine/MoveState/RunState/blend_position", v_minion.normalized())
 	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", v_minion.normalized())
 	
 	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
-	if v_minion.length() > FOLLOW_DISTANCE or !los:
+	if !los or v_minion.length() > FOLLOW_DISTANCE:
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/idle"] = false
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/running"] = true
->>>>>>> main
 		velocity = direction * SPEED
 	else:
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/idle"] = true
@@ -114,16 +79,6 @@ func _navigation_setup():
 	set_physics_process(true)
 
 # Called by _process() when in range.
-<<<<<<< mage_battle
-func CastSpell(direction):
-	var instance: Area2D = FIREBOLT.instantiate()
-	# Set distance ahead of the mage for projectiles to spawn.
-	var spawn_offset = facing * 30
-	instance.direction = facing.rotated(spell_angle)
-	instance.global_position = global_position + spawn_offset
-	instance.spawnRot = global_rotation #spell_angle?
-	get_tree().current_scene.add_child(instance)
-=======
 func _cast_spell(direction: Vector2):
 	var instance: CharacterBody2D = BULLET.instantiate()
 	instance.direction = facing.rotated(spell_angle)
@@ -133,7 +88,6 @@ func _cast_spell(direction: Vector2):
 	instance.set_collision_mask_value(2, true)  # player
 	
 	BULLET_SPAWN_NODE.add_child(instance)
->>>>>>> main
 	spell_ready = false
 	SPELL_TIMER.start()
 
@@ -147,26 +101,16 @@ func _on_hit(dmg: int):
 
 # Checks whether the mage has line of sight on the minion by doing a raycast
 # to the minion and seeing whether any walls are hit by the ray.
-<<<<<<< mage_battle
-func CheckLOS():
-	var space_state = self.get_world_2d().direct_space_state
-	
-	# Establish raycast parameters.
-	var raycast = PhysicsRayQueryParameters2D.create(
-		self.global_position,
-		MINION.global_position
-=======
-func _check_los(target: CharacterBody2D):
+func _check_los():
 	var space_state = get_world_2d().direct_space_state
 	
 	# Establish raycast parameters.
 	var raycast = PhysicsRayQueryParameters2D.create(
 		global_position,
 		target.global_position
->>>>>>> main
 	)
-	raycast.exclude = [self, MINION]  # Does not collide with self or MINION.
-	raycast.collision_mask = 1<<2  # Bitmask for layer 3 - only collides with walls.
+	raycast.exclude = [self, target]  # Does not collide with self or target.
+	raycast.collision_mask = 1        # Only collides with walls.
 	
 	# Check for collisions and update los accordingly.
 	var wall_collision = space_state.intersect_ray(raycast)
