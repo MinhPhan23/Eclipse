@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cptts5oodbvfv"
-path="res://.godot/imported/BowmanPurple.png-3878496de5785f59eaa7404f3f84a998.ctex"
+uid="uid://baxerl7wqbwhj"
+path="res://.godot/imported/Elf-Mage.png-9988ab931749507b097701d43ba162ce.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Soldiers/Ranged/PurpleRanged/BowmanPurple.png"
-dest_files=["res://.godot/imported/BowmanPurple.png-3878496de5785f59eaa7404f3f84a998.ctex"]
+source_file="res://Assets/Characters/Hero/Elf-Mage.png"
+dest_files=["res://.godot/imported/Elf-Mage.png-9988ab931749507b097701d43ba162ce.ctex"]
 
 [params]
 

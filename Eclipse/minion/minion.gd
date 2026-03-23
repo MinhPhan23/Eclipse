@@ -2,22 +2,32 @@ extends CharacterBody2D
 
 signal dead
 
-var HERO: CharacterBody2D
-const MAX_HEALTH: float = 100.0
-const SPEED: float = 150.0
-var current_health: float = MAX_HEALTH
+const MAX_HEALTH: int = 100
+const SPEED: int = 150
+const RETICLE_DIST: float = 25.0  # pixels
+const FIRING_RATE: float = 0.25   # seconds
+var current_health: int = MAX_HEALTH
 var strength: int = 10
 var level: int = 1
 
 var input_vector: Vector2
 var mouse_pos: Vector2
+var aim_dir: Vector2
 
-# Wait until we have access to animation tree before calling
-@onready var animation_tree: AnimationTree = $AnimationTree
+
+@onready var BULLET = preload("res://projectile/firebolt.tscn")
+@onready var BULLET_SPAWN_NODE: Node = get_parent()
+@onready var ANIMATION_TREE: AnimationTree = $AnimationTree
+@onready var COOLDOWN: Timer = $BulletCooldownTimer
+@onready var RETICLE: Node2D = $Reticle
 
 func _ready() -> void:
 	input_vector = Vector2.ZERO
 	mouse_pos = Vector2(position.x, position.y)
+	COOLDOWN.wait_time = FIRING_RATE
+	
+	# Listen for bullet hits
+	EventBus.player_hit.connect(_on_hit)
 
 
 func _physics_process(_delta: float) -> void:
@@ -27,43 +37,39 @@ func _physics_process(_delta: float) -> void:
 	velocity = input_vector * SPEED
 	
 	# Sprite will face the mouse
-	var direction: Vector2 = position.direction_to(mouse_pos)
-	animation_tree.set("parameters/StateMachine/MoveState/RunState/blend_position", direction)
-	animation_tree.set("parameters/StateMachine/MoveState/IdleState/blend_position", direction)
+	aim_dir = position.direction_to(mouse_pos)
+	ANIMATION_TREE.set("parameters/StateMachine/MoveState/RunState/blend_position", aim_dir)
+	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", aim_dir)
 	
+	# Rotate the reticle about player
+	RETICLE.position = aim_dir * RETICLE_DIST
+	
+	# Shoot in direction of mouse
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		if COOLDOWN.is_stopped():
+			_shoot(aim_dir)
+			COOLDOWN.start()
+
 	move_and_slide()
-	#HandleCollisions()
-	
+
+func _on_hit(damage: int):
+	current_health -= damage
 	if current_health <= 0.0:
-		_on_death()
+		# TODO death animation
+		dead.emit(self)
 
-# TODO: take damage when hitbox area2d entered
-func _on_hitbox_area_entered(area: Area2D):
-	if area.is_in_group("hero_attack"):
-		current_health -= HERO.DAMAGE
-		print("Minion hit! HP = %d" % current_health)
+func _shoot(direction: Vector2) -> void:
+	var instance: CharacterBody2D = BULLET.instantiate()
+	instance.direction = direction
+	instance.spawn_pos = RETICLE.global_position
+	instance.set_collision_layer_value(4, true)  # player bullet
+	instance.set_collision_mask_value(3, true)   # hero
+	
+	BULLET_SPAWN_NODE.add_child(instance)
 
-
-func _on_death() -> void:
-	# TODO death animation
-	# TODO emit signal to trigger end of battle
-	queue_free()
-
-
-func level_up() -> void:
+func level_up():
 	level += 1
 	# Increase other stats if needed
 
-
-#func HandleCollisions() -> void:
-#	for index in range(get_slide_collision_count()):
-#		var collision = get_slide_collision(index)
-#	
-#		if collision.get_collider() == null:
-#			continue
-#		
-#		if collision.get_collider().is_in_group("mage_bolt"):
-#			current_health -= HERO.DAMAGE
-#			print("Minion hit! HP = %d" % current_health)
-
-
+func stop():
+	process_mode = Node.PROCESS_MODE_DISABLED

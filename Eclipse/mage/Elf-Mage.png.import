@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btehqjctw1a3x"
-path="res://.godot/imported/Gangblanc.png-4938f16d553dac83985b5b3596ecaac3.ctex"
+uid="uid://dsu0wlkmgg2t7"
+path="res://.godot/imported/Elf-Mage.png-99f5aa043255f2f7f490cf13afa6e686.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Champions/Gangblanc.png"
-dest_files=["res://.godot/imported/Gangblanc.png-4938f16d553dac83985b5b3596ecaac3.ctex"]
+source_file="res://mage/Elf-Mage.png"
+dest_files=["res://.godot/imported/Elf-Mage.png-99f5aa043255f2f7f490cf13afa6e686.ctex"]
 
 [params]
 

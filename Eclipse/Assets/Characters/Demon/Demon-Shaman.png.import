@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p2e66xa0jddf"
-path="res://.godot/imported/Ballista.png-299a7b073ee8c744dd51c574eaf99939.ctex"
+uid="uid://kce1bwf1k4ca"
+path="res://.godot/imported/Demon-Shaman.png-8a370c2cf173c72007e4b5534d55d467.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Soldiers/Ranged/Ballista.png"
-dest_files=["res://.godot/imported/Ballista.png-299a7b073ee8c744dd51c574eaf99939.ctex"]
+source_file="res://Assets/Characters/Demon/Demon-Shaman.png"
+dest_files=["res://.godot/imported/Demon-Shaman.png-8a370c2cf173c72007e4b5534d55d467.ctex"]
 
 [params]
 

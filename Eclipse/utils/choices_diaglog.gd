@@ -12,7 +12,7 @@ var choices:
 		choices = value
 		init_buttons()
 		
-var label_text:
+var label_text:String :
 	set(text):
 		label_text = text
 		init_label()
@@ -43,10 +43,6 @@ func init_buttons():
 			choices_list.add_child(choice_prefab.duplicate())
 			choices_list.get_child(choice_index).text = choices[choice_index]
 			choices_list.get_child(choice_index).pressed.connect(on_choice.bind(choice_index))
-			
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 func on_choice(choice_index):
 	SELECTED.emit(choice_index)

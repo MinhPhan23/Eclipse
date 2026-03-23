@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7mc2k76ry1br"
-path="res://.godot/imported/MusketeerCyan.png-f13017152918c9b55faa448406ce8ac4.ctex"
+uid="uid://bf7afynkf7rja"
+path="res://.godot/imported/Demon-Shaman.png-00b1485184b6a7d9fe3a76bf55ab0e61.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Soldiers/Ranged/CyanRanged/MusketeerCyan.png"
-dest_files=["res://.godot/imported/MusketeerCyan.png-f13017152918c9b55faa448406ce8ac4.ctex"]
+source_file="res://minion/Demon-Shaman.png"
+dest_files=["res://.godot/imported/Demon-Shaman.png-00b1485184b6a7d9fe3a76bf55ab0e61.ctex"]
 
 [params]
 
