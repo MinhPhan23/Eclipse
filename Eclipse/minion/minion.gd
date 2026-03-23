@@ -29,6 +29,7 @@ func _ready() -> void:
 	# Listen for bullet hits
 	EventBus.player_hit.connect(_on_hit)
 
+
 func _physics_process(_delta: float) -> void:
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	mouse_pos = get_global_mouse_position()

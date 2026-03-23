@@ -475,6 +475,7 @@ shape = SubResource("CapsuleShape2D_dl8rd")
 metadata/_edit_lock_ = true
 
 [node name="Hitbox" type="Area2D" parent="."]
+collision_mask = 15
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]

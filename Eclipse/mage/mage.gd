@@ -1,17 +1,17 @@
 extends CharacterBody2D
 
 @export var SPEED: int = 50
-@export var TARGET : Node2D
 @export var SPELL_RANGE: int = 300
 @export var FOLLOW_DISTANCE: int = 200
-@export var MAX_HP: int = 10
-@export var current_hp: int  = MAX_HP
-@export var DAMAGE: int = 1
+@export var MAX_HP: float = 10.0
+@export var current_hp: float = MAX_HP
+@export var DAMAGE: float = 1.0
 @export var MAX_SPELL_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast.
 @export var FIRING_RATE: float = 0.25     # seconds
 @export var RETICLE_DIST: float = 25.0    # distance from model center, pixels
 
 var level: int = 1
+var target: CharacterBody2D
 var facing : Vector2  # Direction the mage is facing (v_minion.normalized()).
 var los : bool  # Line of sight.
 var spell_ready = true  # Updated by SpellTimer
@@ -36,10 +36,10 @@ func _ready():
 	call_deferred("_navigation_setup")
 
 func _process(_delta):
-	var v_minion = TARGET.global_position - global_position
+	var v_minion = target.global_position - global_position
 	facing = v_minion.normalized()
 	
-	if v_minion.length() < SPELL_RANGE and spell_ready:
+	if v_minion.length() < SPELL_RANGE and spell_ready and los:
 		RETICLE.position = facing * RETICLE_DIST
 		_cast_spell(facing)
 	
@@ -48,19 +48,20 @@ func _process(_delta):
 
 func _physics_process(_delta):
 	# Pathfinding.
-	NAV_AGENT.target_position = TARGET.global_position
+	NAV_AGENT.target_position = target.global_position
 	# v = vector from mage to MINION.
-	var v_minion = TARGET.global_position - global_position
-	var direction = to_local(NAV_AGENT.get_next_path_position()).normalized()
+	var v_minion = target.global_position - global_position
+	var next_pos = NAV_AGENT.get_next_path_position()
+	var direction = (next_pos - global_position).normalized()
 	
-	_check_los(TARGET)
+	_check_los()
 	
 	# Animation
 	ANIMATION_TREE.set("parameters/StateMachine/MoveState/RunState/blend_position", v_minion.normalized())
 	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", v_minion.normalized())
 	
 	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
-	if v_minion.length() > FOLLOW_DISTANCE or !los:
+	if !los or v_minion.length() > FOLLOW_DISTANCE:
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/idle"] = false
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/running"] = true
 		velocity = direction * SPEED
@@ -100,7 +101,7 @@ func _on_hit(dmg: int):
 
 # Checks whether the mage has line of sight on the minion by doing a raycast
 # to the minion and seeing whether any walls are hit by the ray.
-func _check_los(target: CharacterBody2D):
+func _check_los():
 	var space_state = get_world_2d().direct_space_state
 	
 	# Establish raycast parameters.
@@ -108,8 +109,8 @@ func _check_los(target: CharacterBody2D):
 		global_position,
 		target.global_position
 	)
-	raycast.exclude = [self]  # Does not collide with self.
-	raycast.collision_mask = 1  # Only collides with walls.
+	raycast.exclude = [self, target]  # Does not collide with self or target.
+	raycast.collision_mask = 1        # Only collides with walls.
 	
 	# Check for collisions and update los accordingly.
 	var wall_collision = space_state.intersect_ray(raycast)

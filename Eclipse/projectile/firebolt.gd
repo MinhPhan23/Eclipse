@@ -40,3 +40,4 @@ func HandleCollisions():
 # Delete the firebolt object after it has traveled a set time.
 func _on_expire_timer_timeout():
 	queue_free()
+
