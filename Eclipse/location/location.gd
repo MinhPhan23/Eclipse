@@ -11,9 +11,9 @@ extends Area2D
 @export var events: Array[String]
 @export var pattern_index: int
 @export var minion_bonus: int = 2
-@export var battle_trigger_range: int = 3
-@export var minion_spawn_pos: Vector2 = Vector2(30, 30)
-@export var hero_spawn_pos: Vector2 = Vector2(50, 50)
+@export var battle_trigger_range: int = 6
+@export var minion_spawn_pos: Vector2 = Vector2(0, 0)
+@export var hero_spawn_pos: Vector2 = Vector2(100, 100)
 
 var hero: CharacterBody2D
 var minion: CharacterBody2D
@@ -46,21 +46,25 @@ func generate_events() -> String:
 		return events[rng.randi_range(0, events.size() - 1)]
 	return ""
 
-func hero_add(new_hero):
+func add_hero(new_hero):
 	hero = new_hero
+	hero.dead.connect(_remove_hero)
 
 func move_hero(new_location):
 	if (new_location.hero == null):
-		new_location.hero = hero
+		new_location.add_hero(hero)
 	hero = null
 
-func hero_remove():
+func _remove_hero(removed_hero):
+	if hero == null or hero != removed_hero:
+		return
+	hero.dead.disconnect(_remove_hero)
 	hero.queue_free()
 	hero = null
 	
-func minion_add(new_minion):
+func add_minion(new_minion):
 	minion = new_minion
-	minion.dead.connect(minion_remove.unbind(1)) # unbind to ignore passed argument
+	minion.dead.connect(_remove_minion) # unbind to ignore passed argument
 	if hero != null:
 		hero.TARGET = new_minion
 	deployed_minion_label.text = "Minion level " + str(minion.level)
@@ -71,15 +75,15 @@ func callback_minion():
 		return
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
-	minion.dead.disconnect(Callable(self, "minion_remove"))
+	minion.dead.disconnect(_remove_minion)
 	minion = null
 	
-func minion_remove():
-	if minion == null:
+func _remove_minion(removed_minion):
+	if minion == null or minion != removed_minion:
 		return
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
-	minion.dead.disconnect(Callable(self, "minion_remove"))
+	minion.dead.disconnect(_remove_minion)
 	if hero != null:
 		hero.TARGET = null
 	minion.queue_free()
@@ -109,6 +113,7 @@ func simulate_battle() -> bool:
 	else:
 		#minion win and level up
 		minion.level = minion_level + 1
+		hero.dead.emit(hero)
 	return false
 
 func _open_battle_confirmation_dialog():
@@ -126,7 +131,6 @@ func _transition_to_battle_scene():
 	root.remove_child(main_scene)
 	tree.set_current_scene(battle_scene)
 	
-
 func _on_battle_confirmation_selected(index):
 	battle_confirmation_dialog.visible = false
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED

@@ -9,14 +9,15 @@ const FIRING_RATE: float = 0.25   # seconds
 var current_health: int = MAX_HEALTH
 var strength: int = 10
 var level: int = 1
+var dead_emit_flag: bool = false
 
 var input_vector: Vector2
 var mouse_pos: Vector2
 var aim_dir: Vector2
+var bullet_spawn_node: Node
 
 
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
-@onready var BULLET_SPAWN_NODE: Node = get_parent()
 @onready var ANIMATION_TREE: AnimationTree = $AnimationTree
 @onready var COOLDOWN: Timer = $BulletCooldownTimer
 @onready var RETICLE: Node2D = $Reticle
@@ -25,9 +26,6 @@ func _ready() -> void:
 	input_vector = Vector2.ZERO
 	mouse_pos = Vector2(position.x, position.y)
 	COOLDOWN.wait_time = FIRING_RATE
-	
-	# Listen for bullet hits
-	EventBus.player_hit.connect(_on_hit)
 
 
 func _physics_process(_delta: float) -> void:
@@ -54,8 +52,9 @@ func _physics_process(_delta: float) -> void:
 
 func _on_hit(damage: int):
 	current_health -= damage
-	if current_health <= 0.0:
+	if current_health <= 0.0 and !dead_emit_flag:
 		# TODO death animation
+		dead_emit_flag = true
 		dead.emit(self)
 
 func _shoot(direction: Vector2) -> void:
@@ -65,11 +64,18 @@ func _shoot(direction: Vector2) -> void:
 	instance.set_collision_layer_value(4, true)  # player bullet
 	instance.set_collision_mask_value(3, true)   # hero
 	
-	BULLET_SPAWN_NODE.add_child(instance)
+	bullet_spawn_node.add_child(instance)
 
 func level_up():
 	level += 1
 	# Increase other stats if needed
 
 func stop():
+	EventBus.player_hit.disconnect(_on_hit)
 	process_mode = Node.PROCESS_MODE_DISABLED
+
+func reset():
+	EventBus.player_hit.connect(_on_hit)
+	bullet_spawn_node = get_parent()
+	current_health = MAX_HEALTH
+	process_mode = Node.PROCESS_MODE_INHERIT

@@ -17,10 +17,11 @@ var los : bool  # Line of sight.
 var spell_ready = true  # Updated by SpellTimer
 var spell_angle : float  # Angle offset for firebolt attack.
 var swing_right = true  # Used to control the swing of the firebolt angle.
+var dead_emit_flag: bool = false
+var bullet_spawn_node: Node
 
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
 @onready var ANIMATION_TREE: AnimationTree = $AnimationTree
-@onready var BULLET_SPAWN_NODE: Node = get_parent()
 @onready var NAV_AGENT = $NavigationAgent2D
 @onready var RETICLE = $Reticle
 @onready var SPELL_TIMER = $SpellTimer
@@ -28,7 +29,6 @@ var swing_right = true  # Used to control the swing of the firebolt angle.
 signal dead  # Emitted at 0 hp.
 
 func _ready():
-	EventBus.hero_hit.connect(_on_hit)
 	SPELL_TIMER.wait_time = FIRING_RATE
 	
 	# wait for physics frame to be ready for navigation
@@ -87,7 +87,7 @@ func _cast_spell(direction: Vector2):
 	instance.set_collision_layer_value(5, true) # hero bullet
 	instance.set_collision_mask_value(2, true)  # player
 	
-	BULLET_SPAWN_NODE.add_child(instance)
+	bullet_spawn_node.add_child(instance)
 	spell_ready = false
 	SPELL_TIMER.start()
 
@@ -95,9 +95,10 @@ func _cast_spell(direction: Vector2):
 # Called by _physics_process() when a player projectile collides with the mage.
 func _on_hit(dmg: int):
 	current_hp -= dmg
-	if current_hp <= 0.0:
+	if current_hp <= 0.0 and !dead_emit_flag:
 		# animation?
-		dead.emit()  # Battle scene handles end of battle protocols.
+		dead_emit_flag = true
+		dead.emit(self)  # Battle scene handles end of battle protocols.
 
 # Checks whether the mage has line of sight on the minion by doing a raycast
 # to the minion and seeing whether any walls are hit by the ray.
@@ -138,4 +139,11 @@ func level_up():
 	level += 1
 
 func stop():
-	process_mode = Node.PROCESS_MODE_DISABLED
+	EventBus.hero_hit.disconnect(_on_hit)
+	process_mode = Node.PROCESS_MODE_DISABLED	
+
+func reset():
+	bullet_spawn_node = get_parent()
+	EventBus.hero_hit.connect(_on_hit)
+	current_hp = MAX_HP
+	process_mode = Node.PROCESS_MODE_INHERIT
