@@ -66,7 +66,7 @@ func add_minion(new_minion):
 	minion = new_minion
 	minion.dead.connect(_remove_minion) # unbind to ignore passed argument
 	if hero != null:
-		hero.TARGET = new_minion
+		hero.target = new_minion
 	deployed_minion_label.text = "Minion level " + str(minion.level)
 	deployed_minion_icon.visible = true
 	
@@ -85,11 +85,11 @@ func _remove_minion(removed_minion):
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
 	if hero != null:
-		hero.TARGET = null
+		hero.target = null
 	minion.queue_free()
 	minion = null
 
-func _input_event(viewport, event, shape_idx):
+func _input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("left_mouse_click") and minion == null:
 		emit_signal("selection", self.name)
 	

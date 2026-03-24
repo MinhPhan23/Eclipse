@@ -1,0 +1,72 @@
+[gd_scene load_steps=3 format=3 uid="uid://m4hutg0vom0m"]
+
+[ext_resource type="Script" path="res://report/report.gd" id="1_4klku"]
+[ext_resource type="Texture2D" uid="uid://cvp6cx1s2oxws" path="res://Assets/User Interface/report_dialog_texture.png" id="2_q7s1v"]
+
+[node name="Report" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 36.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_4klku")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -288.0
+offset_top = -180.0
+offset_right = 288.0
+offset_bottom = 116.0
+texture = ExtResource("2_q7s1v")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = -48.0
+offset_top = -156.0
+offset_right = 57.0
+offset_bottom = -111.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Report
+"
+
+[node name="ReportText" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -92.0
+offset_right = 256.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Strange lights are spotted in the parapets of the ancient castle.
+
+The city celebrates the annual harvest.
+
+A hidden wing of the ancient library is discovered."
+fit_content = true
+scroll_active = false
+
+[node name="ContinueButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_top = 52.0
+offset_right = 39.0
+offset_bottom = 83.0
+disabled = true
+text = "Continue"
+
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
