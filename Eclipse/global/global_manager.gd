@@ -3,11 +3,12 @@ extends Node
 @onready var minion_scene_preload = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload = preload("res://mage/mage.tscn")
 @onready var minion_choice = $"MinionList"
+@onready var events: Array[String] = []
 
-var _location: Array[Node];
-var minion_list: Array[Node];
-var rand_num: RandomNumberGenerator;
-var curr_loc: String;
+var _location: Array[Node]
+var minion_list: Array[Node]
+var rand_num: RandomNumberGenerator
+var curr_loc: String
 
 signal minion_return 
 # Called when the node enters the scene tree for the first time.
@@ -59,9 +60,10 @@ func send_minion(index):
 			i.add_minion(minion_list[index])
 	
 func generate_event():
+	events = []
 	for i in _location:
 		if i.has_method("generate_events"):
-			i.generate_events()
+			events.append(i.generate_events())
 		
 func update_game_world():
 	for i in _location:

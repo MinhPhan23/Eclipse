@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=7 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="1_32q6n"]
 [ext_resource type="PackedScene" uid="uid://bf52miayp2ufq" path="res://location/location.tscn" id="2_cd1vd"]
 [ext_resource type="Script" path="res://global/global_manager.gd" id="2_qwhan"]
+[ext_resource type="PackedScene" uid="uid://m4hutg0vom0m" path="res://report/Report.tscn" id="5_hgyqh"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("next_day")]
@@ -46,6 +47,9 @@ offset_right = -12.0
 offset_bottom = -12.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="Report" parent="CanvasLayer" instance=ExtResource("5_hgyqh")]
+visible = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(400, 250)
