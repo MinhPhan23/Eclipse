@@ -443,8 +443,9 @@ radius = 8.0
 height = 16.0
 
 [node name="Player" type="CharacterBody2D" groups=["entity", "minion"]]
-collision_layer = 3
-collision_mask = 21
+z_index = 2
+collision_layer = 2
+collision_mask = 55
 script = ExtResource("1_41aam")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

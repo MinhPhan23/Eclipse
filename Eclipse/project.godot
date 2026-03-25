@@ -69,3 +69,4 @@ shoot={
 2d_physics/layer_3="hero"
 2d_physics/layer_4="player bullet"
 2d_physics/layer_5="hero bullet"
+2d_physics/layer_6="water"

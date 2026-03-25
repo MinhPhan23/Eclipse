@@ -83,6 +83,7 @@ func _cast_spell(direction: Vector2):
 	var instance: CharacterBody2D = BULLET.instantiate()
 	instance.direction = facing.rotated(spell_angle)
 	instance.spawn_pos = RETICLE.global_position
+	instance.spawn_rot = facing.rotated(spell_angle).angle() - PI/2
 	
 	instance.set_collision_layer_value(5, true) # hero bullet
 	instance.set_collision_mask_value(2, true)  # player

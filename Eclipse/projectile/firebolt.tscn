@@ -1,18 +1,21 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgxuk8l8ibqhk"]
 
-[ext_resource type="Texture2D" uid="uid://cnkvfrjks5lhu" path="res://projectile/firebolt_temp.png" id="1_h41rx"]
 [ext_resource type="Script" path="res://projectile/firebolt.gd" id="1_ir5l6"]
+[ext_resource type="Texture2D" uid="uid://bk5bjq1obhrns" path="res://Assets/Objects/FireballProjectile.png" id="2_xj872"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xdy7g"]
-radius = 13.0
+radius = 4.0
 
 [node name="Firebolt" type="CharacterBody2D" groups=["projectile"]]
+z_index = 2
 collision_layer = 0
 script = ExtResource("1_ir5l6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_h41rx")
+position = Vector2(0, -1)
+texture = ExtResource("2_xj872")
+region_enabled = true
+region_rect = Rect2(48, 0, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_xdy7g")

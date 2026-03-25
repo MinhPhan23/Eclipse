@@ -61,6 +61,7 @@ func _shoot(direction: Vector2) -> void:
 	var instance: CharacterBody2D = BULLET.instantiate()
 	instance.direction = direction
 	instance.spawn_pos = RETICLE.global_position
+	instance.spawn_rot = direction.angle() - PI/2
 	instance.set_collision_layer_value(4, true)  # player bullet
 	instance.set_collision_mask_value(3, true)   # hero
 	
