@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwisn1nxaokul"]
+
+[ext_resource type="Texture2D" uid="uid://d2vxw25ujj5y0" path="res://Assets/User Interface/eclipse_sheet.png" id="1_r1mvl"]
+[ext_resource type="Script" path="res://ui/countdown/countdown.gd" id="1_spgaf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6i86t"]
+
+[node name="Countdown" type="Node2D"]
+script = ExtResource("1_spgaf")
+
+[node name="EclipseSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_6i86t")
+texture = ExtResource("1_r1mvl")
+hframes = 10
+
+[node name="Label" type="Label" parent="."]
+offset_left = -32.0
+offset_top = 40.0
+offset_right = 32.0
+offset_bottom = 63.0
+text = "Day 10"
+horizontal_alignment = 1
