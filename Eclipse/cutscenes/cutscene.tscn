@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://3yldujse5tms"]
+
+[ext_resource type="Script" path="res://cutscenes/cutscene.gd" id="1_8kd3l"]
+[ext_resource type="Texture2D" uid="uid://c76qdktpilrw3" path="res://Assets/Cutscenes/cutscene_box.png" id="3_kfeqp"]
+
+[node name="Cutscene" type="Node2D"]
+script = ExtResource("1_8kd3l")
+metadata/_edit_vertical_guides_ = [800.0]
+metadata/_edit_horizontal_guides_ = [500.0]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(800, 500)
+
+[node name="DialogBox" type="Control" parent="."]
+custom_minimum_size = Vector2(600, 300)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 400.0
+offset_top = 500.0
+offset_right = 1200.0
+offset_bottom = 800.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DialogBackground" type="TextureRect" parent="DialogBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_kfeqp")
+
+[node name="DialogText" type="RichTextLabel" parent="DialogBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 48.0
+offset_right = -40.0
+offset_bottom = -36.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true

@@ -8,11 +8,14 @@ extends Node2D
 @onready var report: Control = $UI/Report
 @onready var countdown: Node2D = $UI/Countdown
 
-var day: int
+var day: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	next_day.choices = ["Next day"]
 	next_day.label_text = ""
+	location_manager.update_game_world()
+	var report_str: String = _generate_report_string()
+	report.show_report(report_str)
 
 func proceed_to_next_day(_index):
 	day += 1
