@@ -67,4 +67,4 @@ script = ExtResource("5_ljxpg")
 [connection signal="selection" from="LocationManager/Castle" to="LocationManager" method="send_minion_dialog"]
 [connection signal="selection" from="LocationManager/Capital" to="LocationManager" method="send_minion_dialog"]
 [connection signal="SELECTED" from="LocationManager/MinionList" to="LocationManager" method="send_minion"]
-[connection signal="SELECTED" from="UI/NextDay" to="." method="proceed_to_next_day"]
+[connection signal="SELECTED" from="UI/NextDay" to="." method="start_simulation_battle"]
