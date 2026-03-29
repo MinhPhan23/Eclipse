@@ -47,7 +47,7 @@ func _load_tile_map_pattern():
 	tile_map.set_pattern(0, Vector2i(0, 0), pattern)
 	
 func emit_animation_end_signal(anim_name: String):
-	if (anim_name == "attack_e" or anim_name == "dead_e"):
+	if (anim_name == "attack_e" or anim_name == "dead_e" or anim_name == "look_around"):
 		animation_end.emit()
 
 func generate_events() -> String:
@@ -106,40 +106,42 @@ func _remove_minion(removed_minion):
 func _input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("left_mouse_click") and minion == null:
 		emit_signal("selection", self.name)
-		
-func can_start_simulate_battle() -> bool:
-	if minion == null or hero == null:
-		return false
-	else:
-		return true
 	
 func simulate_battle():
-	if minion == null or hero == null:
+	if minion == null:
 		return
-		
+	
 	deployed_minion_icon.visible = false
 	simulation_animation.visible  = true
+	
+	if hero == null:
+		simulation_animation.minion_look_around()
+		battle_end.emit()
+		return
 		
 	var minion_level = minion.level
 	var hero_level = hero.level
 
 	var minion_dice_roll = rng.randi_range(1, 12) + minion_bonus + minion_level
 	var hero_dice_roll = rng.randi_range(1, 12) + hero_level
+	minion_dice_roll = 0
+	hero_dice_roll = 1
 	if (minion_dice_roll < hero_dice_roll):
 		simulation_animation.hero_win()
 		if (hero_dice_roll - minion_dice_roll <= battle_trigger_range):
 			_open_battle_confirmation_dialog()
+			return
 		else:
 			#hero win and level up
 			hero.level_up()
 			minion.emit_dead_signal()
-			battle_end.emit()
 	else:
 		#minion win and level up
 		simulation_animation.minion_win()
 		minion.level_up()
 		hero.emit_dead_signal()
-		battle_end.emit()
+		
+	battle_end.emit()
 
 func emit_battle_end_signal():
 	battle_end.emit()

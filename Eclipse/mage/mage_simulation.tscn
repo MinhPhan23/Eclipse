@@ -30,6 +30,51 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0)
 }
 
+[sub_resource type="Animation" id="Animation_0ivrv"]
+resource_name = "attack_w"
+length = 0.45
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [187, 188, 189]
+}
+
+[sub_resource type="Animation" id="Animation_j2pmc"]
+resource_name = "dead_w"
+length = 0.75
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [194, 195, 196, 197]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -1.0472, -0.25, 0, 0.25, 0, -0.523599, -0.25, 0, 0.25, 0, 3.48787e-16, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75)
+}
+
 [sub_resource type="Animation" id="Animation_tm8f5"]
 resource_name = "idle_e"
 length = 0.6
@@ -302,51 +347,6 @@ tracks/0/keys = {
 "values": [174, 175, 176, 177, 178]
 }
 
-[sub_resource type="Animation" id="Animation_j2pmc"]
-resource_name = "dead_w"
-length = 0.75
-step = 0.15
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [194, 195, 196, 197]
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -1.0472, -0.25, 0, 0.25, 0, -0.523599, -0.25, 0, 0.25, 0, 3.48787e-16, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75)
-}
-
-[sub_resource type="Animation" id="Animation_0ivrv"]
-resource_name = "attack_w"
-length = 0.45
-step = 0.15
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [187, 188, 189]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8f3ex"]
 _data = {
 "RESET": SubResource("Animation_q00jc"),
@@ -452,7 +452,7 @@ nodes/StateMachine/position = Vector2(520, 70)
 nodes/output/position = Vector2(850, 110)
 node_connections = [&"output", 0, &"StateMachine"]
 
-[node name="Mage" type="Node2D" groups=["entity", "hero"]]
+[node name="Mage" type="Node2D"]
 z_index = 2
 script = ExtResource("1_ka6pu")
 

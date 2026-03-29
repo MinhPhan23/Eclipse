@@ -15,3 +15,8 @@ func hero_win():
 	mage.reset()
 	mage.attack()
 	
+func minion_look_around():
+	mage.visible = false
+	minion.reset()
+	minion.look_around()
+	

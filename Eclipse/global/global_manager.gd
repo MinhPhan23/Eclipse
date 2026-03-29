@@ -6,8 +6,8 @@ extends Node
 @onready var events: Array[String] = []
 
 var _location: Array[Node]
-var _battle_count: int
 var _battle_finished_count: int
+var _deployed_minion: int
 var _animation_finished_count: int
 var minion_list: Array[Node]
 var rand_num: RandomNumberGenerator
@@ -23,6 +23,7 @@ func _ready():
 		new_minion.name = "Minion " + str(i + 1)
 		new_minion.dead.connect(remove_minion)
 		minion_list.append(new_minion)
+	_deployed_minion = 0
 		
 	_location = get_children()
 	# To remove MininonList for our array
@@ -64,6 +65,7 @@ func send_minion(index):
 	for i in _location:
 		if i.name == curr_loc:
 			i.add_minion(minion_list[index])
+			_deployed_minion += 1
 	
 func generate_event():
 	events = []
@@ -72,26 +74,23 @@ func generate_event():
 			events.append(i.generate_events())
 			
 func simulate_battle():
-	if (_battle_finished_count == _battle_count):
-		_battle_count = 0
+	
+	if (_deployed_minion != 0):
 		_battle_finished_count = 0
 		_animation_finished_count = 0
 		for i in _location:
-			if i.can_start_simulate_battle():
-				_battle_count += 1
-		for i in _location:
 			i.simulate_battle()
-	if (_battle_count == 0):
+	else:
 		start_next_day.emit()
 	
 func _next_day_lock_battle():
 	_battle_finished_count += 1
-	if (_battle_count == 0 or (_battle_finished_count == _battle_count and _animation_finished_count == _battle_count)):
+	if (_battle_finished_count == _deployed_minion and _animation_finished_count == _deployed_minion):
 		start_next_day.emit()
 		
 func _next_day_lock_animation():
 	_animation_finished_count += 1
-	if (_battle_count == 0 or (_battle_finished_count == _battle_count and _animation_finished_count == _battle_count)):
+	if (_battle_finished_count == _deployed_minion and _animation_finished_count == _deployed_minion):
 		start_next_day.emit()
 
 func generate_next_day():
@@ -99,3 +98,4 @@ func generate_next_day():
 	generate_event()
 	# Calls back all the minion from assigned _location
 	minion_return.emit()
+	_deployed_minion = 0

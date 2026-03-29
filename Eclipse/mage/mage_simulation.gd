@@ -14,6 +14,7 @@ func dead():
 	_state_machine.travel("dead_w")
 	
 func reset():
+	visible = true
 	_state_machine.travel("IdleState")
 	var facing_vector: Vector2 = Vector2(-1, 0).normalized()
 	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", facing_vector)
