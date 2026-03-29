@@ -69,5 +69,5 @@ func _on_choices_diaglog_selected(_index: int):
 	root.add_child(main)
 	root.remove_child(battle_scene)
 	tree.set_current_scene(main)
-	location.end_battle.emit()
+	location.emit_battle_end_signal()
 	queue_free()

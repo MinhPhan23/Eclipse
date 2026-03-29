@@ -6,11 +6,15 @@ extends Node
 @onready var events: Array[String] = []
 
 var _location: Array[Node]
+var _battle_count: int
+var _battle_finished_count: int
+var _animation_finished_count: int
 var minion_list: Array[Node]
 var rand_num: RandomNumberGenerator
 var curr_loc: String
 
-signal minion_return 
+signal minion_return
+signal start_next_day
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rand_num = RandomNumberGenerator.new()
@@ -25,6 +29,8 @@ func _ready():
 	_location.remove_at(_location.size() - 1)
 	for i in _location:
 		minion_return.connect(i.callback_minion)
+		i.battle_end.connect(_next_day_lock_battle)
+		i.animation_end.connect(_next_day_lock_animation)
 	
 	minion_choice.label_text = "Send Minion?"
 	minion_choice.visible = false
@@ -64,12 +70,31 @@ func generate_event():
 	for i in _location:
 		if i.has_method("generate_events"):
 			events.append(i.generate_events())
+			
+func simulate_battle():
+	if (_battle_finished_count == _battle_count):
+		_battle_count = 0
+		_battle_finished_count = 0
+		_animation_finished_count = 0
+		for i in _location:
+			if i.can_start_simulate_battle():
+				_battle_count += 1
+		for i in _location:
+			i.simulate_battle()
+	if (_battle_count == 0):
+		start_next_day.emit()
+	
+func _next_day_lock_battle():
+	_battle_finished_count += 1
+	if (_battle_count == 0 or (_battle_finished_count == _battle_count and _animation_finished_count == _battle_count)):
+		start_next_day.emit()
 		
-func update_game_world():
-	for i in _location:
-		var battle_trigger:bool = i.simulate_battle()
-		if (battle_trigger):
-			await i.end_battle
+func _next_day_lock_animation():
+	_animation_finished_count += 1
+	if (_battle_count == 0 or (_battle_finished_count == _battle_count and _animation_finished_count == _battle_count)):
+		start_next_day.emit()
+
+func generate_next_day():
 	generate_hero()
 	generate_event()
 	# Calls back all the minion from assigned _location
