@@ -124,8 +124,6 @@ func simulate_battle():
 
 	var minion_dice_roll = rng.randi_range(1, 12) + minion_bonus + minion_level
 	var hero_dice_roll = rng.randi_range(1, 12) + hero_level
-	minion_dice_roll = 0
-	hero_dice_roll = 1
 	if (minion_dice_roll < hero_dice_roll):
 		simulation_animation.hero_win()
 		if (hero_dice_roll - minion_dice_roll <= battle_trigger_range):
