@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://db06bknag4h86"]
+[gd_scene load_steps=47 format=3 uid="uid://db06bknag4h86"]
 
 [ext_resource type="Script" path="res://mage/mage.gd" id="1_2nmn1"]
 [ext_resource type="Texture2D" uid="uid://dsu0wlkmgg2t7" path="res://mage/Elf-Mage.png" id="2_d8p01"]
@@ -17,62 +17,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [14]
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-
-[sub_resource type="Animation" id="Animation_nj7o6"]
-resource_name = "attack_w"
-length = 0.3
-step = 0.15
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [187, 188, 189]
-}
-
-[sub_resource type="Animation" id="Animation_o8xqa"]
-resource_name = "dead_w"
-length = 0.9
-step = 0.15
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [194, 195, 196, 197, 197]
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -1.0472, -0.25, 0, 0.25, 0, -0.523599, -0.25, 0, 0.25, 0, 3.48787e-16, -0.25, 0, 0.25, 0, 3.48787e-16, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9)
 }
 
 [sub_resource type="Animation" id="Animation_tm8f5"]
@@ -350,8 +294,6 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8f3ex"]
 _data = {
 "RESET": SubResource("Animation_q00jc"),
-"attack_w": SubResource("Animation_nj7o6"),
-"dead_w": SubResource("Animation_o8xqa"),
 "idle_e": SubResource("Animation_tm8f5"),
 "idle_n": SubResource("Animation_euxgo"),
 "idle_ne": SubResource("Animation_6e7vp"),
@@ -458,12 +400,6 @@ blend_point_7/node = SubResource("AnimationNodeAnimation_r6e1k")
 blend_point_7/pos = Vector2(1, -1)
 blend_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n5y0j"]
-animation = &"attack_w"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gierh"]
-animation = &"dead_w"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5u56v"]
 advance_mode = 2
 
@@ -481,10 +417,6 @@ states/IdleState/node = SubResource("AnimationNodeBlendSpace2D_t5ie1")
 states/IdleState/position = Vector2(365, 25)
 states/RunState/node = SubResource("AnimationNodeBlendSpace2D_u1ui3")
 states/RunState/position = Vector2(366.125, 142)
-states/attack_w/node = SubResource("AnimationNodeAnimation_n5y0j")
-states/attack_w/position = Vector2(569.5, 67.5)
-states/dead_w/node = SubResource("AnimationNodeAnimation_gierh")
-states/dead_w/position = Vector2(716, 72.5)
 transitions = ["Start", "IdleState", SubResource("AnimationNodeStateMachineTransition_5u56v"), "RunState", "IdleState", SubResource("AnimationNodeStateMachineTransition_td10r"), "IdleState", "RunState", SubResource("AnimationNodeStateMachineTransition_n8yg4")]
 graph_offset = Vector2(154, -28)
 
@@ -493,7 +425,7 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vw3om"]
 states/MoveState/node = SubResource("AnimationNodeStateMachine_qfnhu")
-states/MoveState/position = Vector2(415, 100.562)
+states/MoveState/position = Vector2(413.5, 102.25)
 states/Start/position = Vector2(187, 101.125)
 transitions = ["Start", "MoveState", SubResource("AnimationNodeStateMachineTransition_iy05m")]
 graph_offset = Vector2(122, -14)

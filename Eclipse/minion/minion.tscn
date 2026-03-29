@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://dnpno4ytlqbn"]
+[gd_scene load_steps=49 format=3 uid="uid://dnpno4ytlqbn"]
 
 [ext_resource type="Script" path="res://minion/minion.gd" id="1_41aam"]
 [ext_resource type="Texture2D" uid="uid://bf7afynkf7rja" path="res://minion/Demon-Shaman.png" id="2_g034c"]
@@ -17,63 +17,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [80]
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-
-[sub_resource type="Animation" id="Animation_7fdcu"]
-resource_name = "attack_e"
-length = 0.3
-step = 0.15
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [71, 72, 73]
-}
-
-[sub_resource type="Animation" id="Animation_cqxdx"]
-resource_name = "dead_e"
-length = 0.75
-step = 0.15
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [78, 79, 81, 82]
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1.0472, -0.25, 0, 0.25, 0, 0.523599, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6)
+"values": [14]
 }
 
 [sub_resource type="Animation" id="Animation_tm8f5"]
@@ -351,8 +295,6 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8f3ex"]
 _data = {
 "RESET": SubResource("Animation_q00jc"),
-"attack_e": SubResource("Animation_7fdcu"),
-"dead_e": SubResource("Animation_cqxdx"),
 "idle_e": SubResource("Animation_tm8f5"),
 "idle_n": SubResource("Animation_euxgo"),
 "idle_ne": SubResource("Animation_6e7vp"),
@@ -457,12 +399,6 @@ blend_point_7/node = SubResource("AnimationNodeAnimation_qc46b")
 blend_point_7/pos = Vector2(1, 0)
 blend_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_edo3f"]
-animation = &"attack_e"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4wwo2"]
-animation = &"dead_e"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5gs4u"]
 advance_mode = 2
 
@@ -476,14 +412,10 @@ advance_expression = "input_vector.length() == 0"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_do6dg"]
 states/IdleState/node = SubResource("AnimationNodeBlendSpace2D_1l6gu")
-states/IdleState/position = Vector2(392, 68.5)
+states/IdleState/position = Vector2(392, 69)
 states/RunState/node = SubResource("AnimationNodeBlendSpace2D_ky6db")
 states/RunState/position = Vector2(392, 177)
 states/Start/position = Vector2(193, 119)
-states/attack_e/node = SubResource("AnimationNodeAnimation_edo3f")
-states/attack_e/position = Vector2(711, 119.5)
-states/dead_e/node = SubResource("AnimationNodeAnimation_4wwo2")
-states/dead_e/position = Vector2(571.5, 119.25)
 transitions = ["Start", "IdleState", SubResource("AnimationNodeStateMachineTransition_5gs4u"), "IdleState", "RunState", SubResource("AnimationNodeStateMachineTransition_n762b"), "RunState", "IdleState", SubResource("AnimationNodeStateMachineTransition_lhm2a")]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8t0ok"]
@@ -520,7 +452,7 @@ script = ExtResource("1_41aam")
 texture = ExtResource("2_g034c")
 hframes = 29
 vframes = 8
-frame = 80
+frame = 14
 metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -535,7 +467,7 @@ libraries = {
 tree_root = SubResource("AnimationNodeBlendTree_0u0bf")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/StateMachine/MoveState/IdleState/blend_position = Vector2(0, 0)
+parameters/StateMachine/MoveState/IdleState/blend_position = Vector2(0.977234, -0.578947)
 parameters/StateMachine/MoveState/RunState/blend_position = Vector2(0.639966, -0.72807)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

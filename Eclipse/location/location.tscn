@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://bf52miayp2ufq"]
+[gd_scene load_steps=61 format=3 uid="uid://bf52miayp2ufq"]
 
 [ext_resource type="Script" path="res://location/location.gd" id="1_w2in5"]
 [ext_resource type="Texture2D" uid="uid://l0bva3qnbe0y" path="res://Assets/Buildings/Lime/LimeKeep.png" id="2_sa1m8"]
@@ -26,11 +26,10 @@
 [ext_resource type="Texture2D" uid="uid://b1puig74elq2b" path="res://Assets/Buildings/Wood/Tower.png" id="18_v6m0v"]
 [ext_resource type="Texture2D" uid="uid://cd54wkb6yuydq" path="res://Assets/Buildings/Wood/Tower2.png" id="19_ijvxb"]
 [ext_resource type="Texture2D" uid="uid://bf7afynkf7rja" path="res://minion/Demon-Shaman.png" id="26_73fwt"]
-[ext_resource type="PackedScene" uid="uid://db06bknag4h86" path="res://mage/mage.tscn" id="27_6yt1j"]
-[ext_resource type="Script" path="res://location/simulation.gd" id="27_b358p"]
-[ext_resource type="PackedScene" uid="uid://dnpno4ytlqbn" path="res://minion/minion.tscn" id="28_bbphj"]
-[ext_resource type="Script" path="res://mage/mage_simulation.gd" id="29_msivn"]
-[ext_resource type="Script" path="res://minion/minion_simulation.gd" id="31_hmapg"]
+[ext_resource type="PackedScene" uid="uid://dnpno4ytlqbn" path="res://minion/minion.tscn" id="27_7td5u"]
+[ext_resource type="PackedScene" uid="uid://db06bknag4h86" path="res://mage/mage.tscn" id="28_ifisv"]
+[ext_resource type="Script" path="res://minion/minion_simulation.gd" id="28_oidr4"]
+[ext_resource type="Script" path="res://mage/mage_simulation.gd" id="30_pfyo2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lfpk3"]
 size = Vector2(96, 96)
@@ -486,15 +485,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SimulationAnimation" type="Node2D" parent="."]
-position = Vector2(48, -10)
-script = ExtResource("27_b358p")
 
-[node name="Mage" parent="SimulationAnimation" instance=ExtResource("27_6yt1j")]
-position = Vector2(20, 2.08165e-12)
-script = ExtResource("29_msivn")
+[node name="Minion" parent="SimulationAnimation" instance=ExtResource("27_7td5u")]
+script = ExtResource("28_oidr4")
 
-[node name="Minion" parent="SimulationAnimation" instance=ExtResource("28_bbphj")]
-position = Vector2(-20, 2.08165e-12)
-script = ExtResource("31_hmapg")
+[node name="Mage" parent="SimulationAnimation" instance=ExtResource("28_ifisv")]
+script = ExtResource("30_pfyo2")
 
 [connection signal="SELECTED" from="BattleConfirmation" to="." method="_on_battle_confirmation_selected"]
