@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=8 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="1_32q6n"]
 [ext_resource type="PackedScene" uid="uid://bf52miayp2ufq" path="res://location/location.tscn" id="2_cd1vd"]
+[ext_resource type="PackedScene" uid="uid://d283ggifw3wca" path="res://worldmap/world_map.tscn" id="2_ce6ph"]
 [ext_resource type="Script" path="res://global/global_manager.gd" id="2_qwhan"]
 [ext_resource type="PackedScene" uid="uid://m4hutg0vom0m" path="res://report/Report.tscn" id="5_hgyqh"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
@@ -10,6 +11,8 @@
 [node name="Main" type="Node2D" node_paths=PackedStringArray("next_day")]
 script = ExtResource("1_1kue1")
 next_day = NodePath("CanvasLayer/NextDay")
+
+[node name="WorldMap" parent="." instance=ExtResource("2_ce6ph")]
 
 [node name="LocationManager" type="Node2D" parent="."]
 script = ExtResource("2_qwhan")
@@ -21,7 +24,7 @@ events = Array[String](["Solo Levling WHO?", "That One Time I Got......"])
 pattern_index = 1
 
 [node name="Capital" parent="LocationManager" instance=ExtResource("2_cd1vd")]
-position = Vector2(248, 57)
+position = Vector2(120, 786)
 events = Array[String](["But WHY", "Dragon Ball Z", "ZZZ"])
 
 [node name="MinionList" parent="LocationManager" instance=ExtResource("1_32q6n")]
