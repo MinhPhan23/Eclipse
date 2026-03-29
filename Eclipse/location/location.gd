@@ -5,9 +5,10 @@ extends Area2D
 @onready var deployed_minion_label = $"DeployedMinionPanel/VBoxContainer/DeployedMinionLabel"
 @onready var deployed_minion_icon = $"DeployedMinionPanel/VBoxContainer/DeployedMinionIcon"
 @onready var deployed_minion_panel = $"DeployedMinionPanel"
-@onready var location_name = $"LocationName"
+@onready var location_name_label = $"LocationName"
 @onready var tile_map = $"TileMap"
 
+@export var location_name: String
 @export var events: Array[String]
 @export var pattern_index: int
 @export var minion_bonus: int = 2
@@ -28,6 +29,7 @@ func _ready():
 	rng = RandomNumberGenerator.new()
 	hero = null
 	minion = null
+	location_name_label.text = location_name
 	
 	battle_confirmation_dialog.choices = ["Yes", "No"]
 	battle_confirmation_dialog.label_text = "Take over the minion?"

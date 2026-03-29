@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=9 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="1_32q6n"]
@@ -21,12 +21,14 @@ script = ExtResource("2_qwhan")
 [node name="Castle" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 z_index = 1
 position = Vector2(70, 57)
-events = Array[String](["Solo Levling WHO?", "That One Time I Got......"])
+location_name = "The Ruins of Ashmont"
+events = Array[String](["Hooded figures gather for a secret meeting in the ruins..", "Smoke is spotted curling from the ruin's courtyard.", "Strange lights flash in the window of the tallest tower of Ashmont.", "A portal to another dimension opens briefly in the castle keep.", "An adventurer emerges from the dungeons of Ashmont with loot and new scars."])
 pattern_index = 1
 
 [node name="Capital" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(120, 786)
-events = Array[String](["But WHY", "Dragon Ball Z", "ZZZ"])
+location_name = "Avondale"
+events = Array[String](["A tournament champion vows to defeat the Dark Lord.", "The citizens of Avondale gather for a celebration.", "A monster terrorizing the capital populace is defeated.", "An assassination attempt on a member of the Avondale royal family is thwarted.", "The king of Avondale bestows knighthood to a worthy servant of the crown."])
 
 [node name="MinionList" parent="LocationManager" instance=ExtResource("1_32q6n")]
 z_index = 1
