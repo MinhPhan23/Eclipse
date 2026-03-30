@@ -138,6 +138,9 @@ func _on_spell_timer_timeout():
 
 func level_up():
 	level += 1
+	
+func emit_dead_signal():
+	dead.emit(self)
 
 func stop():
 	EventBus.hero_hit.disconnect(_on_hit)

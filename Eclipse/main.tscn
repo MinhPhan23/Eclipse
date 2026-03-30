@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=9 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://utils/choices_diaglog.tscn" id="1_32q6n"]
@@ -67,4 +67,4 @@ script = ExtResource("5_ljxpg")
 [connection signal="selection" from="LocationManager/Castle" to="LocationManager" method="send_minion_dialog"]
 [connection signal="selection" from="LocationManager/Capital" to="LocationManager" method="send_minion_dialog"]
 [connection signal="SELECTED" from="LocationManager/MinionList" to="LocationManager" method="send_minion"]
-[connection signal="SELECTED" from="UI/NextDay" to="." method="proceed_to_next_day"]
+[connection signal="SELECTED" from="UI/NextDay" to="." method="start_simulation_battle"]

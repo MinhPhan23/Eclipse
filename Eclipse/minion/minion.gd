@@ -70,6 +70,9 @@ func _shoot(direction: Vector2) -> void:
 func level_up():
 	level += 1
 	# Increase other stats if needed
+	
+func emit_dead_signal():
+	dead.emit(self)
 
 func stop():
 	EventBus.player_hit.disconnect(_on_hit)

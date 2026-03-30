@@ -11,20 +11,26 @@ extends Node2D
 var day: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	location_manager.start_next_day.connect(_generate_next_day_events)
+	
 	next_day.choices = ["Next day"]
 	next_day.label_text = ""
-	location_manager.update_game_world()
-	var report_str: String = _generate_report_string()
-	report.show_report(report_str)
+	_generate_next_day_events()
 
-func proceed_to_next_day(_index):
+func start_simulation_battle(_index):
+	next_day.process_mode = Node.PROCESS_MODE_DISABLED
+	location_manager.simulate_battle()
+	
+func _generate_next_day_events():
 	day += 1
-	location_manager.update_game_world()
+	location_manager.generate_next_day()
 	var report_str: String = _generate_report_string()
 	
-	countdown.next_day()
+	if (day > 1):
+		countdown.next_day()
 	
 	report.show_report(report_str)
+	next_day.process_mode = Node.PROCESS_MODE_INHERIT
 
 func _generate_report_string() -> String:
 	var events: Array[String] = location_manager.events

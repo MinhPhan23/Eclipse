@@ -7,6 +7,8 @@ extends Area2D
 @onready var deployed_minion_panel = $"DeployedMinionPanel"
 @onready var location_name = $"LocationName"
 @onready var tile_map = $"TileMap"
+@onready var simulation_animation = $"SimulationAnimation"
+@onready var minion_animation_tree = $"SimulationAnimation/Minion/AnimationTree"
 
 @export var events: Array[String]
 @export var pattern_index: int
@@ -22,8 +24,9 @@ var rng: RandomNumberGenerator
 # Minion Selection
 signal selection(select)
 # To end battle_trigger
-signal end_battle
-# Called when the node enters the scene tree for the first time.
+signal battle_end
+signal animation_end
+
 func _ready():
 	rng = RandomNumberGenerator.new()
 	hero = null
@@ -33,12 +36,19 @@ func _ready():
 	battle_confirmation_dialog.label_text = "Take over the minion?"
 	battle_confirmation_dialog.visible = false
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	simulation_animation.visible = false
+	deployed_minion_panel.visible = true
 
 	_load_tile_map_pattern()
 	
 func _load_tile_map_pattern():
 	var pattern = tile_map.tile_set.get_pattern(pattern_index)
 	tile_map.set_pattern(0, Vector2i(0, 0), pattern)
+	
+func emit_animation_end_signal(anim_name: String):
+	if (anim_name == "attack_e" or anim_name == "dead_e" or anim_name == "look_around"):
+		animation_end.emit()
 
 func generate_events() -> String:
 	var random_number = rng.randf();
@@ -64,11 +74,13 @@ func _remove_hero(removed_hero):
 	
 func add_minion(new_minion):
 	minion = new_minion
-	minion.dead.connect(_remove_minion) # unbind to ignore passed argument
+	minion.dead.connect(_remove_minion)
+	minion_animation_tree.animation_finished.connect(emit_animation_end_signal)
 	if hero != null:
 		hero.target = new_minion
 	deployed_minion_label.text = "Minion level " + str(minion.level)
 	deployed_minion_icon.visible = true
+	simulation_animation.visible  = false
 	
 func callback_minion():
 	if (minion == null):
@@ -76,6 +88,7 @@ func callback_minion():
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
+	minion_animation_tree.animation_finished.disconnect(emit_animation_end_signal)
 	minion = null
 	
 func _remove_minion(removed_minion):
@@ -84,6 +97,7 @@ func _remove_minion(removed_minion):
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
+	minion_animation_tree.animation_finished.disconnect(emit_animation_end_signal)
 	if hero != null:
 		hero.target = null
 	minion.queue_free()
@@ -93,28 +107,42 @@ func _input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("left_mouse_click") and minion == null:
 		emit_signal("selection", self.name)
 	
-func simulate_battle() -> bool:
-	if minion == null or hero == null:
-		return false
+func simulate_battle():
+	if minion == null:
+		return
 	
+	deployed_minion_icon.visible = false
+	simulation_animation.visible  = true
+	
+	if hero == null:
+		simulation_animation.minion_look_around()
+		battle_end.emit()
+		return
+		
 	var minion_level = minion.level
 	var hero_level = hero.level
 
 	var minion_dice_roll = rng.randi_range(1, 12) + minion_bonus + minion_level
 	var hero_dice_roll = rng.randi_range(1, 12) + hero_level
 	if (minion_dice_roll < hero_dice_roll):
+		simulation_animation.hero_win()
 		if (hero_dice_roll - minion_dice_roll <= battle_trigger_range):
 			_open_battle_confirmation_dialog()
-			return true
+			return
 		else:
 			#hero win and level up
-			hero.level = hero_level + 1
-			minion.dead.emit(minion)
+			hero.level_up()
+			minion.emit_dead_signal()
 	else:
 		#minion win and level up
-		minion.level = minion_level + 1
-		hero.dead.emit(hero)
-	return false
+		simulation_animation.minion_win()
+		minion.level_up()
+		hero.emit_dead_signal()
+		
+	battle_end.emit()
+
+func emit_battle_end_signal():
+	battle_end.emit()
 
 func _open_battle_confirmation_dialog():
 	battle_confirmation_dialog.visible = true
@@ -136,3 +164,7 @@ func _on_battle_confirmation_selected(index):
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
 	if (index == 0):
 		_transition_to_battle_scene()
+	else:
+		hero.level_up()
+		minion.emit_dead_signal()
+		battle_end.emit()
