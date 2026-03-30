@@ -209,6 +209,22 @@ tracks/0/keys = {
 "values": [187]
 }
 
+[sub_resource type="Animation" id="Animation_m22xp"]
+resource_name = "look_around"
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [174, 175, 176, 177, 62, 61, 60, 58]
+}
+
 [sub_resource type="Animation" id="Animation_ua1n4"]
 resource_name = "run_e"
 length = 0.7
@@ -345,22 +361,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [174, 175, 176, 177, 178]
-}
-
-[sub_resource type="Animation" id="Animation_m22xp"]
-resource_name = "look_around"
-step = 0.15
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [174, 175, 176, 177, 62, 61, 60, 58]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8f3ex"]
