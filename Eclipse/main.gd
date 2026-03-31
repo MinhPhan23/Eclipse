@@ -8,7 +8,6 @@ extends Node2D
 @onready var report: Control = $UI/Report
 @onready var countdown: Node2D = $UI/Countdown
 
-var day: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	location_manager.start_next_day.connect(_generate_next_day_events)
@@ -22,13 +21,11 @@ func start_simulation_battle(_index):
 	location_manager.simulate_battle()
 	
 func _generate_next_day_events():
-	day += 1
+	Globals.next_day()
 	location_manager.generate_next_day()
 	var report_str: String = _generate_report_string()
 	
-	if (day > 1):
-		countdown.next_day()
-	
+	countdown.next_day()
 	report.show_report(report_str)
 	next_day.process_mode = Node.PROCESS_MODE_INHERIT
 
