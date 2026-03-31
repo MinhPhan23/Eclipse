@@ -1,6 +1,6 @@
 extends Node
 
-const MAX_DAYS: int = 2
+const MAX_DAYS: int = 10
 
 var current_day: int = 0
 
