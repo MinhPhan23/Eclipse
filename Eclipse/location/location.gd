@@ -1,6 +1,8 @@
 extends Area2D
 
 @onready var battle_scene_preload = preload("res://battle/battle.tscn")
+@onready var lose_scene_load = load("res://cutscenes/lose_cutscene.tscn")
+@onready var win_scene_load = load("res://cutscenes/win_cutscene.tscn")
 @onready var battle_confirmation_dialog = $"BattleConfirmation"
 @onready var deployed_minion_label = $"DeployedMinionPanel/VBoxContainer/DeployedMinionLabel"
 @onready var deployed_minion_icon = $"DeployedMinionPanel/VBoxContainer/DeployedMinionIcon"
@@ -156,7 +158,12 @@ func _transition_to_battle_scene():
 	var root = tree.get_root()
 	var main_scene = tree.get_current_scene()
 	
-	battle_scene.initialize_battle(main_scene, self, hero, minion)
+	if Globals.current_day < Globals.MAX_DAYS:
+		battle_scene.initialize_battle(main_scene, self, hero, minion)
+	else:
+		var lose_scene = lose_scene_load.instantiate()
+		var win_scene = win_scene_load.instantiate()
+		battle_scene.initialize_final_battle(win_scene, lose_scene, self, hero, minion)
 	root.add_child(battle_scene)
 	root.remove_child(main_scene)
 	tree.set_current_scene(battle_scene)

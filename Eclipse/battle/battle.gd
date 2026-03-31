@@ -5,8 +5,10 @@ extends Node2D
 
 const GAME_OVER_DIALOG_CHOICES = ["Continue"]
 
-# the scene that initialize scene switch to battle
+# transition scenes to or from battle
 var main: Node2D
+var win_cutscene: Node2D
+var lose_cutscene: Node2D
 # location where the battle take place, init by location during scene switch
 var location: Area2D
 var _minion_name: String
@@ -28,6 +30,21 @@ func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: Charact
 	minion.dead.connect(_on_minion_dead.unbind(1))
 	add_child(minion)
 	# TODO: pause entities with a warmup timer
+
+func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
+	location = location_scene
+	win_cutscene = win_scene
+	lose_cutscene = lose_scene
+	
+	hero.name = "Hero"
+	hero.position = location.hero_spawn_pos
+	hero.dead.connect(_on_hero_dead.unbind(1))
+	add_child(hero)
+
+	_minion_name = minion.name
+	minion.position = location.minion_spawn_pos
+	minion.dead.connect(_on_minion_dead.unbind(1))
+	add_child(minion)
 
 func _on_hero_dead():
 	win = true
@@ -65,9 +82,18 @@ func _on_choices_diaglog_selected(_index: int):
 	var tree = get_tree()
 	var root = tree.get_root()
 	var battle_scene = tree.get_current_scene()
-	
-	root.add_child(main)
 	root.remove_child(battle_scene)
-	tree.set_current_scene(main)
-	location.emit_battle_end_signal()
+	
+	if Globals.current_day >= Globals.MAX_DAYS:
+		if win:
+			root.add_child(win_cutscene)
+			tree.set_current_scene(win_cutscene)
+		else:
+			# lose
+			root.add_child(lose_cutscene)
+			tree.set_current_scene(lose_cutscene)
+	else:
+		root.add_child(main)
+		tree.set_current_scene(main)
+		location.emit_battle_end_signal()
 	queue_free()
