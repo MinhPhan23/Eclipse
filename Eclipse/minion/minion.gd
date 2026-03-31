@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 signal dead
 
-const BASE_FIRING_RATE: float = 0.65   # seconds
+const BASE_FIRING_COOLDOWN: float = 0.65   # seconds
 const BASE_HP: int = 100
 const BASE_SPEED: int = 150
 
@@ -10,9 +10,9 @@ const RETICLE_DIST: float = 25.0  # pixels
 
 @export var HP_GROWTH_RATE: int = 50
 @export var SPEED_GROWTH_RATE: int = 10
-@export var FIRING_RATE_GROWTH_RATE: float = 0.05
+@export var FIRING_COOLDOWN_REDUCTION_RATE: float = 0.05
 
-var current_firing_rate: float = BASE_FIRING_RATE
+var current_firing_cooldown: float = BASE_FIRING_COOLDOWN
 var current_hp: int = BASE_HP
 var current_speed: int = BASE_SPEED
 
@@ -34,7 +34,7 @@ var bullet_spawn_node: Node
 func _ready() -> void:
 	input_vector = Vector2.ZERO
 	mouse_pos = Vector2(position.x, position.y)
-	COOLDOWN.wait_time = current_firing_rate
+	COOLDOWN.wait_time = current_firing_cooldown
 
 
 func _physics_process(_delta: float) -> void:
@@ -92,6 +92,6 @@ func reset():
 	bullet_spawn_node = get_parent()
 	current_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
 	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
-	current_firing_rate = BASE_FIRING_RATE - FIRING_RATE_GROWTH_RATE * (level - 1)
-	COOLDOWN.wait_time = current_firing_rate
+	current_firing_cooldown = BASE_FIRING_COOLDOWN - FIRING_COOLDOWN_REDUCTION_RATE * (level - 1)
+	COOLDOWN.wait_time = current_firing_cooldown
 	process_mode = Node.PROCESS_MODE_INHERIT

@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var BASE_FIRING_RATE: float = 0.5     # seconds
+@export var BASE_FIRING_COOLDOWN: float = 0.5     # seconds
 @export var BASE_FOLLOW_DISTANCE: int = 200
 @export var BASE_HP: float = 100.0
 @export var BASE_SPELL_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast.
@@ -11,11 +11,11 @@ extends CharacterBody2D
 
 @export var HP_GROWTH_RATE: int = 50
 @export var SPEED_GROWTH_RATE: int = 10
-@export var FIRING_RATE_GROWTH_RATE: float = 0.05
+@export var FIRING_COOLDOWN_REDUCTION_RATE: float = 0.05
 
 var level: int = 1
 
-var current_firing_rate: float = BASE_FIRING_RATE
+var current_firing_cooldown: float = BASE_FIRING_COOLDOWN
 var current_hp: float = BASE_HP
 var current_speed: int = BASE_SPEED
 
@@ -37,7 +37,7 @@ var bullet_spawn_node: Node
 signal dead  # Emitted at 0 hp.
 
 func _ready():
-	SPELL_TIMER.wait_time = current_firing_rate
+	SPELL_TIMER.wait_time = current_firing_cooldown
 	
 	# wait for physics frame to be ready for navigation
 	set_physics_process(false)
@@ -157,6 +157,6 @@ func reset():
 	EventBus.hero_hit.connect(_on_hit)
 	current_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
 	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
-	current_firing_rate = BASE_FIRING_RATE - FIRING_RATE_GROWTH_RATE * (level - 1)
-	SPELL_TIMER.wait_time = current_firing_rate
+	current_firing_cooldown = BASE_FIRING_COOLDOWN - FIRING_COOLDOWN_REDUCTION_RATE * (level - 1)
+	SPELL_TIMER.wait_time = current_firing_cooldown
 	process_mode = Node.PROCESS_MODE_INHERIT
