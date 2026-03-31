@@ -2,6 +2,14 @@ extends Node2D
 
 @export var next_day: PanelContainer
 
+const FIRST_DEPLOYMENT = "Instruction for deployment"
+const FIRST_SIMULATION_WIN = "Commend minions"
+const FIRST_SIMULATION_LOST = "Useless weak"
+const FIRST_SIMULATION_NO_HERO = "Mistake was made"
+const FIRST_BATTLE_TRIGGER = "Can never rely"
+const FIRST_BATTLE_WIN = "Easy"
+const FIRST_BATTLE_LOST = "They getting stronger"
+
 @onready var minion_scene_preload: PackedScene = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload: PackedScene = preload("res://mage/mage.tscn")
 @onready var location_manager: Node2D = $"LocationManager"

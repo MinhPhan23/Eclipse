@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=10 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_diaglog.tscn" id="1_32q6n"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://m4hutg0vom0m" path="res://ui/report/Report.tscn" id="5_hgyqh"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
 [ext_resource type="PackedScene" uid="uid://cwisn1nxaokul" path="res://ui/countdown/countdown.tscn" id="6_5j7iu"]
+[ext_resource type="PackedScene" uid="uid://7ffaupjy8qx8" path="res://ui/lord_dialog/lord_dialog.tscn" id="8_8u18f"]
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("next_day")]
 script = ExtResource("1_1kue1")
@@ -59,6 +60,8 @@ visible = false
 
 [node name="Countdown" parent="UI" instance=ExtResource("6_5j7iu")]
 position = Vector2(64, 912)
+
+[node name="Control" parent="UI" instance=ExtResource("8_8u18f")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(400, 250)
