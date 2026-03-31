@@ -93,4 +93,5 @@ func reset():
 	current_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
 	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
 	current_firing_rate = BASE_FIRING_RATE - FIRING_RATE_GROWTH_RATE * (level - 1)
+	COOLDOWN.wait_time = current_firing_rate
 	process_mode = Node.PROCESS_MODE_INHERIT
