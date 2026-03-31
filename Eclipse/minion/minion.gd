@@ -2,11 +2,20 @@ extends CharacterBody2D
 
 signal dead
 
-const MAX_HEALTH: int = 100
-const SPEED: int = 150
+const BASE_FIRING_COOLDOWN: float = 0.65   # seconds
+const BASE_HP: int = 100
+const BASE_SPEED: int = 150
+
 const RETICLE_DIST: float = 25.0  # pixels
-const FIRING_RATE: float = 0.25   # seconds
-var current_health: int = MAX_HEALTH
+
+@export var HP_GROWTH_RATE: int = 50
+@export var SPEED_GROWTH_RATE: int = 10
+@export var FIRING_COOLDOWN_REDUCTION_RATE: float = 0.05
+
+var current_firing_cooldown: float = BASE_FIRING_COOLDOWN
+var current_hp: int = BASE_HP
+var current_speed: int = BASE_SPEED
+
 var strength: int = 10
 var level: int = 1
 var dead_emit_flag: bool = false
@@ -25,14 +34,14 @@ var bullet_spawn_node: Node
 func _ready() -> void:
 	input_vector = Vector2.ZERO
 	mouse_pos = Vector2(position.x, position.y)
-	COOLDOWN.wait_time = FIRING_RATE
+	COOLDOWN.wait_time = current_firing_cooldown
 
 
 func _physics_process(_delta: float) -> void:
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	mouse_pos = get_global_mouse_position()
 	
-	velocity = input_vector * SPEED
+	velocity = input_vector * current_speed
 	
 	# Sprite will face the mouse
 	aim_dir = position.direction_to(mouse_pos)
@@ -51,8 +60,8 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func _on_hit(damage: int):
-	current_health -= damage
-	if current_health <= 0.0 and !dead_emit_flag:
+	current_hp -= damage
+	if current_hp <= 0.0 and !dead_emit_flag:
 		# TODO death animation
 		dead_emit_flag = true
 		dead.emit(self)
@@ -81,5 +90,8 @@ func stop():
 func reset():
 	EventBus.player_hit.connect(_on_hit)
 	bullet_spawn_node = get_parent()
-	current_health = MAX_HEALTH
+	current_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
+	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
+	current_firing_cooldown = BASE_FIRING_COOLDOWN - FIRING_COOLDOWN_REDUCTION_RATE * (level - 1)
+	COOLDOWN.wait_time = current_firing_cooldown
 	process_mode = Node.PROCESS_MODE_INHERIT

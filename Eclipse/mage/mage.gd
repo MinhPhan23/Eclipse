@@ -1,16 +1,24 @@
 extends CharacterBody2D
 
-@export var SPEED: int = 50
-@export var SPELL_RANGE: int = 300
-@export var FOLLOW_DISTANCE: int = 200
-@export var MAX_HP: float = 10.0
-@export var current_hp: float = MAX_HP
-@export var DAMAGE: float = 1.0
-@export var MAX_SPELL_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast.
-@export var FIRING_RATE: float = 0.25     # seconds
+@export var BASE_FIRING_COOLDOWN: float = 0.5     # seconds
+@export var BASE_FOLLOW_DISTANCE: int = 200
+@export var BASE_HP: float = 100.0
+@export var BASE_SPELL_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast.
+@export var BASE_SPEED: int = 50
+@export var BASE_SPELL_RANGE: int = 300
+
 @export var RETICLE_DIST: float = 25.0    # distance from model center, pixels
 
+@export var HP_GROWTH_RATE: int = 50
+@export var SPEED_GROWTH_RATE: int = 10
+@export var FIRING_COOLDOWN_REDUCTION_RATE: float = 0.05
+
 var level: int = 1
+
+var current_firing_cooldown: float = BASE_FIRING_COOLDOWN
+var current_hp: float = BASE_HP
+var current_speed: int = BASE_SPEED
+
 var target: CharacterBody2D
 var facing : Vector2  # Direction the mage is facing (v_minion.normalized()).
 var los : bool  # Line of sight.
@@ -29,7 +37,7 @@ var bullet_spawn_node: Node
 signal dead  # Emitted at 0 hp.
 
 func _ready():
-	SPELL_TIMER.wait_time = FIRING_RATE
+	SPELL_TIMER.wait_time = current_firing_cooldown
 	
 	# wait for physics frame to be ready for navigation
 	set_physics_process(false)
@@ -39,11 +47,9 @@ func _process(_delta):
 	var v_minion = target.global_position - global_position
 	facing = v_minion.normalized()
 	
-	if v_minion.length() < SPELL_RANGE and spell_ready and los:
+	if v_minion.length() < BASE_SPELL_RANGE and spell_ready and los:
 		RETICLE.position = facing * RETICLE_DIST
 		_cast_spell(facing)
-	
-	# TODO: movement animations
 
 
 func _physics_process(_delta):
@@ -61,10 +67,10 @@ func _physics_process(_delta):
 	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", v_minion.normalized())
 	
 	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
-	if !los or v_minion.length() > FOLLOW_DISTANCE:
+	if !los or v_minion.length() > BASE_FOLLOW_DISTANCE:
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/idle"] = false
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/running"] = true
-		velocity = direction * SPEED
+		velocity = direction * current_speed
 	else:
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/idle"] = true
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/running"] = false
@@ -124,13 +130,13 @@ func _on_spell_timer_timeout():
 	
 	# Update spell_angle.
 	if swing_right:
-		if spell_angle > MAX_SPELL_ANGLE:
+		if spell_angle > BASE_SPELL_ANGLE:
 			swing_right = false
 			spell_angle -= 0.1
 		else:
 			spell_angle += 0.1
 	else:
-		if spell_angle < -MAX_SPELL_ANGLE:
+		if spell_angle < -BASE_SPELL_ANGLE:
 			swing_right = true
 			spell_angle += 0.1
 		else:
@@ -149,5 +155,8 @@ func stop():
 func reset():
 	bullet_spawn_node = get_parent()
 	EventBus.hero_hit.connect(_on_hit)
-	current_hp = MAX_HP
+	current_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
+	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
+	current_firing_cooldown = BASE_FIRING_COOLDOWN - FIRING_COOLDOWN_REDUCTION_RATE * (level - 1)
+	SPELL_TIMER.wait_time = current_firing_cooldown
 	process_mode = Node.PROCESS_MODE_INHERIT
