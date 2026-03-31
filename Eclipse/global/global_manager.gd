@@ -10,7 +10,8 @@ var _battle_finished_count: int
 var _deployed_minion: int
 var _animation_finished_count: int
 var _all_minion_list: Array[Node]
-var minion_list: Array[Node]
+var _deployable_minion_list: Array[Node]
+
 var rand_num: RandomNumberGenerator
 var curr_loc: String
 
@@ -24,6 +25,7 @@ func _ready():
 		new_minion.name = "Minion " + str(i + 1)
 		new_minion.dead.connect(remove_dead_minion)
 		_all_minion_list.append(new_minion)
+	_deployable_minion_list = _all_minion_list.duplicate()
 	_deployed_minion = 0
 		
 	_location = get_children()
@@ -39,7 +41,7 @@ func _ready():
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
 	
 func send_minion_dialog(location):
-	if !minion_list.is_empty():
+	if !_deployable_minion_list.is_empty():
 		minion_choice.choices = minion_arr()
 		minion_choice.visible = true
 		minion_choice.process_mode = Node.PROCESS_MODE_INHERIT
@@ -47,7 +49,7 @@ func send_minion_dialog(location):
 	
 func minion_arr() -> Array[String]:
 	var arr: Array[String] = []
-	for i in minion_list:
+	for i in _deployable_minion_list:
 		arr.append("%s Atk:%d Lvl:%d Health:%d" % [i.name, i.strength, i.level, i.MAX_HEALTH])
 	return arr
 	
@@ -65,9 +67,9 @@ func send_minion(index):
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
 	for i in _location:
 		if i.name == curr_loc:
-			i.add_minion(minion_list[index])
+			i.add_minion(_deployable_minion_list[index])
 			_deployed_minion += 1
-			minion_list.erase(minion_list[index])
+			_deployable_minion_list.erase(_deployable_minion_list[index])
 	
 func generate_event():
 	events = []
@@ -99,5 +101,5 @@ func generate_next_day():
 	generate_event()
 	# Calls back all the minion from assigned _location
 	minion_return.emit()
-	minion_list = _all_minion_list.duplicate()
+	_deployable_minion_list = _all_minion_list.duplicate()
 	_deployed_minion = 0
