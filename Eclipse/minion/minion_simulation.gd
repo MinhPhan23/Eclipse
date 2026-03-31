@@ -8,13 +8,13 @@ func _ready():
 	_state_machine = ANIMATION_TREE.get("parameters/StateMachine/MoveState/playback")
 
 func attack():
-	_state_machine.travel("attack_e")
+	_state_machine.start("attack_e")
 	
 func dead():
-	_state_machine.travel("dead_e")
+	_state_machine.start("dead_e")
 	
 func look_around():
-	_state_machine.travel("look_around")
+	_state_machine.start("look_around")
 	
 func reset():
 	visible = true
