@@ -25,7 +25,7 @@ func _generate_next_day_events():
 	Globals.next_day()
 	var report_str: String
 	
-	if Globals.current_day < Globals.MAX_DAYS:
+	if Globals.current_day <= Globals.MAX_DAYS:
 		location_manager.generate_next_day()
 		report_str = _generate_report_string()
 		
@@ -44,7 +44,7 @@ func _generate_next_day_events():
 		ui_layer.add_child(final_battle_dialog)
 
 func _start_final_battle() -> void:
-	print("final battle started")
+	location_manager.start_final_battle()
 
 func _generate_report_string() -> String:
 	var events: Array[String] = location_manager.events

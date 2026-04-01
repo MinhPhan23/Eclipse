@@ -98,22 +98,29 @@ func _next_day_lock_animation():
 
 func generate_next_day():
 	
-	if Globals.current_day < Globals.MAX_DAYS:
+	if Globals.current_day <= Globals.MAX_DAYS:
 		generate_hero()
 		generate_event()
 		# Calls back all the minion from assigned _location
 		minion_return.emit()
 		_deployable_minion_list = _all_minion_list.duplicate()
 		_deployed_minion = 0
-	else:
-		# Trigger final battle
-		# TODO: implement as priority queue
-		var strongest_min = null
-		for minion in _deployable_minion_list:
-			if strongest_min == null or minion.strength > strongest_min.strength:
-				strongest_min = minion
-		
-		var strongest_hero = null
-		for location in _locations:
-			if location.hero != null and (strongest_hero == null or location.hero.strength > strongest_hero.strength):
-				strongest_hero = location.hero
+
+func start_final_battle():
+	# Trigger final battle
+	var top_min = minion_scene_preload.instantiate()
+	for minion in _deployable_minion_list:
+		if top_min == null or minion.level > top_min.level:
+			top_min = minion
+	
+	var top_hero = hero_scene_preload.instantiate()
+	var final_location = _locations[rand_num.randi_range(0, _locations.size()-1)]
+	for location in _locations:
+		if location.hero != null and (top_hero == null or location.hero.level > top_hero.level):
+			top_hero = location.hero
+			final_location = location
+	
+	top_hero.target = top_min
+	final_location.add_minion(top_min)
+	final_location.add_hero(top_hero)
+	final_location.transition_to_battle_scene()
