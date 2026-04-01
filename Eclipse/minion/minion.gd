@@ -35,6 +35,9 @@ func _ready() -> void:
 	input_vector = Vector2.ZERO
 	mouse_pos = Vector2(position.x, position.y)
 	COOLDOWN.wait_time = current_firing_cooldown
+	
+	# Set HealthBar to full.
+	$HealthBar.value = current_hp * 100 / BASE_HP
 
 
 func _physics_process(_delta: float) -> void:
@@ -61,6 +64,9 @@ func _physics_process(_delta: float) -> void:
 
 func _on_hit(damage: int):
 	current_hp -= damage
+	# Update HealthBar
+	$HealthBar.value = current_hp * 100 / BASE_HP
+	
 	if current_hp <= 0.0 and !dead_emit_flag:
 		# TODO death animation
 		dead_emit_flag = true

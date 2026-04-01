@@ -39,6 +39,9 @@ signal dead  # Emitted at 0 hp.
 func _ready():
 	SPELL_TIMER.wait_time = current_firing_cooldown
 	
+	# Set HealthBar to full.
+	$HealthBar.value = current_hp * 100 / BASE_HP
+	
 	# wait for physics frame to be ready for navigation
 	set_physics_process(false)
 	call_deferred("_navigation_setup")
@@ -102,6 +105,8 @@ func _cast_spell(direction: Vector2):
 # Called by _physics_process() when a player projectile collides with the mage.
 func _on_hit(dmg: int):
 	current_hp -= dmg
+	$HealthBar.value = current_hp * 100 / BASE_HP
+	
 	if current_hp <= 0.0 and !dead_emit_flag:
 		# animation?
 		dead_emit_flag = true
