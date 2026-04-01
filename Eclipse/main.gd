@@ -5,6 +5,7 @@ extends Node2D
 @onready var minion_scene_preload: PackedScene = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload: PackedScene = preload("res://mage/mage.tscn")
 @onready var location_manager: Node2D = $"LocationManager"
+@onready var ui_layer: CanvasLayer = $UI
 @onready var report: Control = $UI/Report
 @onready var countdown: Node2D = $UI/Countdown
 
@@ -22,12 +23,28 @@ func start_simulation_battle(_index):
 	
 func _generate_next_day_events():
 	Globals.next_day()
-	location_manager.generate_next_day()
-	var report_str: String = _generate_report_string()
+	var report_str: String
 	
-	countdown.next_day()
-	report.show_report(report_str)
-	next_day.process_mode = Node.PROCESS_MODE_INHERIT
+	if Globals.current_day < Globals.MAX_DAYS:
+		location_manager.generate_next_day()
+		report_str = _generate_report_string()
+		
+		countdown.next_day()
+		report.show_report(report_str)
+		next_day.process_mode = Node.PROCESS_MODE_INHERIT
+	else:
+		# Trigger final battle
+		report_str = "The hour of the eclipse is upon us. The final battle begins."
+		var final_battle_dialog: Control = load("res://ui/accept_dialog/accept_dialog.tscn").instantiate()
+		final_battle_dialog.dialog_content = report_str
+		final_battle_dialog.accept_text = "Begin final battle"
+		final_battle_dialog.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		final_battle_dialog.accept.connect(_start_final_battle)
+		
+		ui_layer.add_child(final_battle_dialog)
+
+func _start_final_battle() -> void:
+	print("final battle started")
 
 func _generate_report_string() -> String:
 	var events: Array[String] = location_manager.events

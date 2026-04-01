@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvake3hgqssmn"]
+
+[ext_resource type="Script" path="res://ui/accept_dialog/accept_dialog.gd" id="1_y5nsj"]
+[ext_resource type="Texture2D" uid="uid://cvp6cx1s2oxws" path="res://Assets/User Interface/dialog_texture.png" id="2_0g2dg"]
+
+[node name="AcceptDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y5nsj")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -125.0
+offset_right = 250.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_0g2dg")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.38
+anchor_top = 0.45
+anchor_right = 0.62
+anchor_bottom = 0.45
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Dialog content placeholder"
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.604
+anchor_right = 0.5
+anchor_bottom = 0.604
+offset_left = -40.0
+offset_top = -32.0001
+offset_right = 39.0
+offset_bottom = -1.00006
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Accept"
+flat = true
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
