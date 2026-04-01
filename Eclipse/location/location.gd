@@ -111,17 +111,16 @@ func _input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("left_mouse_click") and minion == null:
 		emit_signal("selection", self.name)
 	
-func simulate_battle():
+func simulate_battle() -> Globals.SIMULATION_BATTLE_RESULT:
 	if minion == null:
-		return
+		return Globals.SIMULATION_BATTLE_RESULT.NO_DEPLOYED_MINION
 	
 	deployed_minion_icon.visible = false
 	simulation_animation.visible  = true
 	
 	if hero == null:
 		simulation_animation.minion_look_around()
-		battle_end.emit()
-		return
+		return Globals.SIMULATION_BATTLE_RESULT.MINION_LOOK_AROUND
 		
 	var minion_level = minion.level
 	var hero_level = hero.level
@@ -132,18 +131,18 @@ func simulate_battle():
 		simulation_animation.hero_win()
 		if (hero_dice_roll - minion_dice_roll <= battle_trigger_range):
 			_open_battle_confirmation_dialog()
-			return
+			return Globals.SIMULATION_BATTLE_RESULT.BATTLE_TRIGGER
 		else:
 			#hero win and level up
 			hero.level_up()
 			minion.emit_dead_signal()
+			return Globals.SIMULATION_BATTLE_RESULT.MINION_LOST
 	else:
 		#minion win and level up
 		simulation_animation.minion_win()
 		minion.level_up()
 		hero.emit_dead_signal()
-		
-	battle_end.emit()
+		return Globals.SIMULATION_BATTLE_RESULT.MINION_WIN
 
 func emit_battle_end_signal():
 	battle_end.emit()
@@ -151,6 +150,10 @@ func emit_battle_end_signal():
 func _open_battle_confirmation_dialog():
 	battle_confirmation_dialog.visible = true
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_INHERIT
+
+func close_battle_confirmation_dialog():
+	battle_confirmation_dialog.visible = false
+	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
 
 func _transition_to_battle_scene():
 	var battle_scene = battle_scene_preload.instantiate()
