@@ -61,7 +61,7 @@ visible = false
 [node name="Countdown" parent="UI" instance=ExtResource("6_5j7iu")]
 position = Vector2(64, 912)
 
-[node name="Control" parent="UI" instance=ExtResource("8_8u18f")]
+[node name="LordDialog" parent="UI" instance=ExtResource("8_8u18f")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(400, 250)
