@@ -4,6 +4,7 @@ extends Node
 @onready var hero_scene_preload = preload("res://mage/mage.tscn")
 @onready var minion_choice = $"MinionList"
 @onready var events: Array[String] = []
+@onready var deploy_minion_sound = $DeployMinionSound
 
 var _location: Array[Node]
 var _battle_finished_count: int
@@ -17,6 +18,8 @@ var curr_loc: String
 
 signal minion_return
 signal start_next_day
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rand_num = RandomNumberGenerator.new()
@@ -27,10 +30,15 @@ func _ready():
 		_all_minion_list.append(new_minion)
 	_deployable_minion_list = _all_minion_list.duplicate()
 	_deployed_minion = 0
-		
-	_location = get_children()
-	# To remove MininonList for our array
-	_location.remove_at(_location.size() - 1)
+	
+	_location = []
+	for child in get_children():
+		if child is Location:
+			_location.append(child)
+	
+	#_location = get_children()
+	# To remove MinionList for our array
+	#_location.remove_at(_location.size() - 1)
 	for i in _location:
 		minion_return.connect(i.callback_minion)
 		i.battle_end.connect(_next_day_lock_battle)
@@ -68,6 +76,7 @@ func send_minion(index):
 	for i in _location:
 		if i.name == curr_loc:
 			i.add_minion(_deployable_minion_list[index])
+			deploy_minion_sound.play()
 			_deployed_minion += 1
 			_deployable_minion_list.erase(_deployable_minion_list[index])
 	
