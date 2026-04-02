@@ -1,3 +1,4 @@
+class_name Location
 extends Area2D
 
 @onready var battle_scene_preload = preload("res://battle/battle.tscn")
