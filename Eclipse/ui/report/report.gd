@@ -14,6 +14,7 @@ var tween: Tween
 func _ready():
 	report_text.text = ""
 	report_text.visible_characters = 0
+	process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func _process(_delta):
@@ -27,6 +28,7 @@ func _process(_delta):
 
 
 func show_report(text: String) -> void:
+	process_mode = Node.PROCESS_MODE_INHERIT
 	open_report.play()
 	
 	report_text.text = text
@@ -52,3 +54,4 @@ func _on_continue_button_pressed():
 	hide()
 	report_text.text = ""
 	report_text.visible_characters = 0
+	process_mode = Node.PROCESS_MODE_DISABLED

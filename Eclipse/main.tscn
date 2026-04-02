@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=16 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_diaglog.tscn" id="1_32q6n"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cwisn1nxaokul" path="res://ui/countdown/countdown.tscn" id="6_5j7iu"]
 [ext_resource type="AudioStream" uid="uid://dsormq87am2gl" path="res://Assets/sound_effects/steps_leather.ogg" id="6_gt4ai"]
 [ext_resource type="AudioStream" uid="uid://dssflns0njdqf" path="res://Assets/sound_effects/Accept6.wav" id="7_slm8s"]
+[ext_resource type="PackedScene" uid="uid://7ffaupjy8qx8" path="res://ui/lord_dialog/lord_dialog.tscn" id="8_8u18f"]
 [ext_resource type="AudioStream" uid="uid://goy7vk2s0s8r" path="res://Assets/sound_effects/Menu12.wav" id="8_gt8ej"]
 [ext_resource type="AudioStream" uid="uid://dustsbxscpttv" path="res://Assets/sound_effects/zipclick.ogg" id="9_6ps6s"]
 [ext_resource type="AudioStream" uid="uid://yl763ugkq0w7" path="res://Assets/music/music_world_map.ogg" id="9_vso83"]
@@ -84,6 +85,8 @@ volume_db = -4.0
 
 [node name="Countdown" parent="UI" instance=ExtResource("6_5j7iu")]
 position = Vector2(64, 912)
+
+[node name="LordDialog" parent="UI" instance=ExtResource("8_8u18f")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(400, 250)

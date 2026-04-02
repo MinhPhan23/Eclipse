@@ -7,7 +7,7 @@ extends Node
 @onready var deploy_minion_sound = $DeployMinionSound
 
 var _locations: Array[Node]
-var _battle_finished_count: int
+var _battle_triggered: bool
 var _deployed_minion: int
 var _animation_finished_count: int
 var _all_minion_list: Array[Node]
@@ -18,7 +18,10 @@ var curr_loc: String
 
 signal minion_return
 signal start_next_day
-
+signal minion_lost
+signal minion_win
+signal minion_look_around
+signal battle_trigger
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -44,7 +47,7 @@ func _ready():
 	minion_choice.label_text = "Send Minion?"
 	minion_choice.visible = false
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
-	
+
 func send_minion_dialog(location):
 	if !_deployable_minion_list.is_empty():
 		minion_choice.choices = minion_arr()
@@ -84,22 +87,35 @@ func generate_event():
 			events.append(i.generate_events())
 			
 func simulate_battle():
+	_battle_triggered = false
+	_animation_finished_count = 0
+	
 	if (_deployed_minion != 0):
-		_battle_finished_count = 0
-		_animation_finished_count = 0
 		for i in _locations:
-			i.simulate_battle()
+			var result = i.simulate_battle()
+			if (result == Globals.SIMULATION_BATTLE_RESULT.MINION_LOOK_AROUND):
+				minion_look_around.emit(i.location_name)
+			elif (result == Globals.SIMULATION_BATTLE_RESULT.MINION_LOST):
+				minion_lost.emit(i.location_name)
+			elif (result == Globals.SIMULATION_BATTLE_RESULT.MINION_WIN):
+				minion_win.emit(i.location_name)
+			elif (result == Globals.SIMULATION_BATTLE_RESULT.BATTLE_TRIGGER):
+				_battle_triggered = true
+				battle_trigger.emit(i.location_name)
 	else:
 		start_next_day.emit()
 	
 func _next_day_lock_battle():
-	_battle_finished_count += 1
-	if (_battle_finished_count == _deployed_minion and _animation_finished_count == _deployed_minion):
+	_battle_triggered = false
+	for i in _locations:
+		i.close_battle_confirmation_dialog()
+
+	if (_animation_finished_count == _deployed_minion):
 		start_next_day.emit()
 		
-func _next_day_lock_animation():
+func _next_day_lock_animation():	
 	_animation_finished_count += 1
-	if (_battle_finished_count == _deployed_minion and _animation_finished_count == _deployed_minion):
+	if (!_battle_triggered and _animation_finished_count == _deployed_minion):
 		start_next_day.emit()
 
 func generate_next_day():
