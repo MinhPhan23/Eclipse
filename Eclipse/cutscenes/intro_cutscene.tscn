@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://uu5lxw7qckc0"]
+[gd_scene load_steps=7 format=3 uid="uid://uu5lxw7qckc0"]
 
 [ext_resource type="Texture2D" uid="uid://4m3pmck4oqv2" path="res://Assets/Cutscenes/intro_cutscene.png" id="1_4ewj2"]
 [ext_resource type="PackedScene" uid="uid://3yldujse5tms" path="res://cutscenes/cutscene.tscn" id="1_v2rs2"]
