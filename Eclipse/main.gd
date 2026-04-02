@@ -1,10 +1,10 @@
 extends Node2D
 
 const FIRST_DEPLOYMENT: String = "These heroes are popping up everywhere according to the reports. Need to figure out where they are coming from and deal with them before they get too strong."
-const FIRST_SIMULATION_WIN: String = "These minions can still do some work I guess."
-const FIRST_SIMULATION_LOST: String = "Useless, can't even win a fight against some random hero."
-const FIRST_SIMULATION_NO_HERO: String = "What? No hero? Can't even write a proper report."
-const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables on you like that. Need to deal with everything myself"
+const FIRST_SIMULATION_WIN: String = "Seems like those deployed to %s can still do some work I guess."
+const FIRST_SIMULATION_LOST: String = "Useless, wasted at %s can't even win a fight against some random hero."
+const FIRST_SIMULATION_NO_HERO: String = "What? No hero found at %s? Can't even write a proper report."
+const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables on you like that. All the way at %s. Need to deal with everything myself"
 
 @onready var minion_scene_preload: PackedScene = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload: PackedScene = preload("res://mage/mage.tscn")
@@ -85,21 +85,21 @@ func _on_demon_lord_dialog_done():
 	else:
 		_generate_next_day_events()
 
-func _on_minion_win_first_time():
-	demon_lord_dialog_queue.push_back(FIRST_SIMULATION_WIN)
+func _on_minion_win_first_time(location_name: String):
+	demon_lord_dialog_queue.push_back(FIRST_SIMULATION_WIN % location_name)
 	location_manager.minion_win.disconnect(_on_minion_win_first_time)
 
-func _on_minion_lost_first_time():
-	demon_lord_dialog_queue.push_back(FIRST_SIMULATION_LOST)
+func _on_minion_lost_first_time(location_name: String):
+	demon_lord_dialog_queue.push_back(FIRST_SIMULATION_LOST % location_name)
 	location_manager.minion_lost.disconnect(_on_minion_lost_first_time)
 
-func _on_minion_look_around_first_time():
-	demon_lord_dialog_queue.push_back(FIRST_SIMULATION_NO_HERO)
+func _on_minion_look_around_first_time(location_name: String):
+	demon_lord_dialog_queue.push_back(FIRST_SIMULATION_NO_HERO % location_name)
 	location_manager.minion_look_around.disconnect(_on_minion_look_around_first_time)
 
-func _on_battle_trigger_first_time():
+func _on_battle_trigger_first_time(location_name: String):
 	battle_trigger = true
-	demon_lord_dialog.show_dialog(FIRST_BATTLE_TRIGGER)
+	demon_lord_dialog.show_dialog(FIRST_BATTLE_TRIGGER % location_name)
 	location_manager.battle_trigger.disconnect(_on_battle_trigger_first_time)
 
 # Loop background music.

@@ -94,14 +94,14 @@ func simulate_battle():
 		for i in _locations:
 			var result = i.simulate_battle()
 			if (result == Globals.SIMULATION_BATTLE_RESULT.MINION_LOOK_AROUND):
-				minion_look_around.emit()
+				minion_look_around.emit(i.location_name)
 			elif (result == Globals.SIMULATION_BATTLE_RESULT.MINION_LOST):
-				minion_lost.emit()
+				minion_lost.emit(i.location_name)
 			elif (result == Globals.SIMULATION_BATTLE_RESULT.MINION_WIN):
-				minion_win.emit()
+				minion_win.emit(i.location_name)
 			elif (result == Globals.SIMULATION_BATTLE_RESULT.BATTLE_TRIGGER):
 				_battle_triggered = true
-				battle_trigger.emit()
+				battle_trigger.emit(i.location_name)
 	else:
 		start_next_day.emit()
 	
