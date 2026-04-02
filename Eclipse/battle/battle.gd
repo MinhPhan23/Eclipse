@@ -17,25 +17,54 @@ var lose_cutscene: Node2D
 var location: Area2D
 var _minion_name: String
 
+
 func _ready() -> void:
 	music.play()
 	#TODO: logic to play music_final for final fight
 	get_tree().call_group("entity", "reset")
+	
 
 func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
 	main = main_scene
 	location = location_scene
-
+	var rng = RandomNumberGenerator.new()
+	
+	var mage_spawn_locs = [
+		Vector2(182,214),
+		Vector2(826,156),
+		Vector2(1536,222),
+		Vector2(1412,827),
+		Vector2(775,840),
+		Vector2(525,573),
+		Vector2(814,464)
+	]
+	
 	hero.name = "Hero"
-	hero.position = location.hero_spawn_pos
+	var i = rng.randi_range(0, 6)
+	hero.position = mage_spawn_locs[i]
+	hero.current_hp = hero.BASE_HP
 	hero.dead.connect(_on_hero_dead.unbind(1))
 	add_child(hero)
 
+	var minion_spawn_locs = [
+		Vector2(307,274),
+		Vector2(559,58),
+		Vector2(1361,94),
+		Vector2(1253,905),
+		Vector2(763,988),
+		Vector2(264,773),
+		Vector2(694,378)
+	]
+
 	_minion_name = minion.name
-	minion.position = location.minion_spawn_pos
+	i = rng.randi_range(0, 6)
+	minion.position = minion_spawn_locs[i]
+	minion.current_hp = minion.BASE_HP
 	minion.dead.connect(_on_minion_dead.unbind(1))
 	add_child(minion)
 	# TODO: pause entities with a warmup timer
+	
+	$Camera2D.target = minion
 
 func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
 	location = location_scene
@@ -55,10 +84,12 @@ func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_sce
 func _on_hero_dead():
 	win = true
 	victory_laugh.play()
+	$Camera2D.target = null
 	_game_over()
 	
 func _on_minion_dead():
 	lose_battle_jingle.play()
+	$Camera2D.target = null
 	_game_over()
 	
 func _game_over():

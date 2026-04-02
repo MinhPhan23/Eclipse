@@ -32,9 +32,15 @@ func HandleCollisions():
 		
 		if collider.is_in_group("minion"):
 			EventBus.player_hit.emit(damage)
+			
+			#testing
+			print("Hit: ", collider.name)
 		
 		if collider.is_in_group("hero"):
 			EventBus.hero_hit.emit(damage)
+			
+			#testing
+			print("Hit: ", collider.name)
 		
 		queue_free()
 

@@ -55,6 +55,9 @@ func _process(_delta):
 	if v_minion.length() < BASE_SPELL_RANGE and spell_ready and los:
 		RETICLE.position = facing * RETICLE_DIST
 		_cast_spell(facing)
+	
+	# Update HealthBar
+	$HealthBar.value = current_hp * 100.0 / BASE_HP
 
 
 func _physics_process(_delta):
@@ -109,7 +112,6 @@ func _on_hit(dmg: int):
 	impact_sound.play()
 	
 	current_hp -= dmg
-	$HealthBar.value = current_hp * 100 / BASE_HP
 	
 	if current_hp <= 0.0 and !dead_emit_flag:
 		# animation?
@@ -163,7 +165,14 @@ func stop():
 
 func reset():
 	bullet_spawn_node = get_parent()
+	
+	# this is supposed to fix the issue of immunity but it doesn't work
+	# further investigation required
+	#if EventBus.hero_hit.is_connected(_on_hit):
+	#	EventBus.hero_hit.disconnect(_on_hit)
+	
 	EventBus.hero_hit.connect(_on_hit)
+	
 	current_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
 	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
 	current_firing_cooldown = BASE_FIRING_COOLDOWN - FIRING_COOLDOWN_REDUCTION_RATE * (level - 1)
