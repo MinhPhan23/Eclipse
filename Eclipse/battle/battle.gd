@@ -2,6 +2,10 @@ extends Node2D
 
 @onready var choices_dialog: PanelContainer = $CanvasLayer/ChoicesDiaglog
 @onready var win: bool = false
+@onready var music = $Music
+@onready var music_final = $MusicFinal
+@onready var victory_laugh = $VictoryLaugh
+@onready var lose_battle_jingle = $LoseBattleJingle
 
 const GAME_OVER_DIALOG_CHOICES = ["Continue"]
 
@@ -14,6 +18,8 @@ var location: Area2D
 var _minion_name: String
 
 func _ready() -> void:
+	music.play()
+	#TODO: logic to play music_final for final fight
 	get_tree().call_group("entity", "reset")
 
 func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
@@ -48,12 +54,15 @@ func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_sce
 
 func _on_hero_dead():
 	win = true
+	victory_laugh.play()
 	_game_over()
 	
 func _on_minion_dead():
+	lose_battle_jingle.play()
 	_game_over()
 	
 func _game_over():
+	music.stop()
 	get_tree().call_group("entity", "stop")
 	if (win):
 		var minion = get_node("/root/Battle/"+_minion_name)
@@ -84,7 +93,11 @@ func _on_choices_diaglog_selected(_index: int):
 	var battle_scene = tree.get_current_scene()
 	root.remove_child(battle_scene)
 	
-	if Globals.current_day >= Globals.MAX_DAYS:
+	if Globals.current_day <= Globals.MAX_DAYS:
+		root.add_child(main)
+		tree.set_current_scene(main)
+		location.emit_battle_end_signal()
+	else:
 		if win:
 			root.add_child(win_cutscene)
 			tree.set_current_scene(win_cutscene)
@@ -92,8 +105,4 @@ func _on_choices_diaglog_selected(_index: int):
 			# lose
 			root.add_child(lose_cutscene)
 			tree.set_current_scene(lose_cutscene)
-	else:
-		root.add_child(main)
-		tree.set_current_scene(main)
-		location.emit_battle_end_signal()
 	queue_free()

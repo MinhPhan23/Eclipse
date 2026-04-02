@@ -1,3 +1,4 @@
+class_name Location
 extends Area2D
 
 @onready var battle_scene_preload = preload("res://battle/battle.tscn")
@@ -161,7 +162,7 @@ func _transition_to_battle_scene():
 	var root = tree.get_root()
 	var main_scene = tree.get_current_scene()
 	
-	if Globals.current_day < Globals.MAX_DAYS:
+	if Globals.current_day <= Globals.MAX_DAYS:
 		battle_scene.initialize_battle(main_scene, self, hero, minion)
 	else:
 		var lose_scene = lose_scene_load.instantiate()

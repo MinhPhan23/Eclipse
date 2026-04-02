@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@onready var cast_sound = $CastSound
 
 @export var SPEED: float = 200.0
 
@@ -13,6 +14,7 @@ signal hit_player(damage: float)
 func _ready():
 	global_position = spawn_pos
 	global_rotation = spawn_rot
+	cast_sound.play()
 
 func _physics_process(_delta):
 	velocity = direction.normalized() * SPEED

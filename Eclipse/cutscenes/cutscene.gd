@@ -10,6 +10,9 @@ var current_line: int = 0 # indexing dialog_text
 @onready var dialog: RichTextLabel = $DialogBox/DialogText
 @onready var cutscene_background: Sprite2D = $Background
 @onready var tween: Tween
+@onready var music = $"../Music"
+@onready var click_sound = $"../ClickSound"
+@onready var textcrawl_sound = $"../TextcrawlSound"
 
 func _ready():
 	dialog.text = ""
@@ -20,9 +23,11 @@ func _ready():
 	cutscene_background.set_texture(texture)
 	
 	_run_dialog()
+	textcrawl_sound.play()
 
 func _process(_delta):
 	if Input.is_action_just_pressed("continue_dialog"):
+		click_sound.play()
 		if tween.is_running():
 			# skip animation
 			tween.pause()
@@ -30,10 +35,14 @@ func _process(_delta):
 		elif !tween.is_running() and current_line < dialog_text.size():
 			# next line
 			_run_dialog()
+			textcrawl_sound.play()
 		else:
 			# end dialog
 			assert (next_scene != null, "Cutscenes must transition to another scene when finished.")
 			get_tree().change_scene_to_packed(next_scene)
+	
+	if !tween.is_running():
+		textcrawl_sound.stop()
 
 func _run_dialog() -> void:
 	assert(dialog_text.size() > 0, "Cutscenes must have at least one line of dialog text.")
@@ -48,3 +57,8 @@ func _run_dialog() -> void:
 		tween.set_loops(1)
 		tween.tween_property(dialog, "visible_characters", dialog_length, duration)
 		current_line += 1
+
+
+# Loop background music.
+func _on_music_finished():
+	music.play()
