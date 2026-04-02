@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@onready var impact_sound = $ImpactSound
+
 signal dead
 
 const BASE_FIRING_COOLDOWN: float = 0.65   # seconds
@@ -63,6 +65,8 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func _on_hit(damage: int):
+	impact_sound.play()
+	
 	current_hp -= damage
 	# Update HealthBar
 	$HealthBar.value = current_hp * 100 / BASE_HP

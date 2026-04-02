@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://6fknj62n5swj" path="res://Assets/Ground/TexturedGrass.png" id="10_fje84"]
 [ext_resource type="AudioStream" uid="uid://bckxjosgj12v7" path="res://Assets/music/music_fight.ogg" id="11_lwo4k"]
 [ext_resource type="AudioStream" uid="uid://wtpo857ctliv" path="res://Assets/music/music_final_fight.ogg" id="12_lvhjm"]
+[ext_resource type="AudioStream" uid="uid://c7detw7xkhysa" path="res://Assets/sound_effects/victory_laugh.ogg" id="11_wjlnx"]
+[ext_resource type="AudioStream" uid="uid://brv6cce5uqql3" path="res://Assets/sound_effects/GameOver3.wav" id="12_q3c2m"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mhv11"]
 vertices = PackedVector2Array(1590, 990, 10, 990, 10, 10, 1590, 10)
@@ -791,5 +793,10 @@ stream = ExtResource("11_lwo4k")
 
 [node name="MusicFinal" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_lvhjm")
+[node name="VictoryLaugh" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_wjlnx")
+
+[node name="LoseBattleJingle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_q3c2m")
 
 [connection signal="SELECTED" from="CanvasLayer/ChoicesDiaglog" to="." method="_on_choices_diaglog_selected"]

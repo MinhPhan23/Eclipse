@@ -1,9 +1,10 @@
-[gd_scene load_steps=49 format=3 uid="uid://db06bknag4h86"]
+[gd_scene load_steps=50 format=3 uid="uid://db06bknag4h86"]
 
 [ext_resource type="Script" path="res://mage/mage.gd" id="1_2nmn1"]
 [ext_resource type="Texture2D" uid="uid://dsu0wlkmgg2t7" path="res://mage/Elf-Mage.png" id="2_d8p01"]
 [ext_resource type="Texture2D" uid="uid://clxaj0pa5u0i3" path="res://Assets/User Interface/LifeBarMiniUnder.png" id="3_xo62e"]
 [ext_resource type="Texture2D" uid="uid://c4jb2vmd6ya0" path="res://Assets/User Interface/LifeBarMiniProgress.png" id="4_ey1tm"]
+[ext_resource type="AudioStream" uid="uid://deitejme853ay" path="res://Assets/sound_effects/mage_hurt.wav" id="5_tkcab"]
 
 [sub_resource type="Animation" id="Animation_q00jc"]
 length = 0.001
@@ -491,5 +492,8 @@ offset_right = 9.0
 offset_bottom = -12.0
 texture_under = ExtResource("3_xo62e")
 texture_progress = ExtResource("4_ey1tm")
+
+[node name="ImpactSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_tkcab")
 
 [connection signal="timeout" from="SpellTimer" to="." method="_on_spell_timer_timeout"]
