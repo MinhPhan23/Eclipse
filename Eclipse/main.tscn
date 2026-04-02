@@ -1,3 +1,4 @@
+[gd_scene load_steps=10 format=3 uid="uid://b2y7dn5em2ytj"]
 [gd_scene load_steps=14 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
@@ -8,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://m4hutg0vom0m" path="res://ui/report/Report.tscn" id="5_hgyqh"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
 [ext_resource type="PackedScene" uid="uid://cwisn1nxaokul" path="res://ui/countdown/countdown.tscn" id="6_5j7iu"]
+[ext_resource type="AudioStream" uid="uid://yl763ugkq0w7" path="res://Assets/music/music_world_map.ogg" id="9_vso83"]
 [ext_resource type="AudioStream" uid="uid://dsormq87am2gl" path="res://Assets/sound_effects/steps_leather.ogg" id="6_gt4ai"]
 [ext_resource type="AudioStream" uid="uid://dssflns0njdqf" path="res://Assets/sound_effects/Accept6.wav" id="7_slm8s"]
 [ext_resource type="AudioStream" uid="uid://goy7vk2s0s8r" path="res://Assets/sound_effects/Menu12.wav" id="8_gt8ej"]
@@ -88,6 +90,9 @@ position = Vector2(400, 250)
 offset = Vector2(2.08165e-12, 2.08165e-12)
 zoom = Vector2(2, 2)
 script = ExtResource("5_ljxpg")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_vso83")
 
 [connection signal="selection" from="LocationManager/Castle" to="LocationManager" method="send_minion_dialog"]
 [connection signal="selection" from="LocationManager/Capital" to="LocationManager" method="send_minion_dialog"]

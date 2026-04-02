@@ -1,8 +1,10 @@
+[gd_scene load_steps=5 format=3 uid="uid://d146njg50a2ex"]
 [gd_scene load_steps=6 format=3 uid="uid://d146njg50a2ex"]
 
 [ext_resource type="PackedScene" uid="uid://3yldujse5tms" path="res://cutscenes/cutscene.tscn" id="1_croce"]
 [ext_resource type="Texture2D" uid="uid://ou6nwufheglw" path="res://Assets/Cutscenes/win_cutscene.png" id="2_vcx8k"]
 [ext_resource type="PackedScene" uid="uid://uu5lxw7qckc0" path="res://cutscenes/intro_cutscene.tscn" id="3_kkvw2"]
+[ext_resource type="AudioStream" uid="uid://brkgfjc6k5fac" path="res://Assets/music/music_win_game.ogg" id="4_pfwya"]
 [ext_resource type="AudioStream" uid="uid://dustsbxscpttv" path="res://Assets/sound_effects/zipclick.ogg" id="4_128dv"]
 [ext_resource type="AudioStream" uid="uid://ccxrqepiraon1" path="res://Assets/sound_effects/textcrawl.mp3" id="5_jve78"]
 
@@ -13,6 +15,8 @@ dialog_text = Array[String](["One by one, the stars wink out.", "Darkness settle
 background = ExtResource("2_vcx8k")
 next_scene = ExtResource("3_kkvw2")
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_pfwya")
 [node name="ClickSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_128dv")
 volume_db = 8.0

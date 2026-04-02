@@ -7,9 +7,12 @@ extends Node2D
 @onready var location_manager: Node2D = $"LocationManager"
 @onready var report: Control = $UI/Report
 @onready var start_battle: PanelContainer = $"UI/StartBattle"
+@onready var music = $Music
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	music.play()
+	
 	location_manager.start_next_day.connect(_generate_next_day_events)
 	
 	start_battle.choices = ["Start Battle"]

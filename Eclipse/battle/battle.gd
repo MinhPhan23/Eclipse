@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var choices_dialog: PanelContainer = $CanvasLayer/ChoicesDiaglog
 @onready var win: bool = false
+@onready var music = $Music
+@onready var music_final = $MusicFinal
 @onready var victory_laugh = $VictoryLaugh
 @onready var lose_battle_jingle = $LoseBattleJingle
 
@@ -16,6 +18,8 @@ var location: Area2D
 var _minion_name: String
 
 func _ready() -> void:
+	music.play()
+	#TODO: logic to play music_final for final fight
 	get_tree().call_group("entity", "reset")
 
 func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
