@@ -16,7 +16,7 @@ func _ready():
 	report_text.visible_characters = 0
 
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("continue_dialog"):
 		click_sound.play()
 		if tween.is_running():

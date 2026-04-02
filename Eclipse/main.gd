@@ -34,7 +34,7 @@ func _generate_next_day_events():
 		
 		countdown.next_day()
 		report.show_report(report_str)
-		next_day.process_mode = Node.PROCESS_MODE_INHERIT
+		start_battle.process_mode = Node.PROCESS_MODE_INHERIT
 	else:
 		# Trigger final battle
 		report_str = "The hour of the eclipse is upon us. The final battle begins."

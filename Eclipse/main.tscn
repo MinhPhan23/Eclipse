@@ -8,11 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://m4hutg0vom0m" path="res://ui/report/Report.tscn" id="5_hgyqh"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
 [ext_resource type="PackedScene" uid="uid://cwisn1nxaokul" path="res://ui/countdown/countdown.tscn" id="6_5j7iu"]
-[ext_resource type="AudioStream" uid="uid://yl763ugkq0w7" path="res://Assets/music/music_world_map.ogg" id="9_vso83"]
 [ext_resource type="AudioStream" uid="uid://dsormq87am2gl" path="res://Assets/sound_effects/steps_leather.ogg" id="6_gt4ai"]
 [ext_resource type="AudioStream" uid="uid://dssflns0njdqf" path="res://Assets/sound_effects/Accept6.wav" id="7_slm8s"]
 [ext_resource type="AudioStream" uid="uid://goy7vk2s0s8r" path="res://Assets/sound_effects/Menu12.wav" id="8_gt8ej"]
 [ext_resource type="AudioStream" uid="uid://dustsbxscpttv" path="res://Assets/sound_effects/zipclick.ogg" id="9_6ps6s"]
+[ext_resource type="AudioStream" uid="uid://yl763ugkq0w7" path="res://Assets/music/music_world_map.ogg" id="9_vso83"]
 [ext_resource type="AudioStream" uid="uid://ccxrqepiraon1" path="res://Assets/sound_effects/textcrawl.mp3" id="10_hj3i5"]
 
 [node name="Main" type="Node2D"]
