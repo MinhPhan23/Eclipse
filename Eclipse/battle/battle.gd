@@ -62,6 +62,7 @@ func _on_minion_dead():
 	_game_over()
 	
 func _game_over():
+	music.stop()
 	get_tree().call_group("entity", "stop")
 	if (win):
 		var minion = get_node("/root/Battle/"+_minion_name)

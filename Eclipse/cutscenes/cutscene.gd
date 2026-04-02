@@ -15,8 +15,6 @@ var current_line: int = 0 # indexing dialog_text
 @onready var textcrawl_sound = $"../TextcrawlSound"
 
 func _ready():
-	music.play()
-	
 	dialog.text = ""
 	dialog.visible_characters = 0
 	
@@ -59,3 +57,8 @@ func _run_dialog() -> void:
 		tween.set_loops(1)
 		tween.tween_property(dialog, "visible_characters", dialog_length, duration)
 		current_line += 1
+
+
+# Loop background music.
+func _on_music_finished():
+	music.play()

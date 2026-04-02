@@ -511,3 +511,4 @@ texture_progress = ExtResource("5_mbs83")
 
 [node name="ImpactSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_v4hrc")
+volume_db = -8.0
