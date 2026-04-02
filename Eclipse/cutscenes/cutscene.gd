@@ -10,8 +10,11 @@ var current_line: int = 0 # indexing dialog_text
 @onready var dialog: RichTextLabel = $DialogBox/DialogText
 @onready var cutscene_background: Sprite2D = $Background
 @onready var tween: Tween
+@onready var music = $"../Music"
 
 func _ready():
+	music.play()
+	
 	dialog.text = ""
 	dialog.visible_characters = 0
 	
