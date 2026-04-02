@@ -5,19 +5,25 @@
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6i86t"]
 
-[node name="Countdown" type="Node2D"]
+[node name="Countdown" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_spgaf")
 
 [node name="EclipseSprite" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("CanvasItemMaterial_6i86t")
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_r1mvl")
 hframes = 10
 
 [node name="Label" type="Label" parent="."]
+layout_mode = 1
 offset_left = -32.0
-offset_top = 40.0
-offset_right = 32.0
-offset_bottom = 63.0
+offset_top = 56.0
+offset_right = 34.0
+offset_bottom = 84.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
 text = "Day 10"
 horizontal_alignment = 1

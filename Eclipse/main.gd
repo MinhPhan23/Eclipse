@@ -3,12 +3,16 @@ extends Node2D
 @onready var minion_scene_preload: PackedScene = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload: PackedScene = preload("res://mage/mage.tscn")
 
-@onready var countdown: Node2D = $UI/Countdown
-@onready var location_manager: Node2D = $"LocationManager"
 @onready var ui_layer: CanvasLayer = $UI
+@onready var countdown: Control = $UI/Countdown
+@onready var start_battle: PanelContainer = $UI/StartBattle
 @onready var report: Control = $UI/Report
-@onready var start_battle: PanelContainer = $"UI/StartBattle"
+@onready var location_manager: Node2D = $LocationManager
 @onready var music = $Music
+
+# Menu Layers
+@onready var pause_menu: Control = $Pause/PauseMenu
+@onready var control_menu: Control = $Pause/ControlMenu
 
 # Called when the node enters the scene tree for the first time.
 func _ready():	
@@ -18,10 +22,22 @@ func _ready():
 	start_battle.label_text = ""
 	_generate_next_day_events()
 
+func _input(event):
+	if event.is_action_pressed("menu"):
+		if !get_tree().paused:
+			get_tree().paused = true
+			pause_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+			pause_menu.show()
+		else:
+			pause_menu.hide()
+			control_menu.hide()
+			get_tree().paused = false
+	
+
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
 	location_manager.simulate_battle()
-	
+
 func _generate_next_day_events():
 	Globals.next_day()
 	var report_str: String
@@ -64,3 +80,15 @@ func _generate_report_string() -> String:
 # Loop background music.
 func _on_music_finished():
 	music.play()
+
+func _on_control_menu_close_menu():
+	control_menu.hide()
+
+func _on_pause_menu_open_controls():
+	control_menu.show()
+
+
+func _on_pause_menu_close_menu():
+	pause_menu.hide()
+	control_menu.hide()
+	get_tree().paused = false
