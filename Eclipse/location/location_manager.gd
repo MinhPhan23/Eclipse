@@ -6,7 +6,7 @@ extends Node
 @onready var events: Array[String] = []
 @onready var deploy_minion_sound = $DeployMinionSound
 
-var _location: Array[Node]
+var _locations: Array[Node]
 var _battle_finished_count: int
 var _deployed_minion: int
 var _animation_finished_count: int
@@ -31,15 +31,12 @@ func _ready():
 	_deployable_minion_list = _all_minion_list.duplicate()
 	_deployed_minion = 0
 	
-	_location = []
+	_locations = []
 	for child in get_children():
 		if child is Location:
-			_location.append(child)
+			_locations.append(child)
 	
-	#_location = get_children()
-	# To remove MinionList for our array
-	#_location.remove_at(_location.size() - 1)
-	for i in _location:
+	for i in _locations:
 		minion_return.connect(i.callback_minion)
 		i.battle_end.connect(_next_day_lock_battle)
 		i.animation_end.connect(_next_day_lock_animation)
@@ -66,14 +63,14 @@ func remove_dead_minion(dead_minion):
 	dead_minion.dead.disconnect(remove_dead_minion)
 		
 func generate_hero():
-	var index: int = rand_num.randi_range(0, _location.size() - 1)
-	if _location[index].hero == null:
-		_location[index].add_hero(hero_scene_preload.instantiate())
+	var index: int = rand_num.randi_range(0, _locations.size() - 1)
+	if _locations[index].hero == null:
+		_locations[index].add_hero(hero_scene_preload.instantiate())
 	
 func send_minion(index):
 	minion_choice.visible = false
 	minion_choice.process_mode = Node.PROCESS_MODE_DISABLED
-	for i in _location:
+	for i in _locations:
 		if i.name == curr_loc:
 			i.add_minion(_deployable_minion_list[index])
 			deploy_minion_sound.play()
@@ -82,7 +79,7 @@ func send_minion(index):
 	
 func generate_event():
 	events = []
-	for i in _location:
+	for i in _locations:
 		if i.has_method("generate_events"):
 			events.append(i.generate_events())
 			
@@ -90,7 +87,7 @@ func simulate_battle():
 	if (_deployed_minion != 0):
 		_battle_finished_count = 0
 		_animation_finished_count = 0
-		for i in _location:
+		for i in _locations:
 			i.simulate_battle()
 	else:
 		start_next_day.emit()
@@ -106,9 +103,30 @@ func _next_day_lock_animation():
 		start_next_day.emit()
 
 func generate_next_day():
-	generate_hero()
-	generate_event()
-	# Calls back all the minion from assigned _location
-	minion_return.emit()
-	_deployable_minion_list = _all_minion_list.duplicate()
-	_deployed_minion = 0
+	
+	if Globals.current_day <= Globals.MAX_DAYS:
+		generate_hero()
+		generate_event()
+		# Calls back all the minion from assigned _location
+		minion_return.emit()
+		_deployable_minion_list = _all_minion_list.duplicate()
+		_deployed_minion = 0
+
+func start_final_battle():
+	# Trigger final battle
+	var top_min = minion_scene_preload.instantiate()
+	for minion in _deployable_minion_list:
+		if top_min == null or minion.level > top_min.level:
+			top_min = minion
+	
+	var top_hero = hero_scene_preload.instantiate()
+	var final_location = _locations[rand_num.randi_range(0, _locations.size()-1)]
+	for location in _locations:
+		if location.hero != null and (top_hero == null or location.hero.level > top_hero.level):
+			top_hero = location.hero
+			final_location = location
+	
+	top_hero.target = top_min
+	final_location.add_minion(top_min)
+	final_location.add_hero(top_hero)
+	final_location.transition_to_battle_scene()

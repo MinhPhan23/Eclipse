@@ -153,13 +153,13 @@ func _open_battle_confirmation_dialog():
 	battle_confirmation_dialog.visible = true
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_INHERIT
 
-func _transition_to_battle_scene():
+func transition_to_battle_scene():
 	var battle_scene = battle_scene_preload.instantiate()
 	var tree = get_tree()
 	var root = tree.get_root()
 	var main_scene = tree.get_current_scene()
 	
-	if Globals.current_day < Globals.MAX_DAYS:
+	if Globals.current_day <= Globals.MAX_DAYS:
 		battle_scene.initialize_battle(main_scene, self, hero, minion)
 	else:
 		var lose_scene = lose_scene_load.instantiate()
@@ -173,7 +173,7 @@ func _on_battle_confirmation_selected(index):
 	battle_confirmation_dialog.visible = false
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
 	if (index == 0):
-		_transition_to_battle_scene()
+		transition_to_battle_scene()
 	else:
 		hero.level_up()
 		minion.emit_dead_signal()

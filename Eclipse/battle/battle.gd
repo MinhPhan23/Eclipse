@@ -93,7 +93,11 @@ func _on_choices_diaglog_selected(_index: int):
 	var battle_scene = tree.get_current_scene()
 	root.remove_child(battle_scene)
 	
-	if Globals.current_day >= Globals.MAX_DAYS:
+	if Globals.current_day <= Globals.MAX_DAYS:
+		root.add_child(main)
+		tree.set_current_scene(main)
+		location.emit_battle_end_signal()
+	else:
 		if win:
 			root.add_child(win_cutscene)
 			tree.set_current_scene(win_cutscene)
@@ -101,8 +105,4 @@ func _on_choices_diaglog_selected(_index: int):
 			# lose
 			root.add_child(lose_cutscene)
 			tree.set_current_scene(lose_cutscene)
-	else:
-		root.add_child(main)
-		tree.set_current_scene(main)
-		location.emit_battle_end_signal()
 	queue_free()
