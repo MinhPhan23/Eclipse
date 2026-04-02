@@ -1,7 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://7ffaupjy8qx8"]
+[gd_scene load_steps=5 format=3 uid="uid://7ffaupjy8qx8"]
 
 [ext_resource type="Script" path="res://ui/lord_dialog/lord_dialog.gd" id="1_j72xq"]
 [ext_resource type="Texture2D" uid="uid://cvcctfmo7midf" path="res://ui/lord_dialog/FlameDemon Evolved.png" id="1_kbvdq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_244o6"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.564706, 0.380392, 0.282353, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="Theme" id="Theme_5g3s2"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_244o6")
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -22,6 +37,7 @@ anchor_bottom = 1.0
 offset_top = -64.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = SubResource("Theme_5g3s2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2
