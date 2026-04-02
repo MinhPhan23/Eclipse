@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var choices_dialog: PanelContainer = $CanvasLayer/ChoicesDiaglog
 @onready var win: bool = false
+@onready var victory_laugh = $VictoryLaugh
+@onready var lose_battle_jingle = $LoseBattleJingle
 
 const GAME_OVER_DIALOG_CHOICES = ["Continue"]
 
@@ -48,9 +50,11 @@ func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_sce
 
 func _on_hero_dead():
 	win = true
+	victory_laugh.play()
 	_game_over()
 	
 func _on_minion_dead():
+	lose_battle_jingle.play()
 	_game_over()
 	
 func _game_over():

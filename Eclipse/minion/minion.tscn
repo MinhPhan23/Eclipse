@@ -1,10 +1,11 @@
-[gd_scene load_steps=51 format=3 uid="uid://dnpno4ytlqbn"]
+[gd_scene load_steps=52 format=3 uid="uid://dnpno4ytlqbn"]
 
 [ext_resource type="Script" path="res://minion/minion.gd" id="1_41aam"]
 [ext_resource type="Texture2D" uid="uid://bf7afynkf7rja" path="res://minion/Demon-Shaman.png" id="2_g034c"]
 [ext_resource type="Texture2D" uid="uid://c6sppk8d7vl1r" path="res://icon.svg" id="3_jwkix"]
 [ext_resource type="Texture2D" uid="uid://clxaj0pa5u0i3" path="res://Assets/User Interface/LifeBarMiniUnder.png" id="4_vjpp7"]
 [ext_resource type="Texture2D" uid="uid://c4jb2vmd6ya0" path="res://Assets/User Interface/LifeBarMiniProgress.png" id="5_mbs83"]
+[ext_resource type="AudioStream" uid="uid://bcahd80yvunvm" path="res://Assets/sound_effects/Impact.wav" id="6_v4hrc"]
 
 [sub_resource type="Animation" id="Animation_q00jc"]
 length = 0.001
@@ -507,3 +508,6 @@ offset_right = 9.0
 offset_bottom = -11.0
 texture_under = ExtResource("4_vjpp7")
 texture_progress = ExtResource("5_mbs83")
+
+[node name="ImpactSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_v4hrc")

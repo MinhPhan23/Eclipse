@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@onready var impact_sound = $ImpactSound
+
 @export var BASE_FIRING_COOLDOWN: float = 0.5     # seconds
 @export var BASE_FOLLOW_DISTANCE: int = 200
 @export var BASE_HP: float = 100.0
@@ -104,6 +106,8 @@ func _cast_spell(direction: Vector2):
 
 # Called by _physics_process() when a player projectile collides with the mage.
 func _on_hit(dmg: int):
+	impact_sound.play()
+	
 	current_hp -= dmg
 	$HealthBar.value = current_hp * 100 / BASE_HP
 	
