@@ -26,15 +26,45 @@ script = ExtResource("2_qwhan")
 
 [node name="Castle" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 z_index = 1
-position = Vector2(70, 57)
+position = Vector2(1503, 210)
 location_name = "The Ruins of Ashmont"
 events = Array[String](["Hooded figures gather for a secret meeting in the ruins..", "Smoke is spotted curling from the ruin's courtyard.", "Strange lights flash in the window of the tallest tower of Ashmont.", "A portal to another dimension opens briefly in the castle keep.", "An adventurer emerges from the dungeons of Ashmont with loot and new scars."])
 pattern_index = 1
 
 [node name="Capital" parent="LocationManager" instance=ExtResource("2_cd1vd")]
-position = Vector2(120, 786)
+position = Vector2(787, 379)
 location_name = "Avondale"
 events = Array[String](["A tournament champion vows to defeat the Dark Lord.", "The citizens of Avondale gather for a celebration.", "A monster terrorizing the capital populace is defeated.", "An assassination attempt on a member of the Avondale royal family is thwarted.", "The king of Avondale bestows knighthood to a worthy servant of the crown."])
+
+[node name="TradePort" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(1176, 520)
+location_name = "Trade Port"
+pattern_index = 2
+
+[node name="ElfForest" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(96, 706)
+location_name = "Elf Forest"
+pattern_index = 3
+
+[node name="AncientLibray" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(286, 128)
+location_name = "Ancient Library"
+pattern_index = 4
+
+[node name="FarmVillage" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(687, 641)
+location_name = "Farm Village"
+pattern_index = 5
+
+[node name="DesertOasis" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(55, 86)
+location_name = "Desert Oasis"
+pattern_index = 6
+
+[node name="DwarfStringhold" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(1473, 494)
+location_name = "Dwarf Stronghold"
+pattern_index = 7
 
 [node name="MinionList" parent="LocationManager" instance=ExtResource("1_32q6n")]
 z_index = 1
@@ -87,8 +117,10 @@ volume_db = -4.0
 position = Vector2(64, 912)
 
 [node name="LordDialog" parent="UI" instance=ExtResource("8_8u18f")]
+visible = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
+visible = false
 position = Vector2(400, 250)
 offset = Vector2(2.08165e-12, 2.08165e-12)
 zoom = Vector2(2, 2)
@@ -101,6 +133,12 @@ autoplay = true
 
 [connection signal="selection" from="LocationManager/Castle" to="LocationManager" method="send_minion_dialog"]
 [connection signal="selection" from="LocationManager/Capital" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/TradePort" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/ElfForest" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/AncientLibray" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/FarmVillage" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/DesertOasis" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/DwarfStringhold" to="LocationManager" method="send_minion_dialog"]
 [connection signal="SELECTED" from="LocationManager/MinionList" to="LocationManager" method="send_minion"]
 [connection signal="SELECTED" from="UI/StartBattle" to="." method="start_simulation_battle"]
 [connection signal="finished" from="Music" to="." method="_on_music_finished"]
