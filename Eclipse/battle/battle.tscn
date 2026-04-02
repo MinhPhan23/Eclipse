@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://qi7rp2f7mj05"]
+[gd_scene load_steps=26 format=3 uid="uid://qi7rp2f7mj05"]
 
 [ext_resource type="Script" path="res://battle/battle.gd" id="1_2nlbe"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_diaglog.tscn" id="2_4ixi0"]
@@ -11,8 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://uk8nwfwxa0ah" path="res://Assets/Nature/Rocks.png" id="9_h8hw5"]
 [ext_resource type="Texture2D" uid="uid://6fknj62n5swj" path="res://Assets/Ground/TexturedGrass.png" id="10_fje84"]
 [ext_resource type="AudioStream" uid="uid://bckxjosgj12v7" path="res://Assets/music/music_fight.ogg" id="11_lwo4k"]
-[ext_resource type="AudioStream" uid="uid://wtpo857ctliv" path="res://Assets/music/music_final_fight.ogg" id="12_lvhjm"]
 [ext_resource type="AudioStream" uid="uid://c7detw7xkhysa" path="res://Assets/sound_effects/victory_laugh.ogg" id="11_wjlnx"]
+[ext_resource type="AudioStream" uid="uid://wtpo857ctliv" path="res://Assets/music/music_final_fight.ogg" id="12_lvhjm"]
 [ext_resource type="AudioStream" uid="uid://brv6cce5uqql3" path="res://Assets/sound_effects/GameOver3.wav" id="12_q3c2m"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mhv11"]
@@ -790,11 +790,14 @@ layer_1/tile_data = PackedInt32Array(0, 65538, 4, 65536, 65538, 4, 131072, 65538
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_lwo4k")
+volume_db = -4.0
 
 [node name="MusicFinal" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_lvhjm")
+
 [node name="VictoryLaugh" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_wjlnx")
+volume_db = -4.0
 
 [node name="LoseBattleJingle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_q3c2m")

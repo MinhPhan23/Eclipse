@@ -3,8 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://4m3pmck4oqv2" path="res://Assets/Cutscenes/intro_cutscene.png" id="1_4ewj2"]
 [ext_resource type="PackedScene" uid="uid://3yldujse5tms" path="res://cutscenes/cutscene.tscn" id="1_v2rs2"]
 [ext_resource type="PackedScene" uid="uid://b2y7dn5em2ytj" path="res://main.tscn" id="3_4kmhn"]
-[ext_resource type="AudioStream" uid="uid://26sq1kam5sgq" path="res://Assets/music/music_intro.ogg" id="4_wcmpk"]
 [ext_resource type="AudioStream" uid="uid://dustsbxscpttv" path="res://Assets/sound_effects/zipclick.ogg" id="4_u6rsq"]
+[ext_resource type="AudioStream" uid="uid://26sq1kam5sgq" path="res://Assets/music/music_intro.ogg" id="4_wcmpk"]
 [ext_resource type="AudioStream" uid="uid://ccxrqepiraon1" path="res://Assets/sound_effects/textcrawl.mp3" id="5_6aqej"]
 
 [node name="IntroCutscene" type="Node2D"]
@@ -16,10 +16,14 @@ next_scene = ExtResource("3_4kmhn")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_wcmpk")
+autoplay = true
+
 [node name="ClickSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_u6rsq")
 volume_db = 8.0
 
 [node name="TextcrawlSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_6aqej")
-volume_db = -8.0
+volume_db = -4.0
+
+[connection signal="finished" from="Music" to="Cutscene" method="_on_music_finished"]

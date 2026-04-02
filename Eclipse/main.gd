@@ -10,9 +10,7 @@ extends Node2D
 @onready var music = $Music
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	music.play()
-	
+func _ready():	
 	location_manager.start_next_day.connect(_generate_next_day_events)
 	
 	start_battle.choices = ["Start Battle"]
@@ -44,3 +42,8 @@ func _generate_report_string() -> String:
 		return "The day passes uneventfully."
 	
 	return report_str
+
+
+# Loop background music.
+func _on_music_finished():
+	music.play()
