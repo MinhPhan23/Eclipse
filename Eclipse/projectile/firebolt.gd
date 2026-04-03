@@ -19,29 +19,13 @@ func _ready():
 func _physics_process(_delta):
 	velocity = direction.normalized() * SPEED
 	
-	move_and_slide()
-	HandleCollisions()
-
-func HandleCollisions():
-	for index in range(get_slide_collision_count()):
-		var collision = get_slide_collision(index)
+	var collision = move_and_collide(direction.normalized() * SPEED * _delta)
+	if collision:
 		var collider = collision.get_collider()
-	
-		if collider == null:
-			continue
-		
 		if collider.is_in_group("minion"):
 			EventBus.player_hit.emit(damage)
-			
-			#testing
-			print("Hit: ", collider.name)
-		
 		if collider.is_in_group("hero"):
 			EventBus.hero_hit.emit(damage)
-			
-			#testing
-			print("Hit: ", collider.name)
-		
 		queue_free()
 
 

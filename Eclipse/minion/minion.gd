@@ -15,7 +15,8 @@ const RETICLE_DIST: float = 25.0  # pixels
 @export var FIRING_COOLDOWN_REDUCTION_RATE: float = 0.05
 
 var current_firing_cooldown: float = BASE_FIRING_COOLDOWN
-var current_hp: int = BASE_HP
+var current_max_hp: int = BASE_HP
+var current_hp: int = current_max_hp
 var current_speed: int = BASE_SPEED
 
 var strength: int = 10
@@ -39,12 +40,12 @@ func _ready() -> void:
 	COOLDOWN.wait_time = current_firing_cooldown
 	
 	# Set HealthBar to full.
-	$HealthBar.value = current_hp * 100.0 / BASE_HP
+	$HealthBar.value = current_hp * 100 / current_max_hp
 
 
 func _process(delta):
-	# Update HealthBar
-	$HealthBar.value = current_hp * 100.0 / BASE_HP
+	# Update HealthBar.
+	$HealthBar.value = current_hp * 100 / current_max_hp
 
 
 func _physics_process(_delta: float) -> void:
@@ -73,7 +74,7 @@ func _on_hit(damage: int):
 	impact_sound.play()
 	
 	current_hp -= damage
-	
+	#print("Minion HP: ", current_hp) # testing
 	if current_hp <= 0.0 and !dead_emit_flag:
 		# TODO death animation
 		dead_emit_flag = true
@@ -101,15 +102,10 @@ func stop():
 	process_mode = Node.PROCESS_MODE_DISABLED
 
 func reset():
-	# this is supposed to fix the issue of immunity but it doesn't work
-	# further investigation required
-	#if EventBus.player_hit.is_connected(_on_hit):
-	#	EventBus.player_hit.disconnect(_on_hit)
-	
 	EventBus.player_hit.connect(_on_hit)
-	
 	bullet_spawn_node = get_parent()
-	current_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
+	current_max_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
+	current_hp = current_max_hp
 	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
 	current_firing_cooldown = BASE_FIRING_COOLDOWN - FIRING_COOLDOWN_REDUCTION_RATE * (level - 1)
 	COOLDOWN.wait_time = current_firing_cooldown

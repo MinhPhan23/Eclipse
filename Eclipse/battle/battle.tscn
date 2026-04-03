@@ -809,3 +809,5 @@ position_smoothing_enabled = true
 script = ExtResource("15_rpdmj")
 
 [connection signal="SELECTED" from="CanvasLayer/ChoicesDiaglog" to="." method="_on_choices_diaglog_selected"]
+[connection signal="finished" from="Music" to="." method="_on_music_finished"]
+[connection signal="finished" from="MusicFinal" to="." method="_on_music_finished"]

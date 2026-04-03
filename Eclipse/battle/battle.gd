@@ -2,8 +2,7 @@ extends Node2D
 
 @onready var choices_dialog: PanelContainer = $CanvasLayer/ChoicesDiaglog
 @onready var win: bool = false
-@onready var music = $Music
-@onready var music_final = $MusicFinal
+@onready var music: AudioStreamPlayer
 @onready var victory_laugh = $VictoryLaugh
 @onready var lose_battle_jingle = $LoseBattleJingle
 
@@ -17,19 +16,8 @@ var lose_cutscene: Node2D
 var location: Area2D
 var _minion_name: String
 
-
-func _ready() -> void:
-	music.play()
-	#TODO: logic to play music_final for final fight
-	get_tree().call_group("entity", "reset")
-	
-
-func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
-	main = main_scene
-	location = location_scene
-	var rng = RandomNumberGenerator.new()
-	
-	var mage_spawn_locs = [
+var rng: RandomNumberGenerator
+var mage_spawn_locs = [
 		Vector2(182,214),
 		Vector2(826,156),
 		Vector2(1536,222),
@@ -38,15 +26,7 @@ func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: Charact
 		Vector2(525,573),
 		Vector2(814,464)
 	]
-	
-	hero.name = "Hero"
-	var i = rng.randi_range(0, 6)
-	hero.position = mage_spawn_locs[i]
-	hero.current_hp = hero.BASE_HP
-	hero.dead.connect(_on_hero_dead.unbind(1))
-	add_child(hero)
-
-	var minion_spawn_locs = [
+var minion_spawn_locs = [
 		Vector2(307,274),
 		Vector2(559,58),
 		Vector2(1361,94),
@@ -56,30 +36,54 @@ func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: Charact
 		Vector2(694,378)
 	]
 
+
+func _ready() -> void:
+	music.play()
+	get_tree().call_group("entity", "reset")
+	
+
+func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
+	main = main_scene
+	location = location_scene
+	rng = RandomNumberGenerator.new()
+	
+	hero.name = "Hero"
+	var i = rng.randi_range(0, 6)
+	hero.position = mage_spawn_locs[i]
+	hero.dead.connect(_on_hero_dead.unbind(1))
+	add_child(hero)
+
 	_minion_name = minion.name
 	i = rng.randi_range(0, 6)
 	minion.position = minion_spawn_locs[i]
-	minion.current_hp = minion.BASE_HP
 	minion.dead.connect(_on_minion_dead.unbind(1))
 	add_child(minion)
 	# TODO: pause entities with a warmup timer
 	
 	$Camera2D.target = minion
+	music = $Music
+
 
 func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
 	location = location_scene
 	win_cutscene = win_scene
 	lose_cutscene = lose_scene
+	rng = RandomNumberGenerator.new()
 	
 	hero.name = "Hero"
-	hero.position = location.hero_spawn_pos
+	var i = rng.randi_range(0, 6)
+	hero.position = mage_spawn_locs[i]
 	hero.dead.connect(_on_hero_dead.unbind(1))
 	add_child(hero)
 
 	_minion_name = minion.name
-	minion.position = location.minion_spawn_pos
+	i = rng.randi_range(0, 6)
+	minion.position = minion_spawn_locs[i]
 	minion.dead.connect(_on_minion_dead.unbind(1))
 	add_child(minion)
+	
+	$Camera2D.target = minion
+	music = $MusicFinal
 
 func _on_hero_dead():
 	win = true
@@ -137,3 +141,7 @@ func _on_choices_diaglog_selected(_index: int):
 			root.add_child(lose_cutscene)
 			tree.set_current_scene(lose_cutscene)
 	queue_free()
+
+
+func _on_music_finished():
+	music.play()
