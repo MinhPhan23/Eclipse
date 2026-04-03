@@ -18,7 +18,8 @@ extends CharacterBody2D
 var level: int = 1
 
 var current_firing_cooldown: float = BASE_FIRING_COOLDOWN
-var current_hp: float = BASE_HP
+var current_max_hp: float = BASE_HP
+var current_hp: float = current_max_hp
 var current_speed: int = BASE_SPEED
 
 var target: CharacterBody2D
@@ -42,7 +43,7 @@ func _ready():
 	SPELL_TIMER.wait_time = current_firing_cooldown
 	
 	# Set HealthBar to full.
-	$HealthBar.value = current_hp * 100 / BASE_HP
+	$HealthBar.value = current_hp * 100 / current_max_hp
 	
 	# wait for physics frame to be ready for navigation
 	set_physics_process(false)
@@ -55,6 +56,9 @@ func _process(_delta):
 	if v_minion.length() < BASE_SPELL_RANGE and spell_ready and los:
 		RETICLE.position = facing * RETICLE_DIST
 		_cast_spell(facing)
+	
+	# Update HealthBar
+	$HealthBar.value = current_hp * 100.0 / current_max_hp
 
 
 func _physics_process(_delta):
@@ -109,8 +113,6 @@ func _on_hit(dmg: int):
 	impact_sound.play()
 	
 	current_hp -= dmg
-	$HealthBar.value = current_hp * 100 / BASE_HP
-	
 	if current_hp <= 0.0 and !dead_emit_flag:
 		# animation?
 		dead_emit_flag = true
@@ -164,7 +166,8 @@ func stop():
 func reset():
 	bullet_spawn_node = get_parent()
 	EventBus.hero_hit.connect(_on_hit)
-	current_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
+	current_max_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
+	current_hp = current_max_hp
 	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
 	current_firing_cooldown = BASE_FIRING_COOLDOWN - FIRING_COOLDOWN_REDUCTION_RATE * (level - 1)
 	SPELL_TIMER.wait_time = current_firing_cooldown

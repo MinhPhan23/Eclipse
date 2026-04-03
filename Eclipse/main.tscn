@@ -65,13 +65,6 @@ position = Vector2(1401.43, 92.8571)
 location_name = "Dwarf Stronghold"
 pattern_index = 7
 
-[node name="MinionList" parent="LocationManager" instance=ExtResource("1_32q6n")]
-z_index = 1
-offset_left = 403.0
-offset_top = 238.0
-offset_right = 443.0
-offset_bottom = 258.0
-
 [node name="DeployMinionSound" type="AudioStreamPlayer" parent="LocationManager"]
 stream = ExtResource("6_gt4ai")
 volume_db = 16.0
@@ -79,6 +72,14 @@ volume_db = 16.0
 [node name="UI" type="CanvasLayer" parent="."]
 offset = Vector2(2.08165e-12, 2.08165e-12)
 transform = Transform2D(1, 1.04636e-15, -1.04636e-15, 1, 2.08165e-12, 2.08165e-12)
+
+[node name="MinionList" parent="UI" instance=ExtResource("1_32q6n")]
+anchors_preset = -1
+offset_top = -11.5
+offset_bottom = 11.5
+scale = Vector2(2, 2)
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="StartBattle" parent="UI" instance=ExtResource("1_32q6n")]
 anchors_preset = 3
@@ -135,6 +136,6 @@ autoplay = true
 [connection signal="selection" from="LocationManager/FarmVillage" to="LocationManager" method="send_minion_dialog"]
 [connection signal="selection" from="LocationManager/DesertOasis" to="LocationManager" method="send_minion_dialog"]
 [connection signal="selection" from="LocationManager/DwarfStringhold" to="LocationManager" method="send_minion_dialog"]
-[connection signal="SELECTED" from="LocationManager/MinionList" to="LocationManager" method="send_minion"]
+[connection signal="SELECTED" from="UI/MinionList" to="LocationManager" method="send_minion"]
 [connection signal="SELECTED" from="UI/StartBattle" to="." method="start_simulation_battle"]
 [connection signal="finished" from="Music" to="." method="_on_music_finished"]
