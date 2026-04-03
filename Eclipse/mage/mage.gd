@@ -113,7 +113,6 @@ func _on_hit(dmg: int):
 	impact_sound.play()
 	
 	current_hp -= dmg
-	#print("Mage HP: ", current_hp) # testing
 	if current_hp <= 0.0 and !dead_emit_flag:
 		# animation?
 		dead_emit_flag = true
