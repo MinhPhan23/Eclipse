@@ -74,7 +74,6 @@ func _on_hit(damage: int):
 	impact_sound.play()
 	
 	current_hp -= damage
-	#print("Minion HP: ", current_hp) # testing
 	if current_hp <= 0.0 and !dead_emit_flag:
 		# TODO death animation
 		dead_emit_flag = true
