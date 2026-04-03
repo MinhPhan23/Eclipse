@@ -88,13 +88,16 @@ func add_minion(new_minion):
 	deployed_minion_icon.visible = true
 	simulation_animation.visible  = false
 	
-func callback_minion():
+func callback_minion() -> CharacterBody2D:
 	if (minion == null):
-		return
+		return null
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
+	minion_animation_tree.animation_finished.disconnect(emit_animation_end_signal)
+	var withdrawn_minion = minion
 	minion = null
+	return withdrawn_minion
 	
 func _remove_minion(removed_minion):
 	if minion == null or minion != removed_minion:
@@ -108,7 +111,7 @@ func _remove_minion(removed_minion):
 	minion = null
 
 func _input_event(_viewport, event, _shape_idx):
-	if event.is_action_pressed("left_mouse_click") and minion == null:
+	if event.is_action_pressed("left_mouse_click"):
 		emit_signal("selection", self.name)
 	
 func simulate_battle() -> Globals.SIMULATION_BATTLE_RESULT:
