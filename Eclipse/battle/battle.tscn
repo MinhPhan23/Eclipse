@@ -1,9 +1,11 @@
-[gd_scene load_steps=26 format=3 uid="uid://qi7rp2f7mj05"]
+[gd_scene load_steps=28 format=3 uid="uid://qi7rp2f7mj05"]
 
 [ext_resource type="Script" path="res://battle/battle.gd" id="1_2nlbe"]
-[ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_diaglog.tscn" id="2_4ixi0"]
+[ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_dialog.tscn" id="2_fst6y"]
 [ext_resource type="Texture2D" uid="uid://cbc8wlpwwhnsl" path="res://Assets/Ground/Grass.png" id="3_s8h2m"]
+[ext_resource type="PackedScene" uid="uid://ckxtt8dcddr63" path="res://menus/pause/pause_menu.tscn" id="3_ywqpn"]
 [ext_resource type="Texture2D" uid="uid://pcfjqidyufor" path="res://Assets/Ground/Cliff.png" id="4_awkme"]
+[ext_resource type="PackedScene" uid="uid://d2xmuwnubkknv" path="res://menus/controls/control_menu.tscn" id="4_n0gpy"]
 [ext_resource type="Texture2D" uid="uid://htq4kh3cr16n" path="res://Assets/Ground/Cliff-Water.png" id="5_0phax"]
 [ext_resource type="Texture2D" uid="uid://d1d5xjbah4fso" path="res://Assets/Buildings/Wood/Docks.png" id="6_2wack"]
 [ext_resource type="Texture2D" uid="uid://b1puig74elq2b" path="res://Assets/Buildings/Wood/Tower.png" id="7_n5eir"]
@@ -769,14 +771,20 @@ script = ExtResource("1_2nlbe")
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_mhv11")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="ChoicesDiaglog" parent="CanvasLayer" instance=ExtResource("2_4ixi0")]
+[node name="ChoicesDialog" parent="UI" instance=ExtResource("2_fst6y")]
 visible = false
 offset_left = -50.0
 offset_top = -50.0
 offset_right = 50.0
 offset_bottom = 50.0
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("3_ywqpn")]
+visible = false
+
+[node name="ControlMenu" parent="UI" instance=ExtResource("4_n0gpy")]
+visible = false
 
 [node name="TileMap" type="TileMap" parent="."]
 scale = Vector2(2, 2)
@@ -802,4 +810,9 @@ volume_db = -4.0
 [node name="LoseBattleJingle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_q3c2m")
 
-[connection signal="SELECTED" from="CanvasLayer/ChoicesDiaglog" to="." method="_on_choices_diaglog_selected"]
+[connection signal="SELECTED" from="UI/ChoicesDialog" to="." method="_on_choices_dialog_selected"]
+[connection signal="close_menu" from="UI/PauseMenu" to="." method="_on_pause_menu_close_menu"]
+[connection signal="open_controls" from="UI/PauseMenu" to="." method="_on_pause_menu_open_controls"]
+[connection signal="pause" from="UI/PauseMenu" to="." method="_on_pause_menu_pause"]
+[connection signal="unpause" from="UI/PauseMenu" to="." method="_on_pause_menu_unpause"]
+[connection signal="close_menu" from="UI/ControlMenu" to="." method="_on_control_menu_close_menu"]

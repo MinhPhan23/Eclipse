@@ -1,11 +1,15 @@
 extends Node2D
 
-@onready var choices_dialog: PanelContainer = $CanvasLayer/ChoicesDiaglog
+@onready var choices_dialog: PanelContainer = $UI/ChoicesDialog
 @onready var win: bool = false
 @onready var music = $Music
 @onready var music_final = $MusicFinal
 @onready var victory_laugh = $VictoryLaugh
 @onready var lose_battle_jingle = $LoseBattleJingle
+
+# Menu Layers
+@onready var pause_menu: Control = $UI/PauseMenu
+@onready var control_menu: Control = $UI/ControlMenu
 
 const GAME_OVER_DIALOG_CHOICES = ["Continue"]
 
@@ -87,7 +91,7 @@ func _display_dialog():
 	choices_dialog.choices = GAME_OVER_DIALOG_CHOICES
 	choices_dialog.show()
 
-func _on_choices_diaglog_selected(_index: int):
+func _on_choices_dialog_selected(_index: int):
 	var tree = get_tree()
 	var root = tree.get_root()
 	var battle_scene = tree.get_current_scene()
@@ -106,3 +110,29 @@ func _on_choices_diaglog_selected(_index: int):
 			root.add_child(lose_cutscene)
 			tree.set_current_scene(lose_cutscene)
 	queue_free()
+
+func _on_control_menu_close_menu():
+	control_menu.hide()
+
+func _on_pause_menu_open_controls():
+	control_menu.show()
+
+
+func _on_pause_menu_close_menu():
+	pause_menu.hide()
+	control_menu.hide()
+	get_tree().paused = false
+
+
+func _on_pause_receiver_unpause():
+	pause_menu.hide()
+	control_menu.hide()
+	get_tree().paused = false
+
+
+func _on_pause_menu_pause():
+	pause_menu.show()
+
+func _on_pause_menu_unpause():
+	pause_menu.hide()
+	control_menu.hide()

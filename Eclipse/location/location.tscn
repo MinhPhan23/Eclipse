@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://location/location.gd" id="1_w2in5"]
 [ext_resource type="Texture2D" uid="uid://l0bva3qnbe0y" path="res://Assets/Buildings/Lime/LimeKeep.png" id="2_sa1m8"]
-[ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_diaglog.tscn" id="3_cx3m0"]
+[ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_dialog.tscn" id="3_cx3m0"]
 [ext_resource type="Texture2D" uid="uid://d3mtutn70xe5e" path="res://Assets/Buildings/Lime/LimeMarket.png" id="3_sooa1"]
 [ext_resource type="Texture2D" uid="uid://bn0qd7gyqli34" path="res://Assets/Buildings/Lime/LimeResources.png" id="4_1aap0"]
 [ext_resource type="Texture2D" uid="uid://ble476ocue3rr" path="res://Assets/Buildings/Lime/LimeShip.png" id="5_hdcxi"]

@@ -24,7 +24,7 @@ const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables
 @onready var control_menu: Control = $Pause/ControlMenu
 
 # Called when the node enters the scene tree for the first time.
-func _ready():	
+func _ready():
 	location_manager.start_next_day.connect(_generate_next_day_events)
 	location_manager.minion_win.connect(_on_minion_win_first_time)
 	location_manager.minion_lost.connect(_on_minion_lost_first_time)
@@ -36,18 +36,6 @@ func _ready():
 	start_battle.choices = ["Start Battle"]
 	start_battle.label_text = ""
 	_generate_next_day_events()
-
-func _input(event):
-	if event.is_action_pressed("menu"):
-		if !get_tree().paused:
-			get_tree().paused = true
-			pause_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-			pause_menu.show()
-		else:
-			pause_menu.hide()
-			control_menu.hide()
-			get_tree().paused = false
-	
 
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
@@ -134,3 +122,11 @@ func _on_pause_menu_close_menu():
 	pause_menu.hide()
 	control_menu.hide()
 	get_tree().paused = false
+
+
+func _on_pause_menu_pause():
+	pause_menu.show()
+
+func _on_pause_menu_unpause():
+	pause_menu.hide()
+	control_menu.hide()

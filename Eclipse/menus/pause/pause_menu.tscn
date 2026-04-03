@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://menus/pause/pause_menu.gd" id="1_umcv6"]
 
 [node name="PauseMenu" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,6 +72,7 @@ text = "Controls"
 flat = true
 
 [node name="Game" type="Button" parent="Buttons"]
+layout_mode = 0
 offset_left = -128.0
 offset_top = 136.0
 offset_right = 129.0
@@ -83,6 +85,7 @@ text = "Back to game"
 flat = true
 
 [node name="Main" type="Button" parent="Buttons"]
+layout_mode = 0
 offset_left = -128.0
 offset_top = 248.0
 offset_right = 129.0
