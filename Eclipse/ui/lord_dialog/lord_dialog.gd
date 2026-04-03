@@ -14,6 +14,14 @@ func _ready():
 	hide()
 	dialog.text = ""
 	dialog.visible_characters = 0
+	
+func _process(_delta):
+	if Input.is_action_just_pressed("continue_dialog"):
+		if tween.is_running():
+			# skip animation
+			tween.pause()
+			tween.custom_step(INF)
+			_dialog_done()
 
 func show_dialog(text: String) -> void:
 	continue_button.hide()
@@ -25,7 +33,7 @@ func show_dialog(text: String) -> void:
 	tween.set_loops(1)
 
 	# Display report with crawling text
-	# Will automatically call _report_done on finished
+	# Will automatically call _dialog_done on finished
 	show()
 	tween.tween_property(dialog, "visible_characters", dialog_length, duration)
 	tween.tween_callback(_dialog_done)
