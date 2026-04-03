@@ -165,7 +165,7 @@ func stop():
 	process_mode = Node.PROCESS_MODE_DISABLED	
 
 func reset():
-	bullet_spawn_node = get_parent()	
+	bullet_spawn_node = get_parent()
 	EventBus.hero_hit.connect(_on_hit)
 	current_max_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
 	current_hp = current_max_hp
