@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://c7detw7xkhysa" path="res://Assets/sound_effects/victory_laugh.ogg" id="11_wjlnx"]
 [ext_resource type="AudioStream" uid="uid://wtpo857ctliv" path="res://Assets/music/music_final_fight.ogg" id="12_lvhjm"]
 [ext_resource type="AudioStream" uid="uid://brv6cce5uqql3" path="res://Assets/sound_effects/GameOver3.wav" id="12_q3c2m"]
+[ext_resource type="Script" path="res://battle/battle_cam.gd" id="15_rpdmj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mhv11"]
 vertices = PackedVector2Array(1590, 990, 10, 990, 10, 10, 1590, 10)
@@ -810,9 +811,16 @@ volume_db = -4.0
 [node name="LoseBattleJingle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_q3c2m")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+script = ExtResource("15_rpdmj")
+
 [connection signal="SELECTED" from="UI/ChoicesDialog" to="." method="_on_choices_dialog_selected"]
 [connection signal="close_menu" from="UI/PauseMenu" to="." method="_on_pause_menu_close_menu"]
 [connection signal="open_controls" from="UI/PauseMenu" to="." method="_on_pause_menu_open_controls"]
 [connection signal="pause" from="UI/PauseMenu" to="." method="_on_pause_menu_pause"]
 [connection signal="unpause" from="UI/PauseMenu" to="." method="_on_pause_menu_unpause"]
 [connection signal="close_menu" from="UI/ControlMenu" to="." method="_on_control_menu_close_menu"]
+[connection signal="finished" from="Music" to="." method="_on_music_finished"]
+[connection signal="finished" from="MusicFinal" to="." method="_on_music_finished"]

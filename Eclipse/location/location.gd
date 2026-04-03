@@ -18,8 +18,8 @@ extends Area2D
 @export var pattern_index: int
 @export var minion_bonus: int = 2
 @export var battle_trigger_range: int = 6
-@export var minion_spawn_pos: Vector2 = Vector2(200, 200)
-@export var hero_spawn_pos: Vector2 = Vector2(100, 100)
+#@export var minion_spawn_pos: Vector2 = Vector2(200, 200)
+#@export var hero_spawn_pos: Vector2 = Vector2(100, 100)
 
 var hero: CharacterBody2D
 var minion: CharacterBody2D
@@ -58,6 +58,8 @@ func emit_animation_end_signal(anim_name: String):
 		animation_end.emit()
 
 func generate_events() -> String:
+	if (events.size() == 0):
+		return ""
 	var random_number = rng.randf();
 	if (hero != null && random_number < 0.8) || (hero == null && random_number < 0.2):
 		return events[rng.randi_range(0, events.size() - 1)]
@@ -94,7 +96,6 @@ func callback_minion() -> CharacterBody2D:
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
-	minion_animation_tree.animation_finished.disconnect(emit_animation_end_signal)
 	var withdrawn_minion = minion
 	minion = null
 	return withdrawn_minion
