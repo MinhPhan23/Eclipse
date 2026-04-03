@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://ccxrqepiraon1" path="res://Assets/sound_effects/textcrawl.mp3" id="5_6aqej"]
 
 [node name="IntroCutscene" type="Node2D"]
+scale = Vector2(1.4, 1.4)
 
 [node name="Cutscene" parent="." instance=ExtResource("1_v2rs2")]
 dialog_text = Array[String](["The nights grow ever longer, and the Lord of the Barrens' tenebrous shadow reaches hungrily toward the shining city of Avondale.", "A great eclipse approaches in ten days, heralded by the turning of the heavens. The Dark Lord would see it last an eternity.", "Time runs short, the hopes of mortals fading with the light.", "But all is not yet lost in the dance of destiny.", "It is prophesied that a hero shall appear who might resist the darkness and end the Dark One's reign of night before it can begin.", "Well, we can't be having that, can we?"])

@@ -1515,8 +1515,10 @@ atlas = ExtResource("26_73fwt")
 region = Rect2(424, 7, 17, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qnfcg"]
+font_color = Color(0, 0, 0, 1)
 
 [node name="Location" type="Area2D"]
+scale = Vector2(1.4, 1.4)
 script = ExtResource("1_w2in5")
 
 [node name="BattleConfirmation" parent="." instance=ExtResource("3_cx3m0")]

@@ -119,7 +119,6 @@ func _next_day_lock_animation():
 		start_next_day.emit()
 
 func generate_next_day():
-	
 	if Globals.current_day <= Globals.MAX_DAYS:
 		generate_hero()
 		generate_event()
