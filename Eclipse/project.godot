@@ -22,8 +22,8 @@ Globals="*res://global/globals.gd"
 
 [display]
 
-window/size/viewport_width=2400
-window/size/viewport_height=1500
+window/size/viewport_width=1600
+window/size/viewport_height=1000
 
 [editor]
 

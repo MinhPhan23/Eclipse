@@ -8,7 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://ccxrqepiraon1" path="res://Assets/sound_effects/textcrawl.mp3" id="5_jve78"]
 
 [node name="WinCutscene" type="Node2D"]
-scale = Vector2(1.5, 1.5)
 
 [node name="Cutscene" parent="." instance=ExtResource("1_croce")]
 dialog_text = Array[String](["One by one, the stars wink out.", "Darkness settles across the land, the sun itself forced to turn its face from the Dark Lord's might.", "As it should be."])
