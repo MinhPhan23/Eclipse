@@ -94,7 +94,6 @@ func callback_minion() -> CharacterBody2D:
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
-	minion_animation_tree.animation_finished.disconnect(emit_animation_end_signal)
 	var withdrawn_minion = minion
 	minion = null
 	return withdrawn_minion
