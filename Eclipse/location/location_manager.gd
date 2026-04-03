@@ -150,7 +150,7 @@ func start_final_battle():
 	var top_hero = hero_scene_preload.instantiate()
 	var final_location = _locations[rand_num.randi_range(0, _locations.size()-1)]
 	for location in _locations:
-		if location.hero != null and (top_hero == null or location.hero.level > top_hero.level):
+		if location.hero != null and (top_hero == null or location.hero.level >= top_hero.level):
 			top_hero = location.hero
 			final_location = location
 	
