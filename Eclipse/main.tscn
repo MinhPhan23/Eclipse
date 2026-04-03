@@ -45,7 +45,6 @@ offset = Vector2(2.08165e-12, 2.08165e-12)
 transform = Transform2D(1, 1.04636e-15, -1.04636e-15, 1, 2.08165e-12, 2.08165e-12)
 
 [node name="MinionList" parent="UI" instance=ExtResource("1_32q6n")]
-anchors_preset = -1
 offset_top = -11.5
 offset_bottom = 11.5
 scale = Vector2(2, 2)
