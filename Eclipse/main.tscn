@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=15 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_diaglog.tscn" id="1_32q6n"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://d283ggifw3wca" path="res://worldmap/world_map.tscn" id="2_ce6ph"]
 [ext_resource type="Script" path="res://location/location_manager.gd" id="2_qwhan"]
 [ext_resource type="PackedScene" uid="uid://m4hutg0vom0m" path="res://ui/report/Report.tscn" id="5_hgyqh"]
-[ext_resource type="Script" path="res://camera.gd" id="5_ljxpg"]
 [ext_resource type="PackedScene" uid="uid://cwisn1nxaokul" path="res://ui/countdown/countdown.tscn" id="6_5j7iu"]
 [ext_resource type="AudioStream" uid="uid://dsormq87am2gl" path="res://Assets/sound_effects/steps_leather.ogg" id="6_gt4ai"]
 [ext_resource type="AudioStream" uid="uid://dssflns0njdqf" path="res://Assets/sound_effects/Accept6.wav" id="7_slm8s"]
@@ -26,15 +25,45 @@ script = ExtResource("2_qwhan")
 
 [node name="Castle" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 z_index = 1
-position = Vector2(70, 57)
+position = Vector2(1330.71, 745)
 location_name = "The Ruins of Ashmont"
 events = Array[String](["Hooded figures gather for a secret meeting in the ruins..", "Smoke is spotted curling from the ruin's courtyard.", "Strange lights flash in the window of the tallest tower of Ashmont.", "A portal to another dimension opens briefly in the castle keep.", "An adventurer emerges from the dungeons of Ashmont with loot and new scars."])
 pattern_index = 1
 
 [node name="Capital" parent="LocationManager" instance=ExtResource("2_cd1vd")]
-position = Vector2(120, 786)
+position = Vector2(612.857, 731.429)
 location_name = "Avondale"
 events = Array[String](["A tournament champion vows to defeat the Dark Lord.", "The citizens of Avondale gather for a celebration.", "A monster terrorizing the capital populace is defeated.", "An assassination attempt on a member of the Avondale royal family is thwarted.", "The king of Avondale bestows knighthood to a worthy servant of the crown."])
+
+[node name="TradePort" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(949.286, 535.714)
+location_name = "Trade Port"
+pattern_index = 2
+
+[node name="ElfForest" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(130, 750.714)
+location_name = "Elf Forest"
+pattern_index = 3
+
+[node name="AncientLibray" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(470.714, 90)
+location_name = "Ancient Library"
+pattern_index = 4
+
+[node name="FarmVillage" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(563.571, 387.857)
+location_name = "Farm Village"
+pattern_index = 5
+
+[node name="DesertOasis" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(126.429, 129.286)
+location_name = "Desert Oasis"
+pattern_index = 6
+
+[node name="DwarfStringhold" parent="LocationManager" instance=ExtResource("2_cd1vd")]
+position = Vector2(1401.43, 92.8571)
+location_name = "Dwarf Stronghold"
+pattern_index = 7
 
 [node name="DeployMinionSound" type="AudioStreamPlayer" parent="LocationManager"]
 stream = ExtResource("6_gt4ai")
@@ -58,15 +87,16 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -32.0
-offset_right = -12.0
-offset_bottom = -12.0
+offset_left = -54.0
+offset_top = -36.0
+offset_right = -46.0
+offset_bottom = -13.0
 grow_horizontal = 0
 grow_vertical = 0
 
 [node name="Report" parent="UI" instance=ExtResource("5_hgyqh")]
 visible = false
+scale = Vector2(1.5, 1.5)
 
 [node name="OpenReport" type="AudioStreamPlayer" parent="UI/Report"]
 stream = ExtResource("7_slm8s")
@@ -85,15 +115,13 @@ stream = ExtResource("10_hj3i5")
 volume_db = -4.0
 
 [node name="Countdown" parent="UI" instance=ExtResource("6_5j7iu")]
-position = Vector2(64, 912)
+position = Vector2(53, 926)
 
 [node name="LordDialog" parent="UI" instance=ExtResource("8_8u18f")]
+visible = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(400, 250)
-offset = Vector2(2.08165e-12, 2.08165e-12)
-zoom = Vector2(2, 2)
-script = ExtResource("5_ljxpg")
+position = Vector2(800, 500)
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_vso83")
@@ -102,6 +130,12 @@ autoplay = true
 
 [connection signal="selection" from="LocationManager/Castle" to="LocationManager" method="send_minion_dialog"]
 [connection signal="selection" from="LocationManager/Capital" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/TradePort" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/ElfForest" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/AncientLibray" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/FarmVillage" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/DesertOasis" to="LocationManager" method="send_minion_dialog"]
+[connection signal="selection" from="LocationManager/DwarfStringhold" to="LocationManager" method="send_minion_dialog"]
 [connection signal="SELECTED" from="UI/MinionList" to="LocationManager" method="send_minion"]
 [connection signal="SELECTED" from="UI/StartBattle" to="." method="start_simulation_battle"]
 [connection signal="finished" from="Music" to="." method="_on_music_finished"]

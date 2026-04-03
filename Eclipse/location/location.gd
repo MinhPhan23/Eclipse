@@ -58,6 +58,8 @@ func emit_animation_end_signal(anim_name: String):
 		animation_end.emit()
 
 func generate_events() -> String:
+	if (events.size() == 0):
+		return ""
 	var random_number = rng.randf();
 	if (hero != null && random_number < 0.8) || (hero == null && random_number < 0.2):
 		return events[rng.randi_range(0, events.size() - 1)]
