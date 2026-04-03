@@ -18,8 +18,8 @@ extends Area2D
 @export var pattern_index: int
 @export var minion_bonus: int = 2
 @export var battle_trigger_range: int = 6
-@export var minion_spawn_pos: Vector2 = Vector2(200, 200)
-@export var hero_spawn_pos: Vector2 = Vector2(100, 100)
+#@export var minion_spawn_pos: Vector2 = Vector2(200, 200)
+#@export var hero_spawn_pos: Vector2 = Vector2(100, 100)
 
 var hero: CharacterBody2D
 var minion: CharacterBody2D
