@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cwisn1nxaokul" path="res://ui/countdown/countdown.tscn" id="6_5j7iu"]
 [ext_resource type="AudioStream" uid="uid://dsormq87am2gl" path="res://Assets/sound_effects/steps_leather.ogg" id="6_gt4ai"]
 [ext_resource type="AudioStream" uid="uid://dssflns0njdqf" path="res://Assets/sound_effects/Accept6.wav" id="7_slm8s"]
+[ext_resource type="PackedScene" uid="uid://7ffaupjy8qx8" path="res://ui/lord_dialog/lord_dialog.tscn" id="8_8u18f"]
 [ext_resource type="AudioStream" uid="uid://goy7vk2s0s8r" path="res://Assets/sound_effects/Menu12.wav" id="8_gt8ej"]
 [ext_resource type="AudioStream" uid="uid://dustsbxscpttv" path="res://Assets/sound_effects/zipclick.ogg" id="9_6ps6s"]
 [ext_resource type="AudioStream" uid="uid://yl763ugkq0w7" path="res://Assets/music/music_world_map.ogg" id="9_vso83"]
@@ -37,18 +38,19 @@ position = Vector2(120, 786)
 location_name = "Avondale"
 events = Array[String](["A tournament champion vows to defeat the Dark Lord.", "The citizens of Avondale gather for a celebration.", "A monster terrorizing the capital populace is defeated.", "An assassination attempt on a member of the Avondale royal family is thwarted.", "The king of Avondale bestows knighthood to a worthy servant of the crown."])
 
-[node name="MinionList" parent="LocationManager" instance=ExtResource("1_32q6n")]
-z_index = 1
-offset_left = 403.0
-offset_top = 238.0
-offset_right = 443.0
-offset_bottom = 258.0
-
 [node name="DeployMinionSound" type="AudioStreamPlayer" parent="LocationManager"]
 stream = ExtResource("6_gt4ai")
 volume_db = 16.0
 
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MinionList" parent="UI" instance=ExtResource("1_32q6n")]
+anchors_preset = -1
+offset_top = -11.5
+offset_bottom = 11.5
+scale = Vector2(2, 2)
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="StartBattle" parent="UI" instance=ExtResource("1_32q6n")]
 anchors_preset = 3
@@ -100,6 +102,8 @@ visible = false
 [node name="ControlMenu" parent="Pause" instance=ExtResource("14_1lynt")]
 visible = false
 
+[node name="LordDialog" parent="UI" instance=ExtResource("8_8u18f")]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(400, 250)
 offset = Vector2(2.08165e-12, 2.08165e-12)
@@ -117,7 +121,7 @@ autoplay = true
 
 [connection signal="selection" from="LocationManager/Castle" to="LocationManager" method="send_minion_dialog"]
 [connection signal="selection" from="LocationManager/Capital" to="LocationManager" method="send_minion_dialog"]
-[connection signal="SELECTED" from="LocationManager/MinionList" to="LocationManager" method="send_minion"]
+[connection signal="SELECTED" from="UI/MinionList" to="LocationManager" method="send_minion"]
 [connection signal="SELECTED" from="UI/StartBattle" to="." method="start_simulation_battle"]
 [connection signal="close_menu" from="Pause/PauseMenu" to="." method="_on_pause_menu_close_menu"]
 [connection signal="open_controls" from="Pause/PauseMenu" to="." method="_on_pause_menu_open_controls"]

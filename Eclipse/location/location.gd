@@ -44,6 +44,8 @@ func _ready():
 	
 	simulation_animation.visible = false
 	deployed_minion_panel.visible = true
+	
+	minion_animation_tree.animation_finished.connect(emit_animation_end_signal)
 
 	_load_tile_map_pattern()
 	
@@ -80,21 +82,22 @@ func _remove_hero(removed_hero):
 func add_minion(new_minion):
 	minion = new_minion
 	minion.dead.connect(_remove_minion)
-	minion_animation_tree.animation_finished.connect(emit_animation_end_signal)
 	if hero != null:
 		hero.target = new_minion
 	deployed_minion_label.text = "Minion level " + str(minion.level)
 	deployed_minion_icon.visible = true
 	simulation_animation.visible  = false
 	
-func callback_minion():
+func callback_minion() -> CharacterBody2D:
 	if (minion == null):
-		return
+		return null
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
 	minion_animation_tree.animation_finished.disconnect(emit_animation_end_signal)
+	var withdrawn_minion = minion
 	minion = null
+	return withdrawn_minion
 	
 func _remove_minion(removed_minion):
 	if minion == null or minion != removed_minion:
@@ -102,27 +105,25 @@ func _remove_minion(removed_minion):
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
-	minion_animation_tree.animation_finished.disconnect(emit_animation_end_signal)
 	if hero != null:
 		hero.target = null
 	minion.queue_free()
 	minion = null
 
 func _input_event(_viewport, event, _shape_idx):
-	if event.is_action_pressed("left_mouse_click") and minion == null:
+	if event.is_action_pressed("left_mouse_click"):
 		emit_signal("selection", self.name)
 	
-func simulate_battle():
+func simulate_battle() -> Globals.SIMULATION_BATTLE_RESULT:
 	if minion == null:
-		return
+		return Globals.SIMULATION_BATTLE_RESULT.NO_DEPLOYED_MINION
 	
 	deployed_minion_icon.visible = false
 	simulation_animation.visible  = true
 	
 	if hero == null:
 		simulation_animation.minion_look_around()
-		battle_end.emit()
-		return
+		return Globals.SIMULATION_BATTLE_RESULT.MINION_LOOK_AROUND
 		
 	var minion_level = minion.level
 	var hero_level = hero.level
@@ -133,18 +134,18 @@ func simulate_battle():
 		simulation_animation.hero_win()
 		if (hero_dice_roll - minion_dice_roll <= battle_trigger_range):
 			_open_battle_confirmation_dialog()
-			return
+			return Globals.SIMULATION_BATTLE_RESULT.BATTLE_TRIGGER
 		else:
 			#hero win and level up
 			hero.level_up()
 			minion.emit_dead_signal()
+			return Globals.SIMULATION_BATTLE_RESULT.MINION_LOST
 	else:
 		#minion win and level up
 		simulation_animation.minion_win()
 		minion.level_up()
 		hero.emit_dead_signal()
-		
-	battle_end.emit()
+		return Globals.SIMULATION_BATTLE_RESULT.MINION_WIN
 
 func emit_battle_end_signal():
 	battle_end.emit()
@@ -153,13 +154,17 @@ func _open_battle_confirmation_dialog():
 	battle_confirmation_dialog.visible = true
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_INHERIT
 
+func close_battle_confirmation_dialog():
+	battle_confirmation_dialog.visible = false
+	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
+
 func transition_to_battle_scene():
 	var battle_scene = battle_scene_preload.instantiate()
 	var tree = get_tree()
 	var root = tree.get_root()
 	var main_scene = tree.get_current_scene()
 	
-	if Globals.current_day <= Globals.MAX_DAYS:
+	if Globals.current_day < Globals.MAX_DAYS:
 		battle_scene.initialize_battle(main_scene, self, hero, minion)
 	else:
 		var lose_scene = lose_scene_load.instantiate()
