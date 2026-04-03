@@ -53,6 +53,7 @@ func _generate_next_day_events():
 			start_battle.process_mode = Node.PROCESS_MODE_INHERIT
 	else:
 		# Trigger final battle
+		location_manager.generate_next_day()
 		report_str = "The hour of the eclipse is upon us. The final battle begins."
 		var final_battle_dialog: Control = load("res://ui/accept_dialog/accept_dialog.tscn").instantiate()
 		final_battle_dialog.dialog_content = report_str

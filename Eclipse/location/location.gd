@@ -44,6 +44,8 @@ func _ready():
 	
 	simulation_animation.visible = false
 	deployed_minion_panel.visible = true
+	
+	minion_animation_tree.animation_finished.connect(emit_animation_end_signal)
 
 	_load_tile_map_pattern()
 	
@@ -80,7 +82,6 @@ func _remove_hero(removed_hero):
 func add_minion(new_minion):
 	minion = new_minion
 	minion.dead.connect(_remove_minion)
-	minion_animation_tree.animation_finished.connect(emit_animation_end_signal)
 	if hero != null:
 		hero.target = new_minion
 	deployed_minion_label.text = "Minion level " + str(minion.level)
@@ -104,7 +105,6 @@ func _remove_minion(removed_minion):
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
-	minion_animation_tree.animation_finished.disconnect(emit_animation_end_signal)
 	if hero != null:
 		hero.target = null
 	minion.queue_free()
@@ -158,13 +158,13 @@ func close_battle_confirmation_dialog():
 	battle_confirmation_dialog.visible = false
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
 
-func _transition_to_battle_scene():
+func transition_to_battle_scene():
 	var battle_scene = battle_scene_preload.instantiate()
 	var tree = get_tree()
 	var root = tree.get_root()
 	var main_scene = tree.get_current_scene()
 	
-	if Globals.current_day <= Globals.MAX_DAYS:
+	if Globals.current_day < Globals.MAX_DAYS:
 		battle_scene.initialize_battle(main_scene, self, hero, minion)
 	else:
 		var lose_scene = lose_scene_load.instantiate()
@@ -178,7 +178,7 @@ func _on_battle_confirmation_selected(index):
 	battle_confirmation_dialog.visible = false
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
 	if (index == 0):
-		_transition_to_battle_scene()
+		transition_to_battle_scene()
 	else:
 		hero.level_up()
 		minion.emit_dead_signal()

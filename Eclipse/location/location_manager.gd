@@ -157,5 +157,4 @@ func start_final_battle():
 	
 	top_hero.target = top_min
 	final_location.add_minion(top_min)
-	final_location.add_hero(top_hero)
 	final_location.transition_to_battle_scene()
