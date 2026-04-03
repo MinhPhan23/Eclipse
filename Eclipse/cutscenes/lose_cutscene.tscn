@@ -8,7 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://ccxrqepiraon1" path="res://Assets/sound_effects/textcrawl.mp3" id="5_hf2tq"]
 
 [node name="LoseCutscene" type="Node2D"]
-scale = Vector2(1.4, 1.4)
 
 [node name="Cutscene" parent="." instance=ExtResource("1_pdyr0")]
 dialog_text = Array[String](["Light spills across the mountains, illuminating the Barrens as they have never been before.", "The Dark One's armies scatter before it like so many leaves in a storm.", "The Dark Lord is defeated...", "For now..."])

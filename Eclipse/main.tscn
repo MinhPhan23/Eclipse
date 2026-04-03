@@ -16,7 +16,6 @@
 [ext_resource type="AudioStream" uid="uid://ccxrqepiraon1" path="res://Assets/sound_effects/textcrawl.mp3" id="10_hj3i5"]
 
 [node name="Main" type="Node2D"]
-scale = Vector2(1.4, 1.4)
 script = ExtResource("1_1kue1")
 
 [node name="WorldMap" parent="." instance=ExtResource("2_ce6ph")]
@@ -87,13 +86,12 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -137.0
-offset_top = -57.0
-offset_right = -129.0
-offset_bottom = -34.0
+offset_left = -54.0
+offset_top = -36.0
+offset_right = -46.0
+offset_bottom = -13.0
 grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(2, 2)
 
 [node name="Report" parent="UI" instance=ExtResource("5_hgyqh")]
 visible = false
@@ -116,7 +114,7 @@ stream = ExtResource("10_hj3i5")
 volume_db = -4.0
 
 [node name="Countdown" parent="UI" instance=ExtResource("6_5j7iu")]
-position = Vector2(72, 1305)
+position = Vector2(53, 926)
 
 [node name="LordDialog" parent="UI" instance=ExtResource("8_8u18f")]
 visible = false
