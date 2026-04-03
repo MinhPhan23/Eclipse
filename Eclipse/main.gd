@@ -9,18 +9,22 @@ const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables
 @onready var minion_scene_preload: PackedScene = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload: PackedScene = preload("res://mage/mage.tscn")
 
-@onready var countdown: Node2D = $UI/Countdown
 @onready var demon_lord_dialog: Control = $UI/LordDialog
 @onready var demon_lord_dialog_queue: Array[String] = [FIRST_DEPLOYMENT]
 @onready var battle_trigger: bool = false
-@onready var location_manager: Node2D = $"LocationManager"
 @onready var ui_layer: CanvasLayer = $UI
+@onready var countdown: Control = $UI/Countdown
+@onready var start_battle: PanelContainer = $UI/StartBattle
 @onready var report: Control = $UI/Report
-@onready var start_battle: PanelContainer = $"UI/StartBattle"
+@onready var location_manager: Node2D = $LocationManager
 @onready var music = $Music
 
+# Menu Layers
+@onready var pause_menu: Control = $Pause/PauseMenu
+@onready var control_menu: Control = $Pause/ControlMenu
+
 # Called when the node enters the scene tree for the first time.
-func _ready():	
+func _ready():
 	location_manager.start_next_day.connect(_generate_next_day_events)
 	location_manager.minion_win.connect(_on_minion_win_first_time)
 	location_manager.minion_lost.connect(_on_minion_lost_first_time)
@@ -36,7 +40,7 @@ func _ready():
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
 	location_manager.simulate_battle()
-	
+
 func _generate_next_day_events():
 	var report_str: String
 	if Globals.current_day < Globals.MAX_DAYS:
@@ -106,3 +110,23 @@ func _on_battle_trigger_first_time(location_name: String):
 # Loop background music.
 func _on_music_finished():
 	music.play()
+
+func _on_control_menu_close_menu():
+	control_menu.hide()
+
+func _on_pause_menu_open_controls():
+	control_menu.show()
+
+
+func _on_pause_menu_close_menu():
+	pause_menu.hide()
+	control_menu.hide()
+	get_tree().paused = false
+
+
+func _on_pause_menu_pause():
+	pause_menu.show()
+
+func _on_pause_menu_unpause():
+	pause_menu.hide()
+	control_menu.hide()

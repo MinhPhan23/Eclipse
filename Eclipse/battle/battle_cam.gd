@@ -10,7 +10,7 @@ var camera_min_y
 var camera_max_y
 
 # Called when the node enters the scene tree for the first time.
-func _ready():	
+func _ready():
 	viewport_size = get_viewport_rect().size
 	camera_size = viewport_size / zoom
 	camera_min_x = camera_size.x / 2
@@ -24,7 +24,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if target:
 		position.x = clamp(target.position.x, camera_min_x, camera_max_x)
 		position.y = clamp(target.position.y, camera_min_y, camera_max_y)

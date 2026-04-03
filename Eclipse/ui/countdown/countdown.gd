@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 @onready var sprite: Sprite2D = $EclipseSprite
 @onready var label: Label = $Label

@@ -40,12 +40,12 @@ func _ready() -> void:
 	COOLDOWN.wait_time = current_firing_cooldown
 	
 	# Set HealthBar to full.
-	$HealthBar.value = current_hp * 100 / current_max_hp
+	$HealthBar.value = current_hp * 100.0 / current_max_hp
 
 
-func _process(delta):
+func _process(_delta):
 	# Update HealthBar.
-	$HealthBar.value = current_hp * 100 / current_max_hp
+	$HealthBar.value = current_hp * 100.0 / current_max_hp
 
 
 func _physics_process(_delta: float) -> void:
