@@ -12,6 +12,7 @@ extends Area2D
 @onready var tile_map = $"TileMap"
 @onready var simulation_animation = $"SimulationAnimation"
 @onready var minion_animation_tree = $"SimulationAnimation/Minion/AnimationTree"
+@onready var deploy_minion_sound = $"../DeployMinionSound"
 
 @export var location_name: String
 @export var events: Array[String]
@@ -57,6 +58,9 @@ func emit_animation_end_signal(anim_name: String):
 	if (anim_name == "attack_e" or anim_name == "dead_e" or anim_name == "look_around"):
 		animation_end.emit()
 
+
+# 80% chance to generate an event at a location if a hero is present.
+# 20% chance to generate an event at a location if a hero is not present.
 func generate_events() -> String:
 	if (events.size() == 0):
 		return ""
@@ -64,6 +68,7 @@ func generate_events() -> String:
 	if (hero != null && random_number < 0.8) || (hero == null && random_number < 0.2):
 		return events[rng.randi_range(0, events.size() - 1)]
 	return ""
+
 
 func add_hero(new_hero):
 	hero = new_hero
@@ -80,8 +85,12 @@ func _remove_hero(removed_hero):
 	hero.dead.disconnect(_remove_hero)
 	hero.queue_free()
 	hero = null
-	
+
+
+# Adds a minion selected for deployment to this location.
+# Called by send_minion() in location_manager.gd.
 func add_minion(new_minion):
+	deploy_minion_sound.play()
 	minion = new_minion
 	minion.dead.connect(_remove_minion)
 	if hero != null:
@@ -89,17 +98,22 @@ func add_minion(new_minion):
 	deployed_minion_label.text = "Minion level " + str(minion.level)
 	deployed_minion_icon.visible = true
 	simulation_animation.visible  = false
-	
+
+
 func callback_minion() -> CharacterBody2D:
+	# If location has no minion return null.
 	if (minion == null):
 		return null
+	
+	# If location has a minion return it.
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
 	minion.dead.disconnect(_remove_minion)
 	var withdrawn_minion = minion
 	minion = null
 	return withdrawn_minion
-	
+
+
 func _remove_minion(removed_minion):
 	if minion == null or minion != removed_minion:
 		return
@@ -111,10 +125,14 @@ func _remove_minion(removed_minion):
 	minion.queue_free()
 	minion = null
 
+
+# Registers that this location has been clicked on and signals
+# location_manager.gd to open a minion deployment menu.
 func _input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("left_mouse_click"):
 		emit_signal("selection", self.name)
-	
+
+
 func simulate_battle() -> Globals.SIMULATION_BATTLE_RESULT:
 	if minion == null:
 		return Globals.SIMULATION_BATTLE_RESULT.NO_DEPLOYED_MINION
