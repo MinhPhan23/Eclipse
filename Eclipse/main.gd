@@ -37,6 +37,14 @@ func _ready():
 	start_battle.label_text = ""
 	_generate_next_day_events()
 
+func _input(event):
+	# toggle the report if it is finished running and there is not another dialog visible (i.e. tutorial)
+	if event.is_action_pressed("toggle_report") and !report.is_running and !demon_lord_dialog.visible:
+		if report.visible:
+			report.close()
+		else:
+			report.open()
+
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
 	location_manager.simulate_battle()
@@ -78,7 +86,7 @@ func _generate_report_string() -> String:
 	var report_str = ""
 	for event in events:
 		if !event.is_empty():
-			report_str += event + '\n'
+			report_str += event + '\n\n'
 	
 	if report_str.is_empty():
 		return "The day passes uneventfully."
