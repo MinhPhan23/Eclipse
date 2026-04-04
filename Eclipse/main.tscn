@@ -26,7 +26,7 @@ script = ExtResource("2_qwhan")
 z_index = 1
 position = Vector2(1330.71, 745)
 location_name = "The Ruins of Ashmont"
-hero_events = Array[String](["The ruin hidden keep was discovered, legend said that the most powerful demon slayer artifacts of the old world is there.", "Someone was digging around the castle, the journal of the old demon expedition is said to be somewhere in the ruins.", "A portal to another dimension opens briefly in the throne room, only descendants of the Ashmont can do that."])
+hero_events = Array[String](["The ruin's hidden keep was discovered. Legend says that the most powerful demon slayer artifacts of the old world are there.", "Someone was digging around the castle. The journal of an old demon expedition is said to be somewhere in the ruins.", "A portal to another dimension opens briefly in the throne room. Only descendants of Ashmont can do that."])
 location_events = Array[String](["Hooded figures gather for a secret meeting in the ruins.", "An adventurer emerges from the dungeons of Ashmont with loot and new scars."])
 pattern_index = 1
 
