@@ -13,6 +13,8 @@ var is_running: bool
 @onready var click_sound = $ClickSound
 @onready var textcrawl_sound = $TextcrawlSound
 
+signal report_done
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	is_running = false
@@ -68,3 +70,4 @@ func _on_continue_button_pressed():
 	close_report.play()
 	hide()
 	process_mode = Node.PROCESS_MODE_DISABLED
+	report_done.emit()
