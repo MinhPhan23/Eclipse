@@ -40,7 +40,7 @@ events = Array[String](["A tournament champion vows to defeat the Dark Lord.", "
 [node name="TradePort" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(949.286, 535.714)
 location_name = "Bilgewater"
-events = Array[String](["The pirate base in the slums disappear overnight, as if a storm swept through.", "Rare sea monster parts are circulating the market with unusual qualities.", "A mysterious force is sabotaging the slave merchant ships."])
+events = Array[String](["The pirate base by the port disappears overnight, as if a storm swept through.", "Rare sea monster parts are circulating the market with unusual qualities.", "A mysterious force is sabotaging the slave merchant ships."])
 pattern_index = 2
 
 [node name="ElfForest" parent="LocationManager" instance=ExtResource("2_cd1vd")]
