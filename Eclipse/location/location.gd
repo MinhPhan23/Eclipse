@@ -17,6 +17,8 @@ extends Area2D
 @export var location_name: String
 @export var name_short: String
 @export var events: Array[String]
+@export var hero_events: Array[String]
+@export var location_events: Array[String]
 @export var pattern_index: int
 @export var minion_bonus: int = 2
 @export var battle_trigger_range: int = 6
@@ -61,11 +63,11 @@ func emit_animation_end_signal(anim_name: String):
 # 80% chance to generate an event at a location if a hero is present.
 # 20% chance to generate an event at a location if a hero is not present.
 func generate_events() -> String:
-	if (events.size() == 0):
-		return ""
 	var random_number = rng.randf();
-	if (hero != null && random_number < 0.8) || (hero == null && random_number < 0.2):
-		return events[rng.randi_range(0, events.size() - 1)]
+	if (hero != null && random_number < 0.8):
+		return hero_events[rng.randi_range(0, hero_events.size() - 1)]
+	elif (hero == null && random_number < 0.5):
+		return location_events[rng.randi_range(0, location_events.size() - 1)]
 	return ""
 
 

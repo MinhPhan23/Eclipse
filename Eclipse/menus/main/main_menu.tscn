@@ -75,6 +75,7 @@ text = "Controls"
 flat = true
 
 [node name="Quit" type="Button" parent="Buttons"]
+layout_mode = 0
 offset_left = -88.0
 offset_top = 176.0
 offset_right = 89.0

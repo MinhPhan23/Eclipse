@@ -33,6 +33,8 @@ func _ready():
 	
 	demon_lord_dialog.demon_lord_dialog_done.connect(_on_demon_lord_dialog_done)
 	
+	report.report_done.connect(_on_report_done)
+	
 	start_battle.choices = ["Start Battle"]
 	start_battle.label_text = ""
 	_generate_next_day_events()
@@ -63,8 +65,6 @@ func _generate_next_day_events():
 			
 			countdown.next_day()
 			report.show_report(report_str)
-			start_battle.process_mode = Node.PROCESS_MODE_INHERIT
-	
 	else:
 		# Trigger final battle
 		location_manager.generate_next_day()
@@ -127,12 +127,10 @@ func _on_control_menu_close_menu():
 func _on_pause_menu_open_controls():
 	control_menu.show()
 
-
 func _on_pause_menu_close_menu():
 	pause_menu.hide()
 	control_menu.hide()
 	get_tree().paused = false
-
 
 func _on_pause_menu_pause():
 	pause_menu.show()
@@ -140,3 +138,6 @@ func _on_pause_menu_pause():
 func _on_pause_menu_unpause():
 	pause_menu.hide()
 	control_menu.hide()
+
+func _on_report_done():
+	start_battle.process_mode = Node.PROCESS_MODE_INHERIT
