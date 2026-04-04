@@ -14,7 +14,8 @@ extends Area2D
 @onready var minion_animation_tree = $"SimulationAnimation/Minion/AnimationTree"
 
 @export var location_name: String
-@export var events: Array[String]
+@export var hero_events: Array[String]
+@export var location_events: Array[String]
 @export var pattern_index: int
 @export var minion_bonus: int = 2
 @export var battle_trigger_range: int = 6
@@ -58,11 +59,11 @@ func emit_animation_end_signal(anim_name: String):
 		animation_end.emit()
 
 func generate_events() -> String:
-	if (events.size() == 0):
-		return ""
 	var random_number = rng.randf();
-	if (hero != null && random_number < 0.8) || (hero == null && random_number < 0.2):
-		return events[rng.randi_range(0, events.size() - 1)]
+	if (hero != null && random_number < 0.8):
+		return hero_events[rng.randi_range(0, hero_events.size() - 1)]
+	elif (hero == null && random_number < 0.5):
+		return location_events[rng.randi_range(0, location_events.size() - 1)]
 	return ""
 
 func add_hero(new_hero):
