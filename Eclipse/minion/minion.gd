@@ -21,6 +21,7 @@ var current_speed: int = BASE_SPEED
 
 var strength: int = 10
 var level: int = 1
+var needs_rest: bool = false
 var dead_emit_flag: bool = false
 
 var input_vector: Vector2
@@ -70,6 +71,8 @@ func _physics_process(_delta: float) -> void:
 
 	move_and_slide()
 
+
+# Process damage when hit by an enemy.
 func _on_hit(damage: int):
 	impact_sound.play()
 	
@@ -92,7 +95,19 @@ func _shoot(direction: Vector2) -> void:
 func level_up():
 	level += 1
 	# Increase other stats if needed
-	
+
+
+# Called by deploy_minion() in minion_manager.gd whenever a minion is deployed.
+func exhaust():
+	needs_rest = true
+
+
+# Called by retrieve_minion() in minion_manager.gd whenever a minion is
+# withdrawn and at the start of a new day if this minion currently needs rest.
+func rest():
+	needs_rest = false
+
+
 func emit_dead_signal():
 	dead.emit(self)
 

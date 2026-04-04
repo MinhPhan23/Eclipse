@@ -37,24 +37,34 @@ func _ready():
 	start_battle.label_text = ""
 	_generate_next_day_events()
 
+func _input(event):
+	# toggle the report if it is finished running and there is not another dialog visible (i.e. tutorial)
+	if event.is_action_pressed("toggle_report") and !report.is_running and !demon_lord_dialog.visible:
+		if report.visible:
+			report.close()
+		else:
+			report.open()
+
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
 	location_manager.simulate_battle()
 
 func _generate_next_day_events():
 	var report_str: String
+	
 	if Globals.current_day < Globals.MAX_DAYS:
-		if !demon_lord_dialog_queue.is_empty():
+		if !demon_lord_dialog_queue.is_empty():  # Demon lord yaps.
 			var next_dialog = demon_lord_dialog_queue.pop_front()
 			demon_lord_dialog.show_dialog(next_dialog)
 		else:
-			Globals.next_day()
+			Globals.next_day()  # Increment the day counter.
 			location_manager.generate_next_day()
 			report_str = _generate_report_string()
 			
 			countdown.next_day()
 			report.show_report(report_str)
 			start_battle.process_mode = Node.PROCESS_MODE_INHERIT
+	
 	else:
 		# Trigger final battle
 		location_manager.generate_next_day()
@@ -76,7 +86,7 @@ func _generate_report_string() -> String:
 	var report_str = ""
 	for event in events:
 		if !event.is_empty():
-			report_str += event + '\n'
+			report_str += event + '\n\n'
 	
 	if report_str.is_empty():
 		return "The day passes uneventfully."
