@@ -43,18 +43,20 @@ func start_simulation_battle(_index):
 
 func _generate_next_day_events():
 	var report_str: String
+	
 	if Globals.current_day < Globals.MAX_DAYS:
-		if !demon_lord_dialog_queue.is_empty():
+		if !demon_lord_dialog_queue.is_empty():  # Demon lord yaps.
 			var next_dialog = demon_lord_dialog_queue.pop_front()
 			demon_lord_dialog.show_dialog(next_dialog)
 		else:
-			Globals.next_day()
+			Globals.next_day()  # Increment the day counter.
 			location_manager.generate_next_day()
 			report_str = _generate_report_string()
 			
 			countdown.next_day()
 			report.show_report(report_str)
 			start_battle.process_mode = Node.PROCESS_MODE_INHERIT
+	
 	else:
 		# Trigger final battle
 		location_manager.generate_next_day()

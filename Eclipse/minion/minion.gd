@@ -70,6 +70,8 @@ func _physics_process(_delta: float) -> void:
 
 	move_and_slide()
 
+
+# Process damage when hit by an enemy.
 func _on_hit(damage: int):
 	impact_sound.play()
 	
