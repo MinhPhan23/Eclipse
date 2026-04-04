@@ -101,7 +101,7 @@ func simulate_battle():
 	_battle_triggered = false
 	_animation_finished_count = 0
 	
-	if (minion_manager._deployed_minion != 0):
+	if (minion_manager.deployed_minion != 0):
 		for i in _locations:
 			var result = i.simulate_battle()
 			if (result == Globals.SIMULATION_BATTLE_RESULT.MINION_LOOK_AROUND):
@@ -122,13 +122,13 @@ func _next_day_lock_battle():
 	for i in _locations:
 		i.close_battle_confirmation_dialog()
 	
-	if (_animation_finished_count == minion_manager._deployed_minion):
+	if (_animation_finished_count == minion_manager.deployed_minion):
 		start_next_day.emit()
 
 
 func _next_day_lock_animation():
 	_animation_finished_count += 1
-	if (!_battle_triggered and _animation_finished_count == minion_manager._deployed_minion):
+	if (!_battle_triggered and _animation_finished_count == minion_manager.deployed_minion):
 		start_next_day.emit()
 
 
@@ -142,7 +142,7 @@ func generate_next_day():
 func start_final_battle():
 	# Trigger final battle
 	var top_min = minion_scene_preload.instantiate()
-	for minion in minion_manager._deployable_minion_list:
+	for minion in minion_manager.deployable_minion_list:
 		if top_min == null or minion.level > top_min.level:
 			top_min = minion
 	

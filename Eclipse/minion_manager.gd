@@ -7,9 +7,9 @@ const MAX_MINIONS: int = 3
 
 var rng: RandomNumberGenerator
 var minion_names_list: Array[String]
-var _all_minion_list: Array[Node]
-var _deployable_minion_list: Array[Node]
-var _deployed_minion: int
+var all_minion_list: Array[Node]
+var deployable_minion_list: Array[Node]
+var deployed_minion: int
 
 signal minion_return
 
@@ -39,9 +39,9 @@ func _ready():
 		var new_minion = minion_scene_preload.instantiate()
 		new_minion.name = generate_minion_name()
 		new_minion.dead.connect(remove_dead_minion)
-		_all_minion_list.append(new_minion)
-	_deployable_minion_list = _all_minion_list.duplicate()
-	_deployed_minion = 0
+		all_minion_list.append(new_minion)
+	deployable_minion_list = all_minion_list.duplicate()
+	deployed_minion = 0
 
 
 # Generate a name for a new minion.
@@ -58,21 +58,21 @@ func new_day() -> void:
 	minion_return.emit()  # Signal all locations to return deployed minions.
 	
 	# Add one new minion to the player's roster if there are fewer than max.
-	if _all_minion_list.size() < MAX_MINIONS:
+	if all_minion_list.size() < MAX_MINIONS:
 		var new_minion = minion_scene_preload.instantiate()
 		new_minion.name = generate_minion_name()
 		new_minion.dead.connect(remove_dead_minion)
-		_all_minion_list.append(new_minion)
+		all_minion_list.append(new_minion)
 	
-	_deployable_minion_list = _all_minion_list.duplicate()
-	_deployed_minion = 0
+	deployable_minion_list = all_minion_list.duplicate()
+	deployed_minion = 0
 	
 	# Rest minions that were deployed in the previous day and remove them from
 	# the list of deployable minions for today.
-	for i in _deployable_minion_list.duplicate():
+	for i in deployable_minion_list.duplicate():
 		if i.needs_rest:
 			i.rest()
-			_deployable_minion_list.erase(i)
+			deployable_minion_list.erase(i)
 
 
 # Create an array of the deployable minions.
@@ -80,7 +80,7 @@ func new_day() -> void:
 # deployment menu.
 func minion_arr() -> Array[String]:
 	var arr: Array[String] = []
-	for i in _deployable_minion_list:
+	for i in deployable_minion_list:
 		arr.append("%s Lvl:%d" % [i.name, i.level])
 	return arr
 
@@ -89,10 +89,10 @@ func minion_arr() -> Array[String]:
 # Called by transfer_minion() in location_manager.gd.
 func deploy_minion(loc: Location, index: int) -> void:
 	if loc.minion == null:
-		var mini = _deployable_minion_list[index]
+		var mini = deployable_minion_list[index]
 		loc.add_minion(mini)
-		_deployed_minion += 1
-		_deployable_minion_list.erase(mini)
+		deployed_minion += 1
+		deployable_minion_list.erase(mini)
 		mini.exhaust()
 
 
@@ -102,9 +102,9 @@ func deploy_minion(loc: Location, index: int) -> void:
 func retrieve_minion(loc: Location) -> void:
 	if loc.minion != null:
 		var mini = loc.callback_minion()
-		_deployable_minion_list.append(mini)
-		_deployable_minion_list.sort_custom(func(a, b): return a.name < b.name)
-		_deployed_minion -= 1
+		deployable_minion_list.append(mini)
+		deployable_minion_list.sort_custom(func(a, b): return a.name < b.name)
+		deployed_minion -= 1
 		mini.rest()
 
 
@@ -112,5 +112,5 @@ func retrieve_minion(loc: Location) -> void:
 # Called by a minion's dead signal in _on_hit() or by simulation.gd if the
 # minion loses a simulated battle.
 func remove_dead_minion(dead_minion) -> void:
-	_all_minion_list.erase(dead_minion)
+	all_minion_list.erase(dead_minion)
 	dead_minion.dead.disconnect(remove_dead_minion)
