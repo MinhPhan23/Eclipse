@@ -66,6 +66,13 @@ func new_day() -> void:
 	
 	_deployable_minion_list = _all_minion_list.duplicate()
 	_deployed_minion = 0
+	
+	# Rest minions that were deployed in the previous day and remove them from
+	# the list of deployable minions for today.
+	for i in _deployable_minion_list.duplicate():
+		if i.needs_rest:
+			i.rest()
+			_deployable_minion_list.erase(i)
 
 
 # Create an array of the deployable minions.
@@ -82,9 +89,11 @@ func minion_arr() -> Array[String]:
 # Called by transfer_minion() in location_manager.gd.
 func deploy_minion(loc: Location, index: int) -> void:
 	if loc.minion == null:
-		loc.add_minion(_deployable_minion_list[index])
+		var mini = _deployable_minion_list[index]
+		loc.add_minion(mini)
 		_deployed_minion += 1
-		_deployable_minion_list.erase(_deployable_minion_list[index])
+		_deployable_minion_list.erase(mini)
+		mini.exhaust()
 
 
 # Return a deployed minion to the deployable minions list from a specified
@@ -92,9 +101,11 @@ func deploy_minion(loc: Location, index: int) -> void:
 # Called by transfer_minion() in location_manager.gd.
 func retrieve_minion(loc: Location) -> void:
 	if loc.minion != null:
-		_deployable_minion_list.append(loc.callback_minion())
+		var mini = loc.callback_minion()
+		_deployable_minion_list.append(mini)
 		_deployable_minion_list.sort_custom(func(a, b): return a.name < b.name)
 		_deployed_minion -= 1
+		mini.rest()
 
 
 # Remove a defeated minion from the player's roster.

@@ -128,9 +128,7 @@ func _next_day_lock_battle():
 
 func _next_day_lock_animation():
 	_animation_finished_count += 1
-	#MM
-	if (!_battle_triggered and
-	_animation_finished_count == minion_manager._deployed_minion):
+	if (!_battle_triggered and _animation_finished_count == minion_manager._deployed_minion):
 		start_next_day.emit()
 
 
