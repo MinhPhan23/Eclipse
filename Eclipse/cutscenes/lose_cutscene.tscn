@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://3yldujse5tms" path="res://cutscenes/cutscene.tscn" id="1_pdyr0"]
 [ext_resource type="Texture2D" uid="uid://74fqolwp4xg3" path="res://Assets/Cutscenes/lose_cutscene.png" id="2_r3kny"]
-[ext_resource type="PackedScene" uid="uid://uu5lxw7qckc0" path="res://cutscenes/intro_cutscene.tscn" id="3_8fksl"]
+[ext_resource type="PackedScene" uid="uid://bk2u050doj8wb" path="res://menus/main/main_menu.tscn" id="3_gw4kq"]
 [ext_resource type="AudioStream" uid="uid://b4nlcp4asaln2" path="res://Assets/music/music_lose_game.ogg" id="4_37sdq"]
 [ext_resource type="AudioStream" uid="uid://dustsbxscpttv" path="res://Assets/sound_effects/zipclick.ogg" id="4_eeayg"]
 [ext_resource type="AudioStream" uid="uid://ccxrqepiraon1" path="res://Assets/sound_effects/textcrawl.mp3" id="5_hf2tq"]
@@ -12,7 +12,7 @@
 [node name="Cutscene" parent="." instance=ExtResource("1_pdyr0")]
 dialog_text = Array[String](["Light spills across the mountains, illuminating the Barrens as they have never been before.", "The Dark One's armies scatter before it like so many leaves in a storm.", "The Dark Lord is defeated...", "For now..."])
 background = ExtResource("2_r3kny")
-next_scene = ExtResource("3_8fksl")
+next_scene = ExtResource("3_gw4kq")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_37sdq")
