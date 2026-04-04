@@ -1,8 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://c64uy1rch2p8m"]
+[gd_scene load_steps=7 format=3 uid="uid://c64uy1rch2p8m"]
 
 [ext_resource type="Script" path="res://ui/choices_dialog/choices_dialog.gd" id="1_1ph4e"]
+[ext_resource type="Texture2D" uid="uid://pb6mqa61vx42" path="res://Assets/User Interface/wood_panel.png" id="2_mpofr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_j7nio"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l2hv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yan2h"]
+bg_color = Color(0.870588, 0.870588, 0.870588, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8m51y"]
+bg_color = Color(0.0392157, 0.0392157, 0.0392157, 0.411765)
 
 [node name="ChoicesDialog" type="PanelContainer"]
 anchors_preset = 8
@@ -10,14 +19,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -4.0
-offset_top = -10.0
-offset_right = 4.0
-offset_bottom = 10.0
+offset_left = -5.0
+offset_top = -11.0
+offset_right = 5.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_1ph4e")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_mpofr")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
@@ -27,9 +44,19 @@ horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 15
 
 [node name="Choices" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+alignment = 1
 
 [node name="Button" type="Button" parent="MarginContainer/Choices"]
 layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.870588, 0.870588, 0.870588, 1)
+theme_override_colors/font_hover_color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4l2hv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yan2h")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8m51y")
