@@ -2,9 +2,10 @@ extends Control
 
 const TEXT_SPEED: float = 0.05
 var tween: Tween
+var is_running: bool
 
-@onready var report_text: RichTextLabel = $ReportText
-@onready var continue_button: Button = $ContinueButton
+@onready var report_text: RichTextLabel = $Margins/VBox/BodyMargins/ReportText
+@onready var continue_button: Button = $Margins/VBox/ContinueButton
 @onready var open_report = $OpenReport
 @onready var close_report = $CloseReport
 @onready var click_sound = $ClickSound
@@ -12,6 +13,7 @@ var tween: Tween
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	is_running = false
 	report_text.text = ""
 	report_text.visible_characters = 0
 	process_mode = Node.PROCESS_MODE_DISABLED
@@ -28,10 +30,13 @@ func _process(_delta):
 
 
 func show_report(text: String) -> void:
+	report_text.text = text
+	report_text.visible_characters = 0
+	continue_button.hide()
+	
 	process_mode = Node.PROCESS_MODE_INHERIT
 	open_report.play()
 	
-	report_text.text = text
 	var report_length = report_text.text.length()
 	var duration = report_length * TEXT_SPEED
 	tween = get_tree().create_tween()
@@ -39,6 +44,7 @@ func show_report(text: String) -> void:
 
 	# Display report with crawling text
 	# Will automatically call _report_done on finished
+	is_running = true
 	show()
 	textcrawl_sound.play()
 	tween.tween_property(report_text, "visible_characters", report_length, duration)
@@ -47,11 +53,9 @@ func show_report(text: String) -> void:
 func _report_done() -> void:
 	continue_button.show()
 	textcrawl_sound.stop()
+	is_running = false
 
 func _on_continue_button_pressed():
 	close_report.play()
-	continue_button.hide()
 	hide()
-	report_text.text = ""
-	report_text.visible_characters = 0
 	process_mode = Node.PROCESS_MODE_DISABLED
