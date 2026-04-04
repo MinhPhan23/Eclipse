@@ -40,7 +40,10 @@ func _ready():
 func _input(event):
 	# toggle the report if it is finished running and there is not another dialog visible (i.e. tutorial)
 	if event.is_action_pressed("toggle_report") and !report.is_running and !demon_lord_dialog.visible:
-		report.visible = !report.visible
+		if report.visible:
+			report.close()
+		else:
+			report.open()
 
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED

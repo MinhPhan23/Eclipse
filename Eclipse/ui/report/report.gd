@@ -6,6 +6,8 @@ var is_running: bool
 
 @onready var report_text: RichTextLabel = $Margins/VBox/BodyMargins/ReportText
 @onready var continue_button: Button = $Margins/VBox/ContinueButton
+
+# sounds
 @onready var open_report = $OpenReport
 @onready var close_report = $CloseReport
 @onready var click_sound = $ClickSound
@@ -28,6 +30,13 @@ func _process(_delta):
 			tween.custom_step(INF)
 			_report_done()
 
+func open() -> void:
+	show()
+	open_report.play()
+
+func close() -> void:
+	hide()
+	close_report.play()
 
 func show_report(text: String) -> void:
 	report_text.text = text

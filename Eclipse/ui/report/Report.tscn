@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://m4hutg0vom0m"]
+[gd_scene load_steps=8 format=3 uid="uid://m4hutg0vom0m"]
 
 [ext_resource type="Script" path="res://ui/report/report.gd" id="1_4klku"]
 [ext_resource type="Texture2D" uid="uid://cvp6cx1s2oxws" path="res://Assets/User Interface/dialog_texture.png" id="2_q7s1v"]
+[ext_resource type="AudioStream" uid="uid://dssflns0njdqf" path="res://Assets/sound_effects/Accept6.wav" id="3_iwvif"]
+[ext_resource type="AudioStream" uid="uid://goy7vk2s0s8r" path="res://Assets/sound_effects/Menu12.wav" id="4_h2802"]
+[ext_resource type="AudioStream" uid="uid://dustsbxscpttv" path="res://Assets/sound_effects/zipclick.ogg" id="5_4x28t"]
+[ext_resource type="AudioStream" uid="uid://ccxrqepiraon1" path="res://Assets/sound_effects/textcrawl.mp3" id="6_bical"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7f40j"]
 texture = ExtResource("2_q7s1v")
@@ -70,5 +74,21 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Continue"
+
+[node name="OpenReport" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_iwvif")
+volume_db = -4.0
+
+[node name="CloseReport" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_h2802")
+volume_db = -4.0
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_4x28t")
+volume_db = 8.0
+
+[node name="TextcrawlSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_bical")
+volume_db = -4.0
 
 [connection signal="pressed" from="Margins/VBox/ContinueButton" to="." method="_on_continue_button_pressed"]
