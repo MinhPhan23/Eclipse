@@ -1,17 +1,17 @@
 extends Node2D
 
-const FIRST_DEPLOYMENT: String = "These heroes are popping up everywhere according to the reports. Need to figure out where they are coming from and deal with them before they get too strong."
-const FIRST_SIMULATION_WIN: String = "Seems like those deployed to %s can still do some work I guess."
-const FIRST_SIMULATION_LOST: String = "Useless, wasted at %s can't even win a fight against some random hero."
+const FIRST_DEPLOYMENT: Array[String] = ["The heroes are popping up everywhere, but my minions are useless, they can't even differentiate if an event is regular or sign of the heroes.", "I need to figure out where they are coming from and deal with them before they get too strong.", "To make matter worse, these minions need a full day to rest after deployment."]
+const FIRST_SIMULATION_WIN: String = "Seems like those deployed to %s can still do some work."
+const FIRST_SIMULATION_LOST: String = "Useless, wasted at %s, can't even put up a fight against some random hero."
 const FIRST_SIMULATION_NO_HERO: String = "What? No hero found at %s? Can't even write a proper report."
-const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables on you like that. All the way at %s. Need to deal with everything myself"
+const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables on you like that. Have to go all the way to %s to deal with them myself, how embarrassing."
 
 @onready var minion_scene_preload: PackedScene = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload: PackedScene = preload("res://mage/mage.tscn")
 
 # tutorial
 @onready var demon_lord_dialog: Control = $UI/LordDialog
-@onready var demon_lord_dialog_queue: Array[String] = [FIRST_DEPLOYMENT]
+@onready var demon_lord_dialog_queue: Array[String] = FIRST_DEPLOYMENT.duplicate()
 
 # UI
 @onready var ui_layer: CanvasLayer = $UI
