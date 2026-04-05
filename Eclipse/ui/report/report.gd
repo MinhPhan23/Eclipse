@@ -2,6 +2,7 @@ extends Control
 
 const TEXT_SPEED: float = 0.05
 var tween: Tween
+var is_running: bool
 var crawling_enabled: bool = true
 
 @export var button_text: String
@@ -21,6 +22,7 @@ signal report_done
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	is_running = false
 	continue_button.text = button_text
 	title_label.text = report_title
 	report_text.text = ""
@@ -64,7 +66,7 @@ func show_report(text: String) -> void:
 		var duration = report_length * TEXT_SPEED
 		tween = get_tree().create_tween()
 		tween.set_loops(1)
-
+		is_running = true
 		# Display report with crawling text
 		# Will automatically call _report_done on finished
 		
@@ -76,6 +78,7 @@ func show_report(text: String) -> void:
 		continue_button.show()
 
 func _report_done() -> void:
+	is_running = false
 	continue_button.show()
 	textcrawl_sound.stop()
 
