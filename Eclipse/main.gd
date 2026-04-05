@@ -9,15 +9,20 @@ const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables
 @onready var minion_scene_preload: PackedScene = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload: PackedScene = preload("res://mage/mage.tscn")
 
+# tutorial
 @onready var demon_lord_dialog: Control = $UI/LordDialog
 @onready var demon_lord_dialog_queue: Array[String] = [FIRST_DEPLOYMENT]
-@onready var battle_trigger: bool = false
+
+# UI
 @onready var ui_layer: CanvasLayer = $UI
 @onready var countdown: Control = $UI/Countdown
 @onready var start_battle: PanelContainer = $UI/StartBattle
 @onready var report: Control = $UI/Report
-@onready var location_manager: Node2D = $LocationManager
+@onready var report_button: TextureButton = $UI/ReportButton
+
 @onready var music = $Music
+@onready var location_manager: Node2D = $LocationManager
+@onready var battle_trigger: bool = false
 
 # Menu Layers
 @onready var pause_menu: Control = $Pause/PauseMenu
@@ -42,10 +47,7 @@ func _ready():
 func _input(event):
 	# toggle the report if it is finished running and there is not another dialog visible (i.e. tutorial)
 	if event.is_action_pressed("toggle_report") and !report.is_running and !demon_lord_dialog.visible:
-		if report.visible:
-			report.close()
-		else:
-			report.open()
+		report.toggle_report(!report.visible)
 
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
@@ -55,12 +57,14 @@ func _generate_next_day_events():
 	var report_str: String
 	
 	if Globals.current_day < Globals.MAX_DAYS:
+		report_button.set_disabled(true)
 		if !demon_lord_dialog_queue.is_empty():  # Demon lord yaps.
 			var next_dialog = demon_lord_dialog_queue.pop_front()
 			demon_lord_dialog.show_dialog(next_dialog)
 		else:
 			Globals.next_day()  # Increment the day counter.
 			location_manager.generate_next_day()
+			
 			report_str = _generate_report_string()
 			
 			countdown.next_day()
@@ -140,4 +144,6 @@ func _on_pause_menu_unpause():
 	control_menu.hide()
 
 func _on_report_done():
+	report_button.set_disabled(false)
+	report_button.set_pressed_no_signal(false)
 	start_battle.process_mode = Node.PROCESS_MODE_INHERIT
