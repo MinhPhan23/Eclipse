@@ -1,48 +1,65 @@
 extends CharacterBody2D
 
-@onready var impact_sound = $ImpactSound
-
-@export var BASE_FIRING_COOLDOWN: float = 0.5     # seconds
-@export var BASE_FOLLOW_DISTANCE: int = 200
-@export var BASE_HP: float = 100.0
-@export var BASE_SPELL_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast.
-@export var BASE_SPEED: int = 50
-@export var BASE_SPELL_RANGE: int = 300
-
-@export var RETICLE_DIST: float = 25.0    # distance from model center, pixels
-
-@export var HP_GROWTH_RATE: int = 50
-@export var SPEED_GROWTH_RATE: int = 10
-@export var FIRING_COOLDOWN_REDUCTION_RATE: float = 0.05
-
-#var hero_name: String
-var level: int = 1
-
-var current_firing_cooldown: float = BASE_FIRING_COOLDOWN
-var current_max_hp: float = BASE_HP
-var current_hp: float = current_max_hp
-var current_speed: int = BASE_SPEED
-var is_fighting: bool = false
-
-var target: CharacterBody2D
-var facing : Vector2  # Direction the mage is facing (v_minion.normalized()).
-var los : bool  # Line of sight.
-var spell_ready = true  # Updated by SpellTimer
-var spell_angle : float  # Angle offset for firebolt attack.
-var swing_right = true  # Used to control the swing of the firebolt angle.
-var dead_emit_flag: bool = false
-var bullet_spawn_node: Node
-
-@onready var BULLET = preload("res://projectile/firebolt.tscn")
-@onready var ANIMATION_TREE: AnimationTree = $AnimationTree
-@onready var NAV_AGENT = $NavigationAgent2D
-@onready var RETICLE = $Reticle
-@onready var SPELL_TIMER = $SpellTimer
 
 signal dead  # Emitted at 0 hp.
 
+@onready var ANIMATION_TREE: AnimationTree = $AnimationTree
+@onready var NAV_AGENT = $NavigationAgent2D
+@onready var RETICLE = $Reticle
+@onready var impact_sound = $ImpactSound
+
+# BATTLE VARIABLES
+@export var RETICLE_DIST: float = 25.0    # distance from model center, pixels
+@export var BASE_FOLLOW_DISTANCE: int = 200
+@export var CLOSE_RANGE: int = 400
+var is_fighting: bool = false
+var target: CharacterBody2D
+var facing: Vector2  # Direction the mage is facing (v_minion.normalized()).
+var distance: float  # Distance from mage to minion
+var los: bool  # Line of sight.
+var dead_emit_flag: bool = false
+
+# HERO VARIABLES
+@export var LEVEL_UP_RATE: int = 2  # Number of days it takes a hero to level up.
+@export var BASE_HP: float = 100.0
+@export var HP_GROWTH_RATE: int = 50
+@export var BASE_SPEED: int = 50
+@export var SPEED_GROWTH_RATE: int = 10
+# level_up_countdown is decremented and reset in generate_next_day() in
+# location_manager.gd, hero level is incremented when it hits 0.
+var level_up_countdown: int = 0  # daily_level_up() is called before the first battle sim to bring the hero to level 1.
+var level: int = 0
+var current_max_hp: float = BASE_HP
+var current_hp: float = current_max_hp
+var current_speed: int = BASE_SPEED
+
+
+# SPELLCASTING VARIABLES
+@onready var casting_timer = $CastingTimer  # No spellcasting while this timer is running.
+var ready_to_cast: bool = true  # Toggle false after casting spell, toggle true _on_casting_timer_timeout().
+
+# BURN
+@onready var BULLET = preload("res://projectile/firebolt.tscn")
+@onready var BURN_TIMER = $BurnTimer
+@export var BURN_UNLOCK_LVL: int = 1
+@export var BASE_BURN_COOLDOWN: float = 0.4     # seconds
+@export var MIN_BURN_COOLDOWN: float = 0.1
+@export var BURN_COOLDOWN_REDUCTION_RATE: float = 0.03
+@export var BASE_BURN_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast, radians.
+var bullet_spawn_node: Node
+var burn_cooldown: float = BASE_BURN_COOLDOWN
+var burn_ready = true  # Updated by BurnTimer
+var burn_angle : float  # Angle offset for Burn spell.
+var swing_right = true  # Used to control the swing of the Burn angle.
+
+
+
 func _ready():
-	SPELL_TIMER.wait_time = current_firing_cooldown
+	var v_minion = target.global_position - global_position
+	facing = v_minion.normalized()
+	distance = v_minion.length()
+	
+	BURN_TIMER.wait_time = burn_cooldown
 	
 	# Set HealthBar to full.
 	$HealthBar.value = current_hp * 100 / current_max_hp
@@ -51,13 +68,15 @@ func _ready():
 	set_physics_process(false)
 	call_deferred("_navigation_setup")
 
+
 func _process(_delta):
 	var v_minion = target.global_position - global_position
 	facing = v_minion.normalized()
+	distance = v_minion.length()
+	RETICLE.position = facing * RETICLE_DIST
 	
-	if v_minion.length() < BASE_SPELL_RANGE and spell_ready and los:
-		RETICLE.position = facing * RETICLE_DIST
-		_cast_spell(facing)
+	if is_fighting and ready_to_cast:
+		_cast_spell()
 	
 	# Update HealthBar
 	$HealthBar.value = current_hp * 100.0 / current_max_hp
@@ -89,36 +108,13 @@ func _physics_process(_delta):
 	
 	move_and_slide()
 
-# Called on _read() to enable physics after first frame
+
+# Called on _ready() to enable physics after first frame
 # Prevents navigation map from searching for path before it can synchronize
 func _navigation_setup():
 	await get_tree().physics_frame
 	set_physics_process(true)
-
-# Called by _process() when in range.
-func _cast_spell(direction: Vector2):
-	var instance: CharacterBody2D = BULLET.instantiate()
-	instance.direction = facing.rotated(spell_angle)
-	instance.spawn_pos = RETICLE.global_position
-	instance.spawn_rot = facing.rotated(spell_angle).angle() - PI/2
 	
-	instance.set_collision_layer_value(5, true) # hero bullet
-	instance.set_collision_mask_value(2, true)  # player
-	
-	bullet_spawn_node.add_child(instance)
-	spell_ready = false
-	SPELL_TIMER.start()
-
-
-# Called by _physics_process() when a player projectile collides with the mage.
-func _on_hit(dmg: int):
-	impact_sound.play()
-	
-	current_hp -= dmg
-	if current_hp <= 0.0 and !dead_emit_flag:
-		# animation?
-		dead_emit_flag = true
-		dead.emit(self)  # Battle scene handles end of battle protocols.
 
 # Checks whether the mage has line of sight on the minion by doing a raycast
 # to the minion and seeing whether any walls are hit by the ray.
@@ -138,26 +134,87 @@ func _check_los():
 	los = wall_collision.is_empty()
 
 
-func _on_spell_timer_timeout():
-	spell_ready = true
-	
-	# Update spell_angle.
-	if swing_right:
-		if spell_angle > BASE_SPELL_ANGLE:
-			swing_right = false
-			spell_angle -= 0.1
-		else:
-			spell_angle += 0.1
-	else:
-		if spell_angle < -BASE_SPELL_ANGLE:
-			swing_right = true
-			spell_angle += 0.1
-		else:
-			spell_angle -= 0.1
+func _on_casting_timer_timeout():
+	ready_to_cast = true
 
+
+# Choose a spell to cast from available unlocked spells then cast it.
+func _cast_spell():	
+	# New choose spell logic
+	#if level >= SHIELD_UNLOCK_LVL and distance > CLOSE_RANGE and !shielded:
+	#	cast shield spell
+	#elif level >= GLPYH_UNLOCK_LVL and glyph_ready:
+	#	cast glyph spell  #TODO: implement mage strafing
+	#elif level >= FIREBALL_UNLOCK_LVL and distance <= CLOSE_RANGE and fireball_ready:
+	#	cast fireball spell
+	if level >= BURN_UNLOCK_LVL and distance <= CLOSE_RANGE and burn_ready:
+		_cast_burn()
+	#elif level >= LIGHTNING_UNLOCK_LVL and distance > CLOSE_RANGE and lightning_ready:
+	#	cast lightning spell
+
+
+# Burn spell.
+func _cast_burn() -> void:
+	var instance: CharacterBody2D = BULLET.instantiate()
+	instance.direction = facing.rotated(burn_angle)
+	instance.spawn_pos = RETICLE.global_position
+	instance.spawn_rot = facing.rotated(burn_angle).angle() - PI/2
+	
+	instance.set_collision_layer_value(5, true) # hero bullet
+	instance.set_collision_mask_value(2, true)  # player
+	
+	bullet_spawn_node.add_child(instance)
+	burn_ready = false
+	BURN_TIMER.start()
+	
+	ready_to_cast = false
+	casting_timer.wait_time = burn_cooldown
+	casting_timer.start()
+
+func _on_burn_timer_timeout():
+	burn_ready = true
+	
+	# Update burn_angle.
+	if swing_right:
+		if burn_angle > BASE_BURN_ANGLE:
+			swing_right = false
+			burn_angle -= 0.1
+		else:
+			burn_angle += 0.1
+	else:
+		if burn_angle < -BASE_BURN_ANGLE:
+			swing_right = true
+			burn_angle += 0.1
+		else:
+			burn_angle -= 0.1
+
+
+# Called by _physics_process() when a player projectile collides with the mage.
+func _on_hit(dmg: int):
+	impact_sound.play()
+	
+	current_hp -= dmg
+	if current_hp <= 0.0 and !dead_emit_flag:
+		# animation?
+		dead_emit_flag = true
+		dead.emit(self)  # Battle scene handles end of battle protocols.
+
+
+# Level up the mage.
 func level_up():
 	level += 1
-	
+
+# Level up the hero according to its LEVEL_UP_RATE.
+# Heroes level up once for every LEVEL_UP_RATE days they survive.
+func daily_level_up():
+	if level_up_countdown < 1:
+		level_up()
+		# Reset lvlup_countdown if the hero leveled up.
+		level_up_countdown = LEVEL_UP_RATE
+	# Decrement level_up_countdown.
+	level_up_countdown -= 1
+
+
 func emit_dead_signal():
 	dead.emit(self)
 
@@ -168,9 +225,14 @@ func stop():
 func reset():
 	bullet_spawn_node = get_parent()
 	EventBus.hero_hit.connect(_on_hit)
+	
+	# Update mage stats.
 	current_max_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
 	current_hp = current_max_hp
 	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
-	current_firing_cooldown = BASE_FIRING_COOLDOWN - FIRING_COOLDOWN_REDUCTION_RATE * (level - 1)
-	SPELL_TIMER.wait_time = current_firing_cooldown
+	
+	# Update Burn spell.
+	if burn_cooldown > MIN_BURN_COOLDOWN:
+		burn_cooldown = BASE_BURN_COOLDOWN - BURN_COOLDOWN_REDUCTION_RATE * (level - 1)
+	BURN_TIMER.wait_time = burn_cooldown
 	process_mode = Node.PROCESS_MODE_INHERIT
