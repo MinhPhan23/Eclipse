@@ -47,6 +47,7 @@ func _ready():
 	
 	event_report.report_done.connect(_on_event_report_done)
 	battle_report.report_done.connect(_on_battle_report_done)
+	battle_report.disable_crawling()
 	
 	start_battle.choices = ["Deploy minion"]
 	start_battle.label_text = ""

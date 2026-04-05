@@ -2,7 +2,7 @@ extends Control
 
 const TEXT_SPEED: float = 0.05
 var tween: Tween
-var is_running: bool
+var crawling_enabled: bool = true
 
 @export var button_text: String
 @export var report_title: String
@@ -21,7 +21,6 @@ signal report_done
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	is_running = false
 	continue_button.text = button_text
 	title_label.text = report_title
 	report_text.text = ""
@@ -32,7 +31,7 @@ func _ready():
 
 
 func _input(event):
-	if event.is_action_pressed("continue_dialog"):
+	if crawling_enabled and event.is_action_pressed("continue_dialog"):
 		click_sound.play()
 		if tween.is_running():
 			# skip animation
@@ -48,6 +47,9 @@ func toggle_report(toggle_on: bool) -> void:
 		hide()
 		close_report.play()
 
+func disable_crawling():
+	crawling_enabled = false
+
 func show_report(text: String) -> void:
 	report_text.text = text
 	report_text.visible_characters = 0
@@ -55,24 +57,27 @@ func show_report(text: String) -> void:
 	
 	process_mode = Node.PROCESS_MODE_INHERIT
 	open_report.play()
-	
-	var report_length = report_text.text.length()
-	var duration = report_length * TEXT_SPEED
-	tween = get_tree().create_tween()
-	tween.set_loops(1)
-
-	# Display report with crawling text
-	# Will automatically call _report_done on finished
-	is_running = true
 	show()
-	textcrawl_sound.play()
-	tween.tween_property(report_text, "visible_characters", report_length, duration)
-	tween.tween_callback(_report_done)
+
+	var report_length = report_text.text.length()
+	if crawling_enabled:
+		var duration = report_length * TEXT_SPEED
+		tween = get_tree().create_tween()
+		tween.set_loops(1)
+
+		# Display report with crawling text
+		# Will automatically call _report_done on finished
+		
+		textcrawl_sound.play()
+		tween.tween_property(report_text, "visible_characters", report_length, duration)
+		tween.tween_callback(_report_done)
+	else:
+		report_text.visible_characters = report_length
+		continue_button.show()
 
 func _report_done() -> void:
 	continue_button.show()
 	textcrawl_sound.stop()
-	is_running = false
 
 func _on_continue_button_pressed():
 	close_report.play()
