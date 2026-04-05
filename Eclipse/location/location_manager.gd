@@ -154,7 +154,6 @@ func generate_next_day():
 	# Level up every alive hero.
 	for i in _locations:
 		if i.hero != null:
-			print("Hero in ", i.location_name, " has leveled up!") #testing
 			i.hero.level_up()
 	
 	if Globals.current_day <= Globals.MAX_DAYS:
