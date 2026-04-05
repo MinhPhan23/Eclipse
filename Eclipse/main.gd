@@ -1,10 +1,10 @@
 extends Node2D
 
-const FIRST_DEPLOYMENT: Array[String] = ["The heroes are popping up everywhere, but my minions are useless, they can't even differentiate if an event is regular or sign of the heroes.", "I need to figure out where they are coming from and deal with them before they get too strong.", "To make matter worse, these minions need a full day to rest after deployment."]
+const FIRST_DEPLOYMENT: Array[String] = ["These heroes are appearing everywhere, but my minions are useless. Their daily reports can't even distinguish the events of a hero from common news.", "I need to read the reports carefully to decide where they are coming from and snuff them out before they get too strong.", "To make matters worse, my minions need a full day to rest after deployment. I'll have to be strategic about how many I dispatch."]
 const FIRST_SIMULATION_WIN: String = "Seems like those deployed to %s can still do some work."
 const FIRST_SIMULATION_LOST: String = "Useless, wasted at %s, can't even put up a fight against some random hero."
-const FIRST_SIMULATION_NO_HERO: String = "What? No hero found at %s? Can't even write a proper report."
-const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables on you like that. Have to go all the way to %s to deal with them myself, how embarrassing."
+const FIRST_SIMULATION_NO_HERO: String = "What? No hero found at %s? These minions can't even write a proper report."
+const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables on you like that. I'll have to go all the way to %s to deal with them myself, how embarrassing."
 
 @onready var minion_scene_preload: PackedScene = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload: PackedScene = preload("res://mage/mage.tscn")
