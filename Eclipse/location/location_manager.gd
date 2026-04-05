@@ -15,7 +15,7 @@ var _close_button_index:int
 var rand_num: RandomNumberGenerator
 var _curr_loc: Area2D
 
-signal start_next_day
+signal battles_done
 signal minion_lost
 signal minion_win
 signal minion_look_around
@@ -114,7 +114,7 @@ func simulate_battle():
 				_battle_triggered = true
 				battle_trigger.emit(i.location_name)
 	else:
-		start_next_day.emit()
+		battles_done.emit()
 
 
 func _next_day_lock_battle():
@@ -123,13 +123,13 @@ func _next_day_lock_battle():
 		i.close_battle_confirmation_dialog()
 	
 	if (_animation_finished_count == minion_manager.deployed_minion):
-		start_next_day.emit()
+		battles_done.emit()
 
 
 func _next_day_lock_animation():
 	_animation_finished_count += 1
 	if (!_battle_triggered and _animation_finished_count == minion_manager.deployed_minion):
-		start_next_day.emit()
+		battles_done.emit()
 
 
 func generate_next_day():

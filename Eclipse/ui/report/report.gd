@@ -4,8 +4,12 @@ const TEXT_SPEED: float = 0.05
 var tween: Tween
 var is_running: bool
 
+@export var button_text: String
+@export var report_title: String
+
 @onready var report_text: RichTextLabel = $Margins/VBox/BodyMargins/ReportText
 @onready var continue_button: Button = $Margins/VBox/ContinueButton
+@onready var title_label: Button= $Margins/VBox/Label
 
 # sounds
 @onready var open_report = $OpenReport
@@ -18,6 +22,8 @@ signal report_done
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	is_running = false
+	continue_button.text = button_text
+	title_label.text = report_title
 	report_text.text = ""
 	report_text.visible_characters = 0
 	process_mode = Node.PROCESS_MODE_DISABLED

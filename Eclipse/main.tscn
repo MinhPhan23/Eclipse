@@ -139,8 +139,15 @@ offset_bottom = -13.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Report" parent="UI" instance=ExtResource("5_hgyqh")]
+[node name="EventReport" parent="UI" instance=ExtResource("5_hgyqh")]
 visible = false
+button_text = "Continue"
+report_title = "Event Report"
+
+[node name="BattleReport" parent="UI" instance=ExtResource("5_hgyqh")]
+visible = false
+button_text = "Start Next Day"
+report_title = "Battle Report"
 
 [node name="Countdown" parent="UI" instance=ExtResource("6_5j7iu")]
 anchors_preset = 2
