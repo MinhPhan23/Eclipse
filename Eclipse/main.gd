@@ -97,6 +97,8 @@ func _generate_report_string() -> String:
 	
 	return report_str
 
+
+# Demon lord tutorial dialogues.
 func _on_demon_lord_dialog_done():
 	if battle_trigger:
 		# If battle is triggered, do not generate next day events.
@@ -120,6 +122,7 @@ func _on_battle_trigger_first_time(location_name: String):
 	battle_trigger = true
 	demon_lord_dialog.show_dialog(FIRST_BATTLE_TRIGGER % location_name)
 	location_manager.battle_trigger.disconnect(_on_battle_trigger_first_time)
+
 
 # Loop background music.
 func _on_music_finished():
