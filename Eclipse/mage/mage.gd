@@ -20,15 +20,15 @@ var los: bool  # Line of sight.
 var dead_emit_flag: bool = false
 
 # HERO VARIABLES
-@export var LVLUP_RATE: int = 2  # Number of days it takes a hero to level up.
+@export var LEVEL_UP_RATE: int = 2  # Number of days it takes a hero to level up.
 @export var BASE_HP: float = 100.0
 @export var HP_GROWTH_RATE: int = 50
 @export var BASE_SPEED: int = 50
 @export var SPEED_GROWTH_RATE: int = 10
-# lvlup_countdown is decremented and reset in generate_next_day() in
+# level_up_countdown is decremented and reset in generate_next_day() in
 # location_manager.gd, hero level is incremented when it hits 0.
-var lvlup_countdown: int  
-var level: int = 1
+var level_up_countdown: int = 0  # daily_level_up() is called before the first battle sim to bring the hero to level 1.
+var level: int = 0
 var current_max_hp: float = BASE_HP
 var current_hp: float = current_max_hp
 var current_speed: int = BASE_SPEED
@@ -203,6 +203,16 @@ func _on_hit(dmg: int):
 # Level up the mage.
 func level_up():
 	level += 1
+
+# Level up the hero according to its LEVEL_UP_RATE.
+# Heroes level up once for every LEVEL_UP_RATE days they survive.
+func daily_level_up():
+	if level_up_countdown < 1:
+		level_up()
+		# Reset lvlup_countdown if the hero leveled up.
+		level_up_countdown = LEVEL_UP_RATE
+	# Decrement level_up_countdown.
+	level_up_countdown -= 1
 
 
 func emit_dead_signal():

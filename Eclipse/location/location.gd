@@ -148,6 +148,10 @@ func simulate_battle() -> Globals.SIMULATION_BATTLE_RESULT:
 		simulation_animation.minion_look_around()
 		return Globals.SIMULATION_BATTLE_RESULT.MINION_LOOK_AROUND
 	
+	# This is called before the battle simulation, bringing newly spawned
+	# heroes to level 1 from level 0.
+	hero.daily_level_up()
+	
 	var minion_level = minion.level
 	var hero_level = hero.level
 	
