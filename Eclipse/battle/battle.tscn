@@ -1,7 +1,8 @@
-[gd_scene load_steps=29 format=3 uid="uid://qi7rp2f7mj05"]
+[gd_scene load_steps=30 format=3 uid="uid://qi7rp2f7mj05"]
 
 [ext_resource type="Script" path="res://battle/battle.gd" id="1_2nlbe"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_dialog.tscn" id="2_fst6y"]
+[ext_resource type="PackedScene" uid="uid://dosu0c3c6nwgw" path="res://battle/battle_start_panel.tscn" id="2_m10ft"]
 [ext_resource type="Texture2D" uid="uid://cbc8wlpwwhnsl" path="res://Assets/Ground/Grass.png" id="3_s8h2m"]
 [ext_resource type="PackedScene" uid="uid://ckxtt8dcddr63" path="res://menus/pause/pause_menu.tscn" id="3_ywqpn"]
 [ext_resource type="Texture2D" uid="uid://pcfjqidyufor" path="res://Assets/Ground/Cliff.png" id="4_awkme"]
@@ -774,6 +775,17 @@ navigation_polygon = SubResource("NavigationPolygon_mhv11")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
+[node name="BattleStartPanel" parent="UI" instance=ExtResource("2_m10ft")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+
 [node name="ChoicesDialog" parent="UI" instance=ExtResource("2_fst6y")]
 visible = false
 offset_left = -50.0
@@ -816,6 +828,7 @@ zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 script = ExtResource("15_rpdmj")
 
+[connection signal="start_battle" from="UI/BattleStartPanel" to="." method="_on_start_battle_pressed"]
 [connection signal="SELECTED" from="UI/ChoicesDialog" to="." method="_on_choices_dialog_selected"]
 [connection signal="close_menu" from="UI/PauseMenu" to="." method="_on_pause_menu_close_menu"]
 [connection signal="open_controls" from="UI/PauseMenu" to="." method="_on_pause_menu_open_controls"]

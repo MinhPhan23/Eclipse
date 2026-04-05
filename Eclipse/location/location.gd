@@ -20,7 +20,7 @@ extends Area2D
 @export var hero_events: Array[String]
 @export var location_events: Array[String]
 @export var pattern_index: int
-@export var minion_bonus: int = 2
+#@export var minion_bonus: int = 2
 @export var battle_trigger_range: int = 6
 
 var hero: CharacterBody2D
@@ -101,6 +101,7 @@ func add_minion(new_minion):
 	simulation_animation.visible  = false
 
 
+# Remove the minion from this location and return it.
 func callback_minion() -> CharacterBody2D:
 	# If location has no minion return null.
 	if (minion == null):
@@ -135,21 +136,26 @@ func _input_event(_viewport, event, _shape_idx):
 
 
 func simulate_battle() -> Globals.SIMULATION_BATTLE_RESULT:
+	# Check for a minion at this location.
 	if minion == null:
 		return Globals.SIMULATION_BATTLE_RESULT.NO_DEPLOYED_MINION
 	
 	deployed_minion_icon.visible = false
 	simulation_animation.visible  = true
 	
+	# Check for a hero at this location.
 	if hero == null:
 		simulation_animation.minion_look_around()
 		return Globals.SIMULATION_BATTLE_RESULT.MINION_LOOK_AROUND
-		
+	
 	var minion_level = minion.level
 	var hero_level = hero.level
-
-	var minion_dice_roll = rng.randi_range(1, 12) + minion_bonus + minion_level
-	var hero_dice_roll = rng.randi_range(1, 12) + hero_level
+	
+	# Roll 1d12 each and add modifiers to simulate a battle.
+	var minion_dice_roll = 1#rng.randi_range(1, 12) + minion_level #+ minion_bonus
+	var hero_dice_roll = 2#rng.randi_range(1, 12) + hero_level
+	
+	# Process battle results.
 	if (minion_dice_roll < hero_dice_roll):
 		simulation_animation.hero_win()
 		if (hero_dice_roll - minion_dice_roll <= battle_trigger_range):
@@ -193,7 +199,10 @@ func transition_to_battle_scene():
 	root.add_child(battle_scene)
 	root.remove_child(main_scene)
 	tree.set_current_scene(battle_scene)
-	
+
+
+# Called by player interaction with "Take Over Minion" dialog.
+# Initiate a battle sequence or remove the minion and level up the hero.
 func _on_battle_confirmation_selected(index):
 	battle_confirmation_dialog.visible = false
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED

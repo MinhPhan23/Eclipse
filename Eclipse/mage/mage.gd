@@ -15,12 +15,14 @@ extends CharacterBody2D
 @export var SPEED_GROWTH_RATE: int = 10
 @export var FIRING_COOLDOWN_REDUCTION_RATE: float = 0.05
 
+#var hero_name: String
 var level: int = 1
 
 var current_firing_cooldown: float = BASE_FIRING_COOLDOWN
 var current_max_hp: float = BASE_HP
 var current_hp: float = current_max_hp
 var current_speed: int = BASE_SPEED
+var is_fighting: bool = false
 
 var target: CharacterBody2D
 var facing : Vector2  # Direction the mage is facing (v_minion.normalized()).
@@ -76,7 +78,7 @@ func _physics_process(_delta):
 	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", v_minion.normalized())
 	
 	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
-	if !los or v_minion.length() > BASE_FOLLOW_DISTANCE:
+	if is_fighting and (!los or v_minion.length() > BASE_FOLLOW_DISTANCE):
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/idle"] = false
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/running"] = true
 		velocity = direction * current_speed
@@ -155,6 +157,7 @@ func _on_spell_timer_timeout():
 
 func level_up():
 	level += 1
+	print("New hero level: ", level) #testing
 	
 func emit_dead_signal():
 	dead.emit(self)

@@ -8,7 +8,6 @@ extends Node2D
 const MAX_MINIONS: int = 3
 
 var rng: RandomNumberGenerator
-var minion_names_list: Array[String]
 var all_minion_list: Array[Node]
 var deployable_minion_list: Array[Node]
 var deployed_minion: int
@@ -16,25 +15,20 @@ var deployed_minion: int
 signal minion_return
 
 
+const MINION_NAMES_LIST: Array[String] = [
+	"Keith","Terry","Mark","Lisa","Helen","Megan","Wraith","Blackjack",
+	"Musket","Grog","Mince","Sparrow","Mongrel","Twitch","Veil","Haze",
+	"Thistle","Fox","Raven","Umber","Ratchet","Dash","Sprite","Sage","Fluke",
+	"Pyro","Splinter","Crow","Mirage","Coyote","Storm","Kiss","Blink","Faze",
+	"Vaic","Ghrusk","Xenk","Cric","Riarg","Kreng","Xig","Ghrim","Scul","Scaadi",
+	"Thriax","Kheinzah","Rigrein","Rirgaan","Crod","Dhung","Khrech","Ghos",
+	"Kegma","Eguhn","Elgri","Shezsru","Bonk"
+]
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng = RandomNumberGenerator.new()
-	
-	minion_names_list = [
-		"Keith","Terry","Mark","Lisa","Helen","Megan","Wraith","Blackjack",     #8
-		"Musket","Grog","Mince","Sparrow","Mongrel","Twitch","Veil","Haze",     #16
-		"Thistle","Fox","Raven","Umber","Ratchet","Dash","Sprite","Sage",       #24
-		"Fluke","Pyro","Splinter","Crow","Mirage","Coyote","Storm","Kiss",      #32
-		"Blink","Faze","Vaic","Ghrusk","Xenk","Cric","Riarg","Kreng","Xig",     #41
-		"Ghrim","Scul","Scaadi","Thriax","Kheinzah","Rigrein","Rirgaan",        #48
-		"Crod","Dhung","Khrech","Ghos","Kegma","Eguhn","Elgri","Shezsru","Bonk",#57
-		"Velarian","Nestor","Lanxas","Hestia","Amalia","Kazius","Robyn","Ford", #65
-		"Draven","Sylthas","Belmont","Tyrgen","Ruwin","Sullivan","Smogus",      #72
-		"Hefnd","Viusu","Thaddeus","Cassius","Toyota","Arcus","Hunter","Eirrik",#80
-		"Digit","Valentine","Zemirah","Orthorien","Ren","Chaos","Sidra",        #87
-		"Gabbro","Feldspar","Blare","Viho","Geet","Dr. Uncle","Lethe","Othree", #95
-		"Natki","Arag","Paren","Chess", "Shadow"                                #100
-	]
 	
 	# Initialize the player's minions.
 	for i in 3:
@@ -51,8 +45,8 @@ func _ready():
 
 # Generate a name for a new minion.
 func generate_minion_name() -> String:
-	var rand = rng.randi_range(0, 99)
-	return minion_names_list[rand]
+	var rand = rng.randi_range(0, MINION_NAMES_LIST.size()-1)
+	return MINION_NAMES_LIST[rand]
 
 
 # At the start of a new day, return all minions from their assigned locations

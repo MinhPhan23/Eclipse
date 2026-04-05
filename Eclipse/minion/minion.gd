@@ -18,6 +18,7 @@ var current_firing_cooldown: float = BASE_FIRING_COOLDOWN
 var current_max_hp: int = BASE_HP
 var current_hp: int = current_max_hp
 var current_speed: int = BASE_SPEED
+var is_fighting: bool = false
 
 var strength: int = 10
 var level: int = 1
@@ -54,7 +55,8 @@ func _process(_delta):
 
 
 func _physics_process(_delta: float) -> void:
-	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if is_fighting:
+		input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	mouse_pos = get_global_mouse_position()
 	
 	velocity = input_vector * current_speed

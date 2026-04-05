@@ -1,5 +1,6 @@
 extends Node2D
 
+var battle_start_panel: PanelContainer
 @onready var choices_dialog: PanelContainer = $UI/ChoicesDialog
 @onready var win: bool = false
 @onready var music: AudioStreamPlayer
@@ -19,6 +20,7 @@ var lose_cutscene: Node2D
 # location where the battle take place, init by location during scene switch
 var location: Area2D
 var _minion_name: String
+var _hero_name: String
 
 var rng: RandomNumberGenerator
 var mage_spawn_locs = [
@@ -44,14 +46,15 @@ var minion_spawn_locs = [
 func _ready() -> void:
 	music.play()
 	get_tree().call_group("entity", "reset")
-	
+
 
 func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
 	main = main_scene
 	location = location_scene
 	rng = RandomNumberGenerator.new()
+	battle_start_panel = $UI/BattleStartPanel
 	
-	hero.name = "Hero"
+	_hero_name = hero.name
 	var i = rng.randi_range(0, 6)
 	hero.position = mage_spawn_locs[i]
 	hero.dead.connect(_on_hero_dead.unbind(1))
@@ -66,6 +69,11 @@ func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: Charact
 	
 	$Camera2D.target = minion
 	music = $Music
+	
+	minion.is_fighting = false
+	hero.is_fighting = false
+	battle_start_panel.set_label(minion, hero)
+	battle_start_panel.show()
 
 
 func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
@@ -73,8 +81,9 @@ func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_sce
 	win_cutscene = win_scene
 	lose_cutscene = lose_scene
 	rng = RandomNumberGenerator.new()
+	battle_start_panel = $UI/BattleStartPanel
 	
-	hero.name = "Hero"
+	_hero_name = hero.name
 	var i = rng.randi_range(0, 6)
 	hero.position = mage_spawn_locs[i]
 	hero.dead.connect(_on_hero_dead.unbind(1))
@@ -88,6 +97,19 @@ func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_sce
 	
 	$Camera2D.target = minion
 	music = $MusicFinal
+	
+	minion.is_fighting = false
+	hero.is_fighting = false
+	battle_start_panel.set_label(minion, hero)
+	battle_start_panel.show()
+
+
+func _on_start_battle_pressed():
+	var minion = get_node("/root/Battle/"+_minion_name)
+	minion.is_fighting = true
+	var hero = get_node("/root/Battle/"+_hero_name)
+	hero.is_fighting = true
+
 
 func _on_hero_dead():
 	win = true
@@ -108,7 +130,7 @@ func _game_over():
 		minion.level_up()
 		remove_child(minion)
 	else:
-		var hero = $"Hero"
+		var hero = get_node("/root/Battle/"+_hero_name)
 		hero.level_up()
 		remove_child(hero)
 	

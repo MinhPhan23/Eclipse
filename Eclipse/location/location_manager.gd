@@ -21,6 +21,17 @@ signal minion_win
 signal minion_look_around
 signal battle_trigger
 
+const HERO_NAMES_LIST: Array[String] = [
+	"Velarian","Nestor","Lanxas","Hestia","Amalia","Kazius","Robyn","Ford",
+	"Draven","Sylthas","Belmont","Tyrgen","Ruwin","Sullivan","Smogus","Hefnd",
+	"Viusu","Thaddeus","Cassius","Toyota","Arcus","Hunter","Eirrik","Digit",
+	"Valentine","Zemirah","Orthorien","Ren","Chaos","Sidra","Gabbro","Feldspar",
+	"Blare","Viho","Geet","Dr Uncle","Lethe","Othree","Natki","Arag","Paren",
+	"Chess","Ali","Gorath","Asteria","Vael","Kaad","Birgir","Manneo","Yoda",
+	"Valeri","Percival","Gerald","Leolin","Rhae'gon","Volvo","Slate","Faelyn",
+	"Harry"
+]
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rand_num = RandomNumberGenerator.new()
@@ -67,10 +78,14 @@ func transfer_minion_dialog(location_name):
 		minion_choice.process_mode = Node.PROCESS_MODE_INHERIT
 
 
+# Randomly select a location and generate a hero there if none is present.
 func generate_hero():
 	var index: int = rand_num.randi_range(0, _locations.size() - 1)
 	if _locations[index].hero == null:
-		_locations[index].add_hero(hero_scene_preload.instantiate())
+		var new_hero = hero_scene_preload.instantiate()
+		var name_num = rand_num.randi_range(0, HERO_NAMES_LIST.size()-1)
+		new_hero.name = HERO_NAMES_LIST[name_num]
+		_locations[index].add_hero(new_hero)
 
 
 # Called when a selection is made in a minion deployment menu.
@@ -90,6 +105,7 @@ func transfer_minion(index):
 		minion_manager.deploy_minion(_curr_loc, index)
 
 
+# Generate the report by calling generate_events() at each location.
 func generate_event():
 	events = []
 	for i in _locations:
@@ -97,6 +113,8 @@ func generate_event():
 			events.append(i.generate_events())
 
 
+# Call simulate_battle() in all locations and process the result, then start
+# the next day.
 func simulate_battle():
 	_battle_triggered = false
 	_animation_finished_count = 0
@@ -133,6 +151,12 @@ func _next_day_lock_animation():
 
 
 func generate_next_day():
+	# Level up every alive hero.
+	for i in _locations:
+		if i.hero != null:
+			print("Hero in ", i.location_name, " has leveled up!") #testing
+			i.hero.level_up()
+	
 	if Globals.current_day <= Globals.MAX_DAYS:
 		generate_hero()
 		generate_event()
