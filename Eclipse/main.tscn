@@ -251,7 +251,7 @@ autoplay = true
 [connection signal="selection" from="LocationManager/DwarfStringhold" to="LocationManager" method="transfer_minion_dialog"]
 [connection signal="SELECTED" from="UI/MinionList" to="LocationManager" method="transfer_minion"]
 [connection signal="SELECTED" from="UI/StartBattle" to="." method="start_simulation_battle"]
-[connection signal="toggled" from="UI/ReportButton" to="UI/Report" method="toggle_report"]
+[connection signal="toggled" from="UI/ReportButton" to="UI/EventReport" method="toggle_report"]
 [connection signal="close_menu" from="Pause/PauseMenu" to="." method="_on_pause_menu_close_menu"]
 [connection signal="open_controls" from="Pause/PauseMenu" to="." method="_on_pause_menu_open_controls"]
 [connection signal="pause" from="Pause/PauseMenu" to="." method="_on_pause_menu_pause"]
