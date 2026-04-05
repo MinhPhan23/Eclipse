@@ -157,7 +157,6 @@ func _on_spell_timer_timeout():
 
 func level_up():
 	level += 1
-	print("New hero level: ", level) #testing
 	
 func emit_dead_signal():
 	dead.emit(self)
