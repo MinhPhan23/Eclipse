@@ -185,6 +185,7 @@ func _open_battle_confirmation_dialog():
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_INHERIT
 
 func close_battle_confirmation_dialog():
+	minion.emit_dead_signal()
 	battle_confirmation_dialog.visible = false
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
 
