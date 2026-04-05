@@ -68,9 +68,12 @@ func transfer_minion_dialog(location_name):
 	
 	# If no minion is in the current location open the Send Minion menu.
 	else:
-		minion_choice.label_text = "Send Minion?"
 		var arr: Array[String] = []
 		arr = minion_manager.minion_arr()
+		if (arr.is_empty()):
+			minion_choice.label_text = "No deployable minion"
+		else:
+			minion_choice.label_text = "Send Minion?"
 		arr.append("Close Menu")
 		_close_button_index = arr.size() - 1
 		minion_choice.choices = arr
