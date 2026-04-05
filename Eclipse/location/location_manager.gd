@@ -150,11 +150,21 @@ func _next_day_lock_animation():
 		start_next_day.emit()
 
 
+# Level up questing heroes, generate new heroes, generate events, and tell
+# minion_manager.gd to refresh the deployable minion pool.
 func generate_next_day():
 	# Level up every alive hero.
 	for i in _locations:
 		if i.hero != null:
-			i.hero.level_up()
+			# Level up the hero according to its LVLUP_RATE.
+			# This level up is in addition to when the hero defeats minions.
+			# Heroes level up once for every LVLUP_RATE days they survive.
+			if i.hero.lvlup_countdown < 1:
+				i.hero.level_up()
+				# Reset lvlup_countdown if the hero leveled up.
+				i.hero.lvlup_countdown = i.hero.LVLUP_RATE
+			# Decrement lvlup_countdown.
+			i.hero.lvlup_countdown -= 1
 	
 	if Globals.current_day <= Globals.MAX_DAYS:
 		generate_hero()
@@ -165,7 +175,7 @@ func generate_next_day():
 func start_final_battle():
 	# Trigger final battle
 	var top_min = minion_scene_preload.instantiate()
-	for minion in minion_manager.deployable_minion_list:
+	for minion in minion_manager.all_minion_list:
 		if top_min == null or minion.level > top_min.level:
 			top_min = minion
 	
