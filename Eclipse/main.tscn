@@ -12,9 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://7ffaupjy8qx8" path="res://ui/lord_dialog/lord_dialog.tscn" id="8_8u18f"]
 [ext_resource type="AudioStream" uid="uid://yl763ugkq0w7" path="res://Assets/music/music_world_map.ogg" id="9_vso83"]
 [ext_resource type="Texture2D" uid="uid://ca8g61uxi6tu4" path="res://Assets/Objects/report_active_outlineless.png" id="11_ff8my"]
+[ext_resource type="Texture2D" uid="uid://cvp6cx1s2oxws" path="res://Assets/User Interface/dialog_texture.png" id="11_tqb03"]
 [ext_resource type="Texture2D" uid="uid://dn078anofupfa" path="res://Assets/Objects/report_active_outlined.png" id="12_yjlqh"]
 [ext_resource type="Texture2D" uid="uid://ddlr2h0ca2o2r" path="res://Assets/Objects/report_outlineless.png" id="13_326ql"]
-[ext_resource type="Texture2D" uid="uid://cvp6cx1s2oxws" path="res://Assets/User Interface/dialog_texture.png" id="11_tqb03"]
 [ext_resource type="PackedScene" uid="uid://ckxtt8dcddr63" path="res://menus/pause/pause_menu.tscn" id="13_aij8b"]
 [ext_resource type="PackedScene" uid="uid://d2xmuwnubkknv" path="res://menus/controls/control_menu.tscn" id="14_1lynt"]
 

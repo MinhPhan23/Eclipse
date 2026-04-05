@@ -145,4 +145,5 @@ func _on_pause_menu_unpause():
 
 func _on_report_done():
 	report_button.set_disabled(false)
+	report_button.set_pressed_no_signal(false)
 	start_battle.process_mode = Node.PROCESS_MODE_INHERIT

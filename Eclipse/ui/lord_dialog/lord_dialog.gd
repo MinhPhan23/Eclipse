@@ -15,8 +15,8 @@ func _ready():
 	dialog.text = ""
 	dialog.visible_characters = 0
 	
-func _process(_delta):
-	if Input.is_action_just_pressed("continue_dialog"):
+func _input(event):
+	if event.is_action_pressed("continue_dialog"):
 		if tween.is_running():
 			# skip animation
 			tween.pause()

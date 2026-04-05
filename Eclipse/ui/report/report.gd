@@ -20,11 +20,13 @@ func _ready():
 	is_running = false
 	report_text.text = ""
 	report_text.visible_characters = 0
+	
+	# Prevents conflicting dialogue actions
 	process_mode = Node.PROCESS_MODE_DISABLED
 
 
-func _process(_delta):
-	if Input.is_action_just_pressed("continue_dialog"):
+func _input(event):
+	if event.is_action_pressed("continue_dialog"):
 		click_sound.play()
 		if tween.is_running():
 			# skip animation
@@ -69,5 +71,4 @@ func _report_done() -> void:
 func _on_continue_button_pressed():
 	close_report.play()
 	hide()
-	process_mode = Node.PROCESS_MODE_DISABLED
 	report_done.emit()
