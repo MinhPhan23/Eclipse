@@ -21,13 +21,15 @@ var current_speed: int = BASE_SPEED
 
 var strength: int = 10
 var level: int = 1
-var needs_rest: bool = false
 var dead_emit_flag: bool = false
 
 var input_vector: Vector2
 var mouse_pos: Vector2
 var aim_dir: Vector2
 var bullet_spawn_node: Node
+
+var needs_rest: bool = false
+var _status: String
 
 
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
@@ -42,6 +44,8 @@ func _ready() -> void:
 	
 	# Set HealthBar to full.
 	$HealthBar.value = current_hp * 100.0 / current_max_hp
+	
+	_status = "Available"
 
 
 func _process(_delta):
@@ -106,6 +110,15 @@ func exhaust():
 # withdrawn and at the start of a new day if this minion currently needs rest.
 func rest():
 	needs_rest = false
+
+
+func set_status(new_status: String) -> void:
+	_status = new_status
+	#print(name, "'s status set to ", _status) #testing
+
+
+func get_status() -> String:
+	return _status
 
 
 func emit_dead_signal():

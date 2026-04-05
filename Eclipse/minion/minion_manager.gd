@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var minion_scene_preload = preload("res://minion/minion.tscn")
 @onready var location_manager = $"../LocationManager"
+@onready var minion_status_panel = $"../UI/MinionStatusPanel/GridContainer"
+@onready var status_card_preload = preload("res://minion/minion_status_card.tscn")
 
 const MAX_MINIONS: int = 3
 
@@ -19,19 +21,19 @@ func _ready():
 	rng = RandomNumberGenerator.new()
 	
 	minion_names_list = [
-		"Keith","Terry","Mark","Lisa","Helen","Megan","Wraith","Blackjack",
-		"Musket","Wraith","Mince","Sparrow","Mongrel","Twitch","Veil","Haze",
-		"Thistle","Fox","Raven","Umber","Ratchet","Dash","Sprite","Sage",
-		"Fluke","Pyro","Splinter","Crow","Mirage","Coyote","Storm","Kiss",
-		"Blink","Faze","Vaic","Ghrusk","Xenk","Cric","Riarg","Kreng","Xig",
-		"Ghrim","Scul","Scaadi","Thriax","Kheinzah","Rigrein","Rirgaan",
-		"Crod","Dhung","Khrech","Ghos","Kegma","Eguhn","Elgri","Shezsru","Bonk",
-		"Velarian","Nestor","Lanxas","Hestia","Amalia","Kazius","Robyn","Ford",
-		"Draven","Sylthas","Belmont","Tyrgen","Ruwin","Sullivan","Smogus",
-		"Hefnd","Viusu","Thaddeus","Cassius","Toyota","Arcus","Hunter","Eirrik",
-		"Digit","Valentine","Zemirah","Orthorien","Ren","Chaos","Sidra",
-		"Gabbro","Feldspar","Blare","Viho","Geet","Dr. Uncle","Lethe","Othree",
-		"Natki","Arag","Paren","Chess"
+		"Keith","Terry","Mark","Lisa","Helen","Megan","Wraith","Blackjack",     #8
+		"Musket","Grog","Mince","Sparrow","Mongrel","Twitch","Veil","Haze",     #16
+		"Thistle","Fox","Raven","Umber","Ratchet","Dash","Sprite","Sage",       #24
+		"Fluke","Pyro","Splinter","Crow","Mirage","Coyote","Storm","Kiss",      #32
+		"Blink","Faze","Vaic","Ghrusk","Xenk","Cric","Riarg","Kreng","Xig",     #41
+		"Ghrim","Scul","Scaadi","Thriax","Kheinzah","Rigrein","Rirgaan",        #48
+		"Crod","Dhung","Khrech","Ghos","Kegma","Eguhn","Elgri","Shezsru","Bonk",#57
+		"Velarian","Nestor","Lanxas","Hestia","Amalia","Kazius","Robyn","Ford", #65
+		"Draven","Sylthas","Belmont","Tyrgen","Ruwin","Sullivan","Smogus",      #72
+		"Hefnd","Viusu","Thaddeus","Cassius","Toyota","Arcus","Hunter","Eirrik",#80
+		"Digit","Valentine","Zemirah","Orthorien","Ren","Chaos","Sidra",        #87
+		"Gabbro","Feldspar","Blare","Viho","Geet","Dr. Uncle","Lethe","Othree", #95
+		"Natki","Arag","Paren","Chess", "Shadow"                                #100
 	]
 	
 	# Initialize the player's minions.
@@ -42,6 +44,9 @@ func _ready():
 		all_minion_list.append(new_minion)
 	deployable_minion_list = all_minion_list.duplicate()
 	deployed_minion = 0
+	
+	# Initialize the minion status panel.
+	update_minion_panel()
 
 
 # Generate a name for a new minion.
@@ -72,7 +77,12 @@ func new_day() -> void:
 	for i in deployable_minion_list.duplicate():
 		if i.needs_rest:
 			i.rest()
+			i.set_status("Resting")
 			deployable_minion_list.erase(i)
+		else:
+			i.set_status("Ready")
+	
+	update_minion_panel()
 
 
 # Create an array of the deployable minions.
@@ -93,6 +103,10 @@ func deploy_minion(loc: Location, index: int) -> void:
 		loc.add_minion(mini)
 		deployed_minion += 1
 		deployable_minion_list.erase(mini)
+		var status_str: String = "Deployed to\n%s" % loc.name_short
+		#print("Setting ", mini.name, "'s status to ", status_str) #testing
+		mini.set_status(status_str)
+		update_minion_panel()
 		mini.exhaust()
 
 
@@ -105,7 +119,24 @@ func retrieve_minion(loc: Location) -> void:
 		deployable_minion_list.append(mini)
 		deployable_minion_list.sort_custom(func(a, b): return a.name < b.name)
 		deployed_minion -= 1
+		mini.set_status("Ready")
+		update_minion_panel()
 		mini.rest()
+
+
+# Update the displayed statuses of the current minions.
+# Called by ready(), deploy_minion(), retrieve_minion()
+func update_minion_panel() -> void:
+	# Clear the current panel.
+	for child in minion_status_panel.get_children():
+		child.queue_free()
+	
+	# Get minion cards and display in the status panel.
+	# Null minions do not generate a status card.
+	for i in all_minion_list:
+		var status_card = status_card_preload.instantiate()
+		status_card.set_minion(i)
+		minion_status_panel.add_child(status_card)
 
 
 # Remove a defeated minion from the player's roster.

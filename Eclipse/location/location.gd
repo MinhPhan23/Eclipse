@@ -15,13 +15,13 @@ extends Area2D
 @onready var deploy_minion_sound = $"../DeployMinionSound"
 
 @export var location_name: String
+@export var name_short: String
+@export var events: Array[String]
 @export var hero_events: Array[String]
 @export var location_events: Array[String]
 @export var pattern_index: int
 @export var minion_bonus: int = 2
 @export var battle_trigger_range: int = 6
-#@export var minion_spawn_pos: Vector2 = Vector2(200, 200)
-#@export var hero_spawn_pos: Vector2 = Vector2(100, 100)
 
 var hero: CharacterBody2D
 var minion: CharacterBody2D
@@ -96,7 +96,7 @@ func add_minion(new_minion):
 	minion.dead.connect(_remove_minion)
 	if hero != null:
 		hero.target = new_minion
-	deployed_minion_label.text = "Minion level " + str(minion.level)
+	deployed_minion_label.text = minion.name
 	deployed_minion_icon.visible = true
 	simulation_animation.visible  = false
 
