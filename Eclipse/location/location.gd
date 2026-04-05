@@ -65,7 +65,7 @@ func generate_events() -> String:
 	var random_number = rng.randf();
 	if (hero != null && random_number < 0.8):
 		return hero_events[rng.randi_range(0, hero_events.size() - 1)]
-	elif (hero == null && random_number < 0.3):
+	elif (hero == null && random_number < 0.35):
 		return location_events[rng.randi_range(0, location_events.size() - 1)]
 	return ""
 

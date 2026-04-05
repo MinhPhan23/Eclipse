@@ -67,15 +67,15 @@ location_events = Array[String](["A monster terrorizing the Avondale populace is
 position = Vector2(949.286, 535.714)
 location_name = "Bilgewater"
 name_short = "Bilgewater"
-hero_events = Array[String](["The pirate base by the port disappear overnight, as if a storm swept through.", "Rare sea monster parts are circulating the black market with unusual qualities.", "A mysterious force is sabotaging the merchant ships."])
-location_events = Array[String](["A notorious pirate captain is captured and brought to justice.", "A shipwreck is discovered off the coast, rumoured to contain valuable treasures."])
+hero_events = Array[String](["The pirate base by the port disappear overnight, as if a storm swept through, we lost our biggest trading partner.", "Rare sea monster parts are circulating the black market with unusual qualities.", "A mysterious force is sabotaging the slave trading ships, we are losing our labor supply."])
+location_events = Array[String](["The port town mayor announces a new defensive strategy against our armies.", "A shipwreck is discovered off the coast, rumoured to contain valuable treasures."])
 pattern_index = 2
 
 [node name="ElfForest" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(299, 692)
 location_name = "Glimmerwood"
 name_short = "Glimmerwood"
-hero_events = Array[String](["An outsider is invited to Glimmerwood after centuries of seclusion.", "The World Tree blooms, bestowing its blessing throughout the land.", "The forest beasts, once ferocious and feared, are now protecting the land."])
+hero_events = Array[String](["An outsider is invited to Glimmerwood after centuries of seclusion.", "The World Tree blooms, bestowing its blessing throughout the land, someone must be the catalyst for this miracle.", "The forest beasts, once ferocious and feared, are now protecting the land."])
 location_events = Array[String](["The Glimmerwood High Elf Council holds a secret meeting to discuss the rising darkness.", "A rare celestial event causes the forest to glow with an ethereal light."])
 pattern_index = 3
 
@@ -83,7 +83,7 @@ pattern_index = 3
 position = Vector2(470.714, 90)
 location_name = "Alexandria Library"
 name_short = "the Library"
-hero_events = Array[String](["An anti-demon grimoire was found by a lucky apprentice mage.", "Someone has been going over research about demons.", "Tales of the cursed librarian resurface."])
+hero_events = Array[String](["An anti-demon grimoire was found by a lucky apprentice mage.", "Someone has been going over ancient research about demons in the library.", "Tales of the cursed librarian resurface, someone special must have awakened it."])
 location_events = Array[String](["The ancient library shrouded in mystery appears again after several decades.", "A scholar discovers a hidden section in the library, revealing long-lost knowledge."])
 pattern_index = 4
 
@@ -91,7 +91,7 @@ pattern_index = 4
 position = Vector2(563.571, 387.857)
 location_name = "Emberfield"
 name_short = "Emberfield"
-hero_events = Array[String](["The bards sing tales of an adventurer repelling a monster raid at Emberfield.", "The land once struggling with desertification now flourishes again.", "A prophetess predicts a village girl from a humble farm will rise to face the Dark Lord."])
+hero_events = Array[String](["The bards sing tales of a sole adventurer repelling a monster raid at Emberfield.", "The land once struggling with desertification now flourishes again, no normal human could have achieved this feat.", "A prophetess predicts a village girl from a humble farm will rise to face the Dark Lord."])
 location_events = Array[String](["The villagers of Emberfield organize a festival to celebrate the bountiful harvest.", "Grain mills begin operating faster and more smoothly after a technological breakthrough."])
 pattern_index = 5
 
@@ -99,8 +99,8 @@ pattern_index = 5
 position = Vector2(126.429, 129.286)
 location_name = "Oasis Ville"
 name_short = "the Oasis"
-hero_events = Array[String](["The desert tribes unite under a rising leader to protect their homeland in turmoil.", "The ancient well in Oasis Ville suddenly runs clear after years of brackish water.", "The Oasis guardian awakens after years of slumber."])
-location_events = Array[String](["Caravan routes to Oasis Ville, once plagued by raiders, become safe within days.", "Sandstorms in the desert suddenly become less frequent and severe."])
+hero_events = Array[String](["The desert tribes unite under a rising leader to protect their homeland in turmoil.", "The ancient well in Oasis Ville suddenly runs clear after years of brackish water, this is sign of holy magic.", "The Oasis guardian awakens after years of slumber, the contractor should be nearby."])
+location_events = Array[String](["Caravan routes to Oasis Ville, once plagued by raiders, become safe within days.", "Sandstorms in the desert suddenly become less frequent and severe, opening up new path to the village"])
 pattern_index = 6
 
 [node name="DwarfStringhold" parent="LocationManager" instance=ExtResource("2_cd1vd")]
