@@ -109,6 +109,7 @@ func callback_minion() -> CharacterBody2D:
 	# If location has a minion return it.
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
+	simulation_animation.visible = false
 	minion.dead.disconnect(_remove_minion)
 	var withdrawn_minion = minion
 	minion = null

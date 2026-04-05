@@ -9,7 +9,7 @@ var is_running: bool
 
 @onready var report_text: RichTextLabel = $Margins/VBox/BodyMargins/ReportText
 @onready var continue_button: Button = $Margins/VBox/ContinueButton
-@onready var title_label: Button= $Margins/VBox/Label
+@onready var title_label: Label = $Margins/VBox/Label
 
 # sounds
 @onready var open_report = $OpenReport
