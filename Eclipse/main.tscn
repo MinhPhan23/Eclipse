@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b2y7dn5em2ytj"]
+[gd_scene load_steps=22 format=3 uid="uid://b2y7dn5em2ytj"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1kue1"]
 [ext_resource type="PackedScene" uid="uid://c64uy1rch2p8m" path="res://ui/choices_dialog/choices_dialog.tscn" id="1_32q6n"]
@@ -11,9 +11,19 @@
 [ext_resource type="Script" path="res://minion/minion_manager.gd" id="6_ndgbc"]
 [ext_resource type="PackedScene" uid="uid://7ffaupjy8qx8" path="res://ui/lord_dialog/lord_dialog.tscn" id="8_8u18f"]
 [ext_resource type="AudioStream" uid="uid://yl763ugkq0w7" path="res://Assets/music/music_world_map.ogg" id="9_vso83"]
+[ext_resource type="Texture2D" uid="uid://ca8g61uxi6tu4" path="res://Assets/Objects/report_active_outlineless.png" id="11_ff8my"]
 [ext_resource type="Texture2D" uid="uid://cvp6cx1s2oxws" path="res://Assets/User Interface/dialog_texture.png" id="11_tqb03"]
+[ext_resource type="Texture2D" uid="uid://dn078anofupfa" path="res://Assets/Objects/report_active_outlined.png" id="12_yjlqh"]
+[ext_resource type="Texture2D" uid="uid://ddlr2h0ca2o2r" path="res://Assets/Objects/report_outlineless.png" id="13_326ql"]
 [ext_resource type="PackedScene" uid="uid://ckxtt8dcddr63" path="res://menus/pause/pause_menu.tscn" id="13_aij8b"]
 [ext_resource type="PackedScene" uid="uid://d2xmuwnubkknv" path="res://menus/controls/control_menu.tscn" id="14_1lynt"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_0srb2"]
+action = &"toggle_report"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_2lyxv"]
+events = [SubResource("InputEventAction_0srb2")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q55aj"]
 bg_color = Color(0.564706, 0.380392, 0.282353, 1)
@@ -65,7 +75,7 @@ location_events = Array[String](["A notorious pirate captain is captured and bro
 pattern_index = 2
 
 [node name="ElfForest" parent="LocationManager" instance=ExtResource("2_cd1vd")]
-position = Vector2(174, 742)
+position = Vector2(299, 692)
 location_name = "Glimmerwood"
 name_short = "Glimmerwood"
 events = Array[String](["An outsider is invited to Glimmerwood after centuries of seclusion.", "The World Tree blooms, bestowing its blessing throughout the land.", "The forest beasts, once ferocious and feared, are now protecting the land."])
@@ -159,6 +169,28 @@ offset_right = 84.0
 offset_bottom = -100.0
 grow_vertical = 0
 
+[node name="ReportButton" type="TextureButton" parent="UI"]
+texture_filter = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 180.0
+offset_top = -140.0
+offset_right = 212.0
+offset_bottom = -108.0
+grow_vertical = 0
+scale = Vector2(3, 3)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+shortcut = SubResource("Shortcut_2lyxv")
+shortcut_in_tooltip = false
+texture_normal = ExtResource("11_ff8my")
+texture_pressed = ExtResource("12_yjlqh")
+texture_hover = ExtResource("12_yjlqh")
+texture_disabled = ExtResource("13_326ql")
+texture_focused = ExtResource("12_yjlqh")
+
 [node name="LordDialog" parent="UI" instance=ExtResource("8_8u18f")]
 visible = false
 
@@ -219,6 +251,7 @@ autoplay = true
 [connection signal="selection" from="LocationManager/DwarfStringhold" to="LocationManager" method="transfer_minion_dialog"]
 [connection signal="SELECTED" from="UI/MinionList" to="LocationManager" method="transfer_minion"]
 [connection signal="SELECTED" from="UI/StartBattle" to="." method="start_simulation_battle"]
+[connection signal="toggled" from="UI/ReportButton" to="UI/Report" method="toggle_report"]
 [connection signal="close_menu" from="Pause/PauseMenu" to="." method="_on_pause_menu_close_menu"]
 [connection signal="open_controls" from="Pause/PauseMenu" to="." method="_on_pause_menu_open_controls"]
 [connection signal="pause" from="Pause/PauseMenu" to="." method="_on_pause_menu_pause"]

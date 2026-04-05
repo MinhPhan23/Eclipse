@@ -27,6 +27,8 @@ const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables
 @onready var start_battle: PanelContainer = $UI/StartBattle
 @onready var event_report: Control = $UI/EventReport
 @onready var battle_report: Control = $UI/BattleReport
+@onready var report_button: TextureButton = $UI/ReportButton
+
 @onready var location_manager: Node2D = $LocationManager
 
 # Menu Layers
@@ -53,10 +55,7 @@ func _ready():
 func _input(event):
 	# toggle the report if it is finished running and there is not another dialog visible (i.e. tutorial)
 	if event.is_action_pressed("toggle_report") and !event_report.is_running and !demon_lord_dialog.visible:
-		if event_report.visible:
-			event_report.close()
-		else:
-			event_report.open()
+		event_report.toggle_report(!event_report.visible)
 
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
@@ -65,8 +64,10 @@ func start_simulation_battle(_index):
 func _generate_next_day_events():
 	var report_str: String
 	if Globals.current_day < Globals.MAX_DAYS:
+		report_button.set_disabled(true)
 		Globals.next_day()  # Increment the day counter.
 		location_manager.generate_next_day()
+			
 		report_str = _generate_event_report_string()
 		
 		countdown.next_day()
@@ -175,6 +176,8 @@ func _on_pause_menu_unpause():
 	control_menu.hide()
 
 func _on_event_report_done():
+	report_button.set_disabled(false)
+	report_button.set_pressed_no_signal(false)
 	start_battle.process_mode = Node.PROCESS_MODE_INHERIT
 
 func _on_battle_report_done():
