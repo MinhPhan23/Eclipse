@@ -32,13 +32,13 @@ func _process(_delta):
 			tween.custom_step(INF)
 			_report_done()
 
-func open() -> void:
-	show()
-	open_report.play()
-
-func close() -> void:
-	hide()
-	close_report.play()
+func toggle_report(toggle_on: bool) -> void:
+	if toggle_on:
+		show()
+		open_report.play()
+	else:
+		hide()
+		close_report.play()
 
 func show_report(text: String) -> void:
 	report_text.text = text
