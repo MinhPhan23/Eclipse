@@ -110,6 +110,7 @@ func _on_start_battle_pressed():
 	minion.is_fighting = true
 	var hero = get_node("/root/Battle/"+_hero_name)
 	hero.is_fighting = true
+	hero.is_moving = true
 
 
 func _on_hero_dead():
