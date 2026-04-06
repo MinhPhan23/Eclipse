@@ -88,7 +88,7 @@ func set_map(map: Globals.BATTLE_MAP) -> void:
 		Globals.BATTLE_MAP.DESERT:
 			current_map = $Maps/DesertMap
 		Globals.BATTLE_MAP.MOUNTAIN:
-			current_map = $Maps/PlainsMap
+			current_map = $Maps/MountainMap
 		Globals.BATTLE_MAP.PLAINS:
 			current_map = $Maps/PlainsMap
 		_:
