@@ -10,6 +10,12 @@ enum SIMULATION_BATTLE_RESULT {
 	BATTLE_TRIGGER
  }
 
+enum BATTLE_MAP {
+	PLAINS,
+	DESERT,
+	MOUNTAIN
+}
+
 var current_day: int = 0
 
 func next_day() -> void:

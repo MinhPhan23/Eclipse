@@ -56,6 +56,7 @@ events = Array[String](["Hooded figures gather for a secret meeting in the ruins
 hero_events = Array[String](["The ruin's hidden keep was discovered. Legend says that the most powerful demon slayer artifacts of the old world are there.", "Someone was digging around the castle. The journal of an old demon expedition is said to be somewhere in the ruins.", "A portal to another dimension opens briefly in the throne room. Only descendants of Ashmont can do that."])
 location_events = Array[String](["Hooded figures gather for a secret meeting in the ruins.", "An adventurer emerges from the dungeons of Ashmont with loot and new scars."])
 pattern_index = 1
+map = 2
 
 [node name="Capital" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(612.857, 731.429)
@@ -91,6 +92,7 @@ events = Array[String](["The protective barrier surrounding the ancient library 
 hero_events = Array[String](["An anti-demon grimoire was found by a lucky apprentice mage.", "Someone has been going over research about demons.", "Tales of the cursed librarian resurface."])
 location_events = Array[String](["The ancient library shrouded in mystery appears again after several decades.", "A scholar discovers a hidden section in the library, revealing long-lost knowledge."])
 pattern_index = 4
+map = 1
 
 [node name="FarmVillage" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(563.571, 387.857)
@@ -109,6 +111,7 @@ events = Array[String](["Caravan routes to Oasis Ville, once plagued by raiders,
 hero_events = Array[String](["The desert tribes unite under a rising leader to protect their homeland in turmoil.", "The ancient well in Oasis Ville suddenly runs clear after years of brackish water.", "The Oasis guardian awakens after years of slumber."])
 location_events = Array[String](["Caravan routes to Oasis Ville, once plagued by raiders, become safe within days.", "Sandstorms in the desert suddenly become less frequent and severe."])
 pattern_index = 6
+map = 1
 
 [node name="DwarfStringhold" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(1401.43, 92.8571)
@@ -118,6 +121,7 @@ events = Array[String](["The central forge blazes for the first time in centurie
 hero_events = Array[String](["The central forge blazes for the first time since ancient history. Legend says that it can even melt Adamantium.", "A stranger brings the best anti-demon material to Deepforge for an unknown commission.", "The dwarves of Deepforge rejoice as a rising adventurer brings along their ancestors' masterpiece."])
 location_events = Array[String](["The holed-up dwarves share their technology with the world in hope of world peace.", "The Dwarf King announces a new project to expand the stronghold deep underground."])
 pattern_index = 7
+map = 2
 
 [node name="DeployMinionSound" type="AudioStreamPlayer" parent="LocationManager"]
 stream = ExtResource("6_gt4ai")
