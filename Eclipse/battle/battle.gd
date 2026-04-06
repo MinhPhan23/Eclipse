@@ -1,11 +1,15 @@
 extends Node2D
 
+
 var battle_start_panel: PanelContainer
 @onready var choices_dialog: PanelContainer = $UI/ChoicesDialog
 @onready var win: bool = false
 @onready var music: AudioStreamPlayer
 @onready var victory_laugh = $VictoryLaugh
 @onready var lose_battle_jingle = $LoseBattleJingle
+
+# Map
+@onready var current_map: TileMap = $Maps/PlainsMap
 
 # Menu Layers
 @onready var pause_menu: Control = $UI/PauseMenu
@@ -47,7 +51,6 @@ func _ready() -> void:
 	music.play()
 	get_tree().call_group("entity", "reset")
 
-
 func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):
 	main = main_scene
 	location = location_scene
@@ -74,6 +77,27 @@ func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: Charact
 	hero.is_fighting = false
 	battle_start_panel.set_label(minion, hero)
 	battle_start_panel.show()
+
+func set_map(map: Globals.BATTLE_MAP) -> void:
+	current_map.set_visible(false)
+	current_map.set_layer_enabled(0, false)
+	current_map.set_layer_navigation_enabled(0, false)
+	current_map.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	match map:
+		Globals.BATTLE_MAP.DESERT:
+			current_map = $Maps/DesertMap
+		Globals.BATTLE_MAP.MOUNTAIN:
+			current_map = $Maps/MountainMap
+		Globals.BATTLE_MAP.PLAINS:
+			current_map = $Maps/PlainsMap
+		_:
+			current_map = $Maps/PlainsMap
+	
+	current_map.set_visible(true)
+	current_map.set_layer_enabled(0, true)
+	current_map.set_layer_navigation_enabled(0, false)
+	current_map.process_mode = Node.PROCESS_MODE_INHERIT
 
 
 func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_scene: Area2D, hero: CharacterBody2D, minion: CharacterBody2D):

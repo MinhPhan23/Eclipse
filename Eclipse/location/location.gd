@@ -21,6 +21,7 @@ extends Area2D
 @export var pattern_index: int
 #@export var minion_bonus: int = 2
 @export var battle_trigger_range: int = 6
+@export var map: Globals.BATTLE_MAP
 
 var hero: CharacterBody2D
 var minion: CharacterBody2D
@@ -204,6 +205,7 @@ func transition_to_battle_scene():
 		var win_scene = win_scene_load.instantiate()
 		battle_scene.initialize_final_battle(win_scene, lose_scene, self, hero, minion)
 	root.add_child(battle_scene)
+	battle_scene.set_map(map)
 	root.remove_child(main_scene)
 	tree.set_current_scene(battle_scene)
 
