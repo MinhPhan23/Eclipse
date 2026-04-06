@@ -15,7 +15,7 @@ var _close_button_index:int
 var rand_num: RandomNumberGenerator
 var _curr_loc: Area2D
 
-signal start_next_day
+signal battles_done
 signal minion_lost
 signal minion_win
 signal minion_look_around
@@ -135,7 +135,7 @@ func simulate_battle():
 				_battle_triggered = true
 				battle_trigger.emit(i.location_name)
 	else:
-		start_next_day.emit()
+		battles_done.emit()
 
 
 func _next_day_lock_battle():
@@ -144,21 +144,18 @@ func _next_day_lock_battle():
 		i.close_battle_confirmation_dialog()
 	
 	if (_animation_finished_count == minion_manager.deployed_minion):
-		start_next_day.emit()
+		battles_done.emit()
 
 
 func _next_day_lock_animation():
 	_animation_finished_count += 1
 	if (!_battle_triggered and _animation_finished_count == minion_manager.deployed_minion):
-		start_next_day.emit()
+		battles_done.emit()
 
 
+# Generate new heroes, generate events, and tell minion_manager.gd to refresh
+# the deployable minion pool.
 func generate_next_day():
-	# Level up every alive hero.
-	for i in _locations:
-		if i.hero != null:
-			i.hero.level_up()
-	
 	if Globals.current_day <= Globals.MAX_DAYS:
 		generate_hero()
 		generate_event()
@@ -168,7 +165,7 @@ func generate_next_day():
 func start_final_battle():
 	# Trigger final battle
 	var top_min = minion_scene_preload.instantiate()
-	for minion in minion_manager.deployable_minion_list:
+	for minion in minion_manager.all_minion_list:
 		if top_min == null or minion.level > top_min.level:
 			top_min = minion
 	

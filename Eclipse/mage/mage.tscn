@@ -480,7 +480,9 @@ shape = SubResource("CapsuleShape2D_a1kjs")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[node name="SpellTimer" type="Timer" parent="."]
+[node name="CastingTimer" type="Timer" parent="."]
+
+[node name="BurnTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="Reticle" type="Node2D" parent="."]
@@ -496,4 +498,5 @@ texture_progress = ExtResource("4_ey1tm")
 [node name="ImpactSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_tkcab")
 
-[connection signal="timeout" from="SpellTimer" to="." method="_on_spell_timer_timeout"]
+[connection signal="timeout" from="CastingTimer" to="." method="_on_casting_timer_timeout"]
+[connection signal="timeout" from="BurnTimer" to="." method="_on_burn_timer_timeout"]

@@ -104,6 +104,7 @@ func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_sce
 	battle_start_panel.show()
 
 
+# When the player clicks "Fight!" on the battle_start_panel, start the battle.
 func _on_start_battle_pressed():
 	var minion = get_node("/root/Battle/"+_minion_name)
 	minion.is_fighting = true

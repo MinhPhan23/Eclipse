@@ -55,7 +55,7 @@ func _process(_delta):
 
 
 func _physics_process(_delta: float) -> void:
-	if is_fighting:
+	if is_fighting:  # Only allow player movement if is_fighting == true.
 		input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	mouse_pos = get_global_mouse_position()
 	
@@ -69,8 +69,9 @@ func _physics_process(_delta: float) -> void:
 	# Rotate the reticle about player
 	RETICLE.position = aim_dir * RETICLE_DIST
 	
-	# Shoot in direction of mouse
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	# Shoot in direction of mouse.
+	# Only shoot if is_fighting == true.
+	if is_fighting and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		if COOLDOWN.is_stopped():
 			_shoot(aim_dir)
 			COOLDOWN.start()
