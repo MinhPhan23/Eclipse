@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @onready var cast_sound = $CastSound
 
-@export var SPEED: float = 200.0
+@export var SPEED: float = 250.0
 
 var damage: float = 10.0
 var direction : Vector2

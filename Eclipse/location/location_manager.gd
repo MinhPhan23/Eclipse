@@ -156,6 +156,8 @@ func _next_day_lock_animation():
 # Generate new heroes, generate events, and tell minion_manager.gd to refresh
 # the deployable minion pool.
 func generate_next_day():
+	for i in _locations:
+		i.level_up_hero()
 	if Globals.current_day <= Globals.MAX_DAYS:
 		generate_hero()
 		generate_event()

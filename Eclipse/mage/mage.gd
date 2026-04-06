@@ -28,8 +28,8 @@ var dead_emit_flag: bool = false
 @export var SPEED_GROWTH_RATE: int = 10
 # level_up_countdown is decremented and reset in generate_next_day() in
 # location_manager.gd, hero level is incremented when it hits 0.
-var level_up_countdown: int = 0  # daily_level_up() is called before the first battle sim to bring the hero to level 1.
-var level: int = 0
+var level_up_countdown: int = LEVEL_UP_RATE  # daily_level_up() is called before the first battle sim to bring the hero to level 1.
+var level: int = 1
 var current_max_hp: float = BASE_HP
 var current_hp: float = current_max_hp
 var current_speed: int = BASE_SPEED
@@ -43,12 +43,15 @@ var ready_to_cast: bool = true  # Toggle false after casting spell, toggle true 
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
 @onready var BURN_COOLDOWN_TIMER = $BurnCooldownTimer
 @export var BURN_UNLOCK_LVL: int = 1
-@export var BURN_BASE_COOLDOWN: float = 0.4     # seconds
-@export var BURN_MIN_COOLDOWN: float = 0.1
-@export var BURN_COOLDOWN_REDUCTION_RATE: float = 0.03
+@export var BURN_BASE_COOLDOWN: float = 0.2     # seconds
+@export var BURN_MIN_COOLDOWN: float = 0.05
+@export var BURN_COOLDOWN_REDUCTION_RATE: float = 0.025
+@export var BURN_BASE_SPEED: float = 180.0
+@export var BURN_SPEED_INCREASE_RATE: float = 10.0
 @export var BURN_BASE_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast, radians.
 var bullet_spawn_node: Node
 var burn_cooldown: float = BURN_BASE_COOLDOWN
+var burn_speed: float = BURN_BASE_SPEED
 var burn_ready = true  # Updated by BurnTimer
 var burn_angle : float  # Angle offset for Burn spell.
 var swing_right = true  # Used to control the swing of the Burn angle.
@@ -58,15 +61,18 @@ var swing_right = true  # Used to control the swing of the Burn angle.
 @onready var RING_COOLDOWN_TIMER = $FireRingCooldownTimer
 @onready var RING_CASTING_TIMER = $FireRingCastingTimer
 @export var RING_UNLOCK_LVL: int = 1
-@export var RING_COOLDOWN: float = 5.0
+@export var RING_BASE_COOLDOWN: float = 3.0
+@export var RING_COOLDOWN_REDUCTION_RATE: float = 0.25
+@export var RING_MIN_COOLDOWN: float = 1.0
 @export var RING_BASE_CASTING_TIME: float = 2.0
 @export var RING_CASTING_TIME_REDUCTION_RATE: float = 0.2
 @export var RING_MIN_CASTING_TIME: float = 0.4
-@export var RING_BASE_DAMAGE: float = 20.0
-@export var RING_DAMAGE_INCREASE_RATE: float = 2.0
-@export var RING_BASE_ACCEL: float = 61.4  # 60 = no acceleration.
+@export var RING_BASE_DAMAGE: float = 30.0
+@export var RING_DAMAGE_INCREASE_RATE: float = 10.0
+@export var RING_BASE_ACCEL: float = 60.5  # 60 = no acceleration.
 @export var RING_ACCEL_INCREASE_RATE: float = 0.1
 var ring_ready = true
+var ring_cooldown: float = RING_BASE_COOLDOWN
 var ring_casting_time: float = RING_BASE_CASTING_TIME
 var ring_damage: float = RING_BASE_DAMAGE
 var ring_accel: float = RING_BASE_ACCEL
@@ -80,7 +86,7 @@ func _ready():
 	
 	casting_timer.one_shot = true
 	BURN_COOLDOWN_TIMER.wait_time = burn_cooldown
-	RING_COOLDOWN_TIMER.wait_time = RING_COOLDOWN
+	RING_COOLDOWN_TIMER.wait_time = ring_cooldown
 	RING_COOLDOWN_TIMER.one_shot = true
 	RING_CASTING_TIMER.wait_time = ring_casting_time
 	RING_CASTING_TIMER.one_shot = true
@@ -171,10 +177,10 @@ func _choose_spell():
 	#	cast glyph spell  #TODO: implement mage strafing
 	#elif level >= FIREBALL_UNLOCK_LVL and distance <= CLOSE_RANGE and fireball_ready:
 	#	cast fireball spell
-	if level >= BURN_UNLOCK_LVL and distance <= CLOSE_RANGE and burn_ready and los:
-		_cast_burn()
-	elif level >= RING_UNLOCK_LVL and  ring_ready:
+	if ring_ready:
 		_charge_fire_ring()
+	elif distance <= CLOSE_RANGE and burn_ready and los:
+		_cast_burn()
 
 
 # Burn spell.
@@ -185,6 +191,7 @@ func _cast_burn() -> void:
 	instance.direction = facing.rotated(burn_angle)
 	instance.spawn_pos = RETICLE.global_position
 	instance.spawn_rot = facing.rotated(burn_angle).angle() - PI/2
+	instance.SPEED = burn_speed
 	
 	instance.set_collision_layer_value(5, true) # hero bullet
 	instance.set_collision_mask_value(2, true)  # player
@@ -289,9 +296,12 @@ func reset():
 	if burn_cooldown > BURN_MIN_COOLDOWN:
 		burn_cooldown = BURN_BASE_COOLDOWN - BURN_COOLDOWN_REDUCTION_RATE * (level - 1)
 	BURN_COOLDOWN_TIMER.wait_time = burn_cooldown
+	burn_speed = BURN_BASE_SPEED + BURN_SPEED_INCREASE_RATE * (level - 1)
 	process_mode = Node.PROCESS_MODE_INHERIT
 	
 	# Update Fire Ring spell.
+	if ring_cooldown > RING_MIN_COOLDOWN:
+		ring_cooldown = RING_BASE_COOLDOWN - RING_COOLDOWN_REDUCTION_RATE * (level - 1)
 	if ring_casting_time > RING_MIN_CASTING_TIME:
 		ring_casting_time = RING_BASE_CASTING_TIME + RING_CASTING_TIME_REDUCTION_RATE * (level - 1)
 	ring_damage = RING_BASE_DAMAGE + RING_DAMAGE_INCREASE_RATE * (level - 1)
