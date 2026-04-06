@@ -1,6 +1,6 @@
 extends Node
 
-const MAX_DAYS: int = 10
+const MAX_DAYS: int = 20
 
 enum SIMULATION_BATTLE_RESULT {
 	NO_DEPLOYED_MINION,

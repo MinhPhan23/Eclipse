@@ -117,7 +117,6 @@ func rest():
 
 func set_status(new_status: String) -> void:
 	_status = new_status
-	#print(name, "'s status set to ", _status) #testing
 
 
 func get_status() -> String:

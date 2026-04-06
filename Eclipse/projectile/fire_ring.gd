@@ -2,7 +2,7 @@ extends Area2D
 
 @onready var _cast_sound = $CastSound
 
-@export var _BASE_SPEED: float = 50.0
+@export var _BASE_SPEED: float = 10.0
 var acceleration: float = 60.0  # No acceleration: multiplied by delta = 1/60
 var damage: float = 10.0
 

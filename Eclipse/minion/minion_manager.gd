@@ -98,7 +98,6 @@ func deploy_minion(loc: Location, index: int) -> void:
 		deployed_minion += 1
 		deployable_minion_list.erase(mini)
 		var status_str: String = "Deployed to\n%s" % loc.name_short
-		#print("Setting ", mini.name, "'s status to ", status_str) #testing
 		mini.set_status(status_str)
 		update_minion_panel()
 		mini.exhaust()

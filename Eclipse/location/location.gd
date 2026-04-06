@@ -78,6 +78,10 @@ func add_hero(new_hero):
 	hero = new_hero
 	hero.dead.connect(_remove_hero)
 
+func level_up_hero() -> void:
+	if hero != null:
+		hero.daily_level_up()
+
 func move_hero(new_location):
 	if (new_location.hero == null):
 		new_location.add_hero(hero)
@@ -140,11 +144,6 @@ func _input_event(_viewport, event, _shape_idx):
 
 
 func simulate_battle() -> Globals.SIMULATION_BATTLE_RESULT:
-	# This is called before the battle simulation, bringing newly spawned
-	# heroes to level 1 from level 0.
-	if hero != null:
-		hero.daily_level_up()
-	
 	# Check for a minion at this location.
 	if minion == null:
 		return Globals.SIMULATION_BATTLE_RESULT.NO_DEPLOYED_MINION

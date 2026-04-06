@@ -75,6 +75,7 @@ func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: Charact
 	
 	minion.is_fighting = false
 	hero.is_fighting = false
+	hero.is_moving = false
 	battle_start_panel.set_label(minion, hero)
 	battle_start_panel.show()
 
@@ -124,6 +125,7 @@ func initialize_final_battle(win_scene: Node2D, lose_scene: Node2D, location_sce
 	
 	minion.is_fighting = false
 	hero.is_fighting = false
+	hero.is_moving = false
 	battle_start_panel.set_label(minion, hero)
 	battle_start_panel.show()
 
