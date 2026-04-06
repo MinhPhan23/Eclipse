@@ -78,7 +78,7 @@ func _generate_next_day_events():
 	else:
 		# Trigger final battle
 		location_manager.generate_next_day()
-		report_str = "The hour of the eclipse is upon us. The final battle begins."
+		report_str = "The hour of the eclipse is upon us. Humanity's last hope, the strongest hero in the land, stands up to face the Dark Lord. But our army is prepared. The final battle begins!"
 		var final_battle_dialog: Control = load("res://ui/accept_dialog/accept_dialog.tscn").instantiate()
 		final_battle_dialog.dialog_content = report_str
 		final_battle_dialog.accept_text = "Begin final battle"
