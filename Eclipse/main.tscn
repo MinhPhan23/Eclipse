@@ -53,63 +53,63 @@ z_index = 1
 position = Vector2(1330.71, 745)
 location_name = "The Ruins of Ashmont"
 name_short = "Ashmont Ruins"
-hero_events = Array[String](["The ruin's hidden keep was discovered. Legend says that the most powerful demon slayer artifacts of the old world are there.", "Someone was digging around the castle. The journal of an old demon expedition is said to be somewhere in the ruins.", "A portal to another dimension opens briefly in the throne room. Only descendants of Ashmont can do that."])
-location_events = Array[String](["Hooded figures gather for a secret meeting in the ruins.", "An adventurer emerges from the dungeons of Ashmont with loot and new scars."])
+hero_events = Array[String](["The ruin's ancient catacombs have been discovered. Legend holds that powerful demon slaying artifacts might be found within.", "A search has begun for the journal of a fabled demon hunter who disappeared in the mountains.", "Rumours claim a descendant of Ashmont has returned to the throne."])
+location_events = Array[String](["Hooded figures gather for a secret meeting in the ruins.", "Refugees take shelter from a storm in the castle keep.", "Ravens have been seen circling over a crumbling ruin in the mountains.", "A mercenary band travels to Ashmont following an old map."])
 pattern_index = 1
 
 [node name="Capital" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(612.857, 731.429)
 location_name = "Avondale"
 name_short = "Avondale"
-hero_events = Array[String](["The Avondale tournament champion vows to defeat the Dark Lord.", "The citizens of Avondale gather for a parade. Everyone is eager to see the face of the new demon slayer.", "A demonic assassination attempt on a member of the Avondale royal family is thwarted."])
-location_events = Array[String](["A monster terrorizing the Avondale populace is defeated.", "The king of Avondale bestows knighthood to a worthy servant of the crown."])
+hero_events = Array[String](["The The king of Avondale bestows a knighthood upon a worthy servant of the crown.", "The citizens of Avondale gather for a parade. A young demon slayer will walk at its head.", "One of our agents was killed while attempting to assassinate a member of the royal family."])
+location_events = Array[String](["The Avondale guards hunt down a monster terrorizing the populace.", "The king doubles the city guards. Petty criminals are forced to retreat into the shadows.", "A grand tournament is held in Avondale.", "A city vagrant has built up an impressive following, spouting nonsense about omens and prophecies."])
 
 [node name="TradePort" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(949.286, 535.714)
 location_name = "Bilgewater"
 name_short = "Bilgewater"
-hero_events = Array[String](["The pirate base by the port disappear overnight, as if a storm swept through, we lost our biggest trading partner.", "Rare sea monster parts are circulating the black market with unusual qualities.", "A mysterious force is sabotaging the slave trading ships, we are losing our labor supply."])
-location_events = Array[String](["The port town mayor announces a new defensive strategy against our armies.", "A shipwreck is discovered off the coast, rumoured to contain valuable treasures."])
+hero_events = Array[String](["We lost contact with an allied pirate base near Bilgewater overnight. We'll run out of allies at this rate.", "Rare sea monster parts with unusual qualities are circulating the black market.", "Our prisoners keep escaping from our raiding ships. Someone must be helping them."])
+location_events = Array[String](["The mayor of Bilgewater announces a new defensive strategy against our armies.", "A shipwreck is discovered off the coast, rumoured to contain valuable treasures.", "A small fleet of merchant ships arrives safely to port. Where's a good storm when you need one?", "The guild of river merchants signs a new trade agreement."])
 pattern_index = 2
 
 [node name="ElfForest" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(299, 692)
 location_name = "Glimmerwood"
 name_short = "Glimmerwood"
-hero_events = Array[String](["An outsider is invited to Glimmerwood after centuries of seclusion.", "The World Tree blooms, bestowing its blessing throughout the land, someone must be the catalyst for this miracle.", "The forest beasts, once ferocious and feared, are now protecting the land."])
-location_events = Array[String](["The Glimmerwood High Elf Council holds a secret meeting to discuss the rising darkness.", "A rare celestial event causes the forest to glow with an ethereal light."])
+hero_events = Array[String](["An outsider is invited to Glimmerwood after centuries of seclusion.", "The World Tree blooms, bestowing its blessing throughout the land. This miracle must have had a catalyst.", "The forest Something has convinced the beasts of the forest, once ferocious and feared, to protect mortals instead of hunting them.beasts, once ferocious and feared, are now protecting the land."])
+location_events = Array[String](["A secret meeting is held by the High Council of Elves to discuss the encroaching darkness.", "Lost travellers appear at the edge of the forest, unaware they had been missing for days.", "A rare celestial event causes the forest to glow with an ethereal light.", "Rumours that a great white stag has been sighted circulate rapidly."])
 pattern_index = 3
 
 [node name="AncientLibray" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(470.714, 90)
 location_name = "Alexandria Library"
 name_short = "the Library"
-hero_events = Array[String](["An anti-demon grimoire was found by a lucky apprentice mage.", "Someone has been going over ancient research about demons in the library.", "Tales of the cursed librarian resurface, someone special must have awakened it."])
-location_events = Array[String](["The ancient library shrouded in mystery appears again after several decades.", "A scholar discovers a hidden section in the library, revealing long-lost knowledge."])
+hero_events = Array[String](["A grimoire of ancient secrets, hinting at the Dark One's weaknesses, was found by a lucky apprentice mage.", "Someone has convinced the librarians to come together and focus their research on the art of demon slaying.", "Tales of the cursed librarian resurface. Something must have awakened it."])
+location_events = Array[String](["The library of Alexandria permits a determined scholar from Avondale to access their archives.", "A hidden section in the library has been discovered, revealing long-lost knowledge.", "Scholars make a breakthrough deciphering an ancient text.", "The librarians welcome a delegation from the capital. What vile fruit might this alliance bear?"])
 pattern_index = 4
 
 [node name="FarmVillage" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(563.571, 387.857)
 location_name = "Emberfield"
 name_short = "Emberfield"
-hero_events = Array[String](["The bards sing tales of a sole adventurer repelling a monster raid at Emberfield.", "The land once struggling with desertification now flourishes again, no normal human could have achieved this feat.", "A prophetess predicts a village girl from a humble farm will rise to face the Dark Lord."])
-location_events = Array[String](["The villagers of Emberfield organize a festival to celebrate the bountiful harvest.", "Grain mills begin operating faster and more smoothly after a technological breakthrough."])
+hero_events = Array[String](["The bards sing tales of a sole adventurer repelling a monster attack in Emberfield.", "Crops flourish in spite of days of drought. An unfortunate miracle, to be sure.", "A prophetess predicts a village girl from a humble farm will rise to face the Dark Lord."])
+location_events = Array[String](["The villagers of Emberfield organize a festival to celebrate the bountiful harvest.", "Grain mills begin operating more efficiently after a technological breakthrough.", "A mercenary guild agrees to stand watch over Emberfield's farms.", "A young boy is cheered by the town for protecting his flock from a wolf."])
 pattern_index = 5
 
 [node name="DesertOasis" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(126.429, 129.286)
 location_name = "Oasis Ville"
 name_short = "the Oasis"
-hero_events = Array[String](["The desert tribes unite under a rising leader to protect their homeland in turmoil.", "The ancient well in Oasis Ville suddenly runs clear after years of brackish water, this is sign of holy magic.", "The Oasis guardian awakens after years of slumber, the contractor should be nearby."])
-location_events = Array[String](["Caravan routes to Oasis Ville, once plagued by raiders, become safe within days.", "Sandstorms in the desert suddenly become less frequent and severe, opening up new path to the village"])
+hero_events = Array[String](["The desert tribes unite under a rising leader to protect their homeland from turmoil.", "The ancient well in Oasis Ville suddenly runs clear after years of brackish water. Holy magic, perhaps?", "Caravan routes to Oasis Ville, once plagued by raiders, are suddenly made safe."])
+location_events = Array[String](["The Oasis guardian awakens after years of slumber.", "A horse race across the sand draws an impressive crowd. The winner collects an old sword as his prize.", "Sandstorms in the desert suddenly become less frequent and severe, opening up new paths to the village.", "A pair of warring desert tribes negotiates an uneasy peace."])
 pattern_index = 6
 
 [node name="DwarfStringhold" parent="LocationManager" instance=ExtResource("2_cd1vd")]
 position = Vector2(1401.43, 92.8571)
 location_name = "Deepforge"
 name_short = "Deepforge"
-hero_events = Array[String](["The central forge blazes for the first time since ancient history. Legend says that it can even melt Adamantium.", "A stranger brings the best anti-demon material to Deepforge for an unknown commission.", "The dwarves of Deepforge rejoice as a rising adventurer brings along their ancestors' masterpiece."])
-location_events = Array[String](["The holed-up dwarves share their technology with the world in hope of world peace.", "The Dwarf King announces a new project to expand the stronghold deep underground."])
+hero_events = Array[String](["The central forge is blazing as it hasn't done since ancient history. Legend says that it can melt even Adamantium.", "A stranger brings a chunk of celestial steel to Deepforge for an unknown commission.", "The dwarves of Deepforge are rejoicing. An adventurer has returned a masterpiece crafted by their ancestors."])
+location_events = Array[String](["The dwarves reach out into the world to share their technology, hoping to forge new friendships.", "The Dwarf King announces a new project to expand the stronghold deep underground.", "The dwarves rediscover a lost alloy.", "The clank of hammers rings throughout the mountains as dwarven smiths prepare for war with the Barrens."])
 pattern_index = 7
 
 [node name="DeployMinionSound" type="AudioStreamPlayer" parent="LocationManager"]

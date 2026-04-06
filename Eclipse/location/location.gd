@@ -59,12 +59,15 @@ func emit_animation_end_signal(anim_name: String):
 		animation_end.emit()
 
 
-# 80% chance to generate an event at a location if a hero is present.
-# 20% chance to generate an event at a location if a hero is not present.
+# 70% chance to generate a hero event at a location if a hero is present.
+# 20% chance to generate a location event at a location if a hero is present.
+# 35% chance to generate a location event at a location if no hero is present.
 func generate_events() -> String:
 	var random_number = rng.randf();
-	if (hero != null && random_number < 0.8):
+	if (hero != null && random_number < 0.7):
 		return hero_events[rng.randi_range(0, hero_events.size() - 1)]
+	elif (hero != null && random_number < 0.9):
+		return location_events[rng.randi_range(0, location_events.size() - 1)]
 	elif (hero == null && random_number < 0.35):
 		return location_events[rng.randi_range(0, location_events.size() - 1)]
 	return ""
