@@ -159,7 +159,9 @@ func generate_next_day():
 	for i in _locations:
 		i.level_up_hero()
 	if Globals.current_day < Globals.MAX_DAYS:
-		generate_hero()
+		var one_or_two = rand_num.randi_range(1,2)
+		for i in one_or_two:
+			generate_hero()
 		generate_event()
 		minion_manager.new_day()
 
