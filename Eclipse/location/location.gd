@@ -103,6 +103,7 @@ func add_minion(new_minion):
 
 # Remove the minion from this location and return it.
 func callback_minion() -> CharacterBody2D:
+	simulation_animation.visible = false
 	# If location has no minion return null.
 	if (minion == null):
 		return null
@@ -110,7 +111,6 @@ func callback_minion() -> CharacterBody2D:
 	# If location has a minion return it.
 	deployed_minion_label.text = "No deployed minion"
 	deployed_minion_icon.visible = false
-	simulation_animation.visible = false
 	minion.dead.disconnect(_remove_minion)
 	var withdrawn_minion = minion
 	minion = null
@@ -187,7 +187,8 @@ func _open_battle_confirmation_dialog():
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_INHERIT
 
 func close_battle_confirmation_dialog():
-	minion.emit_dead_signal()
+	if (minion != null):
+		minion.emit_dead_signal()
 	battle_confirmation_dialog.visible = false
 	battle_confirmation_dialog.process_mode = Node.PROCESS_MODE_DISABLED
 
