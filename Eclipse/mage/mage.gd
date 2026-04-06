@@ -43,7 +43,7 @@ var ready_to_cast: bool = true  # Toggle false after casting spell, toggle true 
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
 @onready var BURN_COOLDOWN_TIMER = $BurnCooldownTimer
 @export var BURN_UNLOCK_LVL: int = 1
-@export var BURN_BASE_COOLDOWN: float = 0.2     # seconds
+@export var BURN_BASE_COOLDOWN: float = 0.25     # seconds
 @export var BURN_MIN_COOLDOWN: float = 0.05
 @export var BURN_COOLDOWN_REDUCTION_RATE: float = 0.025
 @export var BURN_BASE_SPEED: float = 180.0
@@ -198,6 +198,7 @@ func _cast_burn() -> void:
 	
 	bullet_spawn_node.add_child(instance)
 	burn_ready = false
+	BURN_COOLDOWN_TIMER.wait_time = burn_cooldown
 	BURN_COOLDOWN_TIMER.start()
 	
 	casting_timer.wait_time = burn_cooldown
@@ -264,6 +265,26 @@ func _on_hit(dmg: int):
 # Level up the mage.
 func level_up():
 	level += 1
+	
+	# Update mage stats.
+	current_max_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
+	current_hp = current_max_hp
+	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
+	
+	# Update Burn spell.
+	if burn_cooldown > BURN_MIN_COOLDOWN:
+		burn_cooldown = BURN_BASE_COOLDOWN - BURN_COOLDOWN_REDUCTION_RATE * (level - 1)
+		burn_speed = BURN_BASE_SPEED + BURN_SPEED_INCREASE_RATE * (level - 1)
+	process_mode = Node.PROCESS_MODE_INHERIT
+	
+	# Update Fire Ring spell.
+	if ring_cooldown > RING_MIN_COOLDOWN:
+		ring_cooldown = RING_BASE_COOLDOWN - RING_COOLDOWN_REDUCTION_RATE * (level - 1)
+	if ring_casting_time > RING_MIN_CASTING_TIME:
+		ring_casting_time = RING_BASE_CASTING_TIME - RING_CASTING_TIME_REDUCTION_RATE * (level - 1)
+	ring_damage = RING_BASE_DAMAGE + RING_DAMAGE_INCREASE_RATE * (level - 1)
+	ring_accel = RING_BASE_ACCEL + RING_ACCEL_INCREASE_RATE * (level - 1)
+
 
 # Level up the hero according to its LEVEL_UP_RATE.
 # Heroes level up once for every LEVEL_UP_RATE days they survive.
@@ -286,24 +307,4 @@ func stop():
 func reset():
 	bullet_spawn_node = get_parent()
 	EventBus.hero_hit.connect(_on_hit)
-	
-	# Update mage stats.
-	current_max_hp = BASE_HP + HP_GROWTH_RATE * (level - 1)
-	current_hp = current_max_hp
-	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
-	
-	# Update Burn spell.
-	if burn_cooldown > BURN_MIN_COOLDOWN:
-		burn_cooldown = BURN_BASE_COOLDOWN - BURN_COOLDOWN_REDUCTION_RATE * (level - 1)
-	BURN_COOLDOWN_TIMER.wait_time = burn_cooldown
-	burn_speed = BURN_BASE_SPEED + BURN_SPEED_INCREASE_RATE * (level - 1)
-	process_mode = Node.PROCESS_MODE_INHERIT
-	
-	# Update Fire Ring spell.
-	if ring_cooldown > RING_MIN_COOLDOWN:
-		ring_cooldown = RING_BASE_COOLDOWN - RING_COOLDOWN_REDUCTION_RATE * (level - 1)
-	if ring_casting_time > RING_MIN_CASTING_TIME:
-		ring_casting_time = RING_BASE_CASTING_TIME + RING_CASTING_TIME_REDUCTION_RATE * (level - 1)
-	ring_damage = RING_BASE_DAMAGE + RING_DAMAGE_INCREASE_RATE * (level - 1)
-	ring_accel = RING_BASE_ACCEL + RING_ACCEL_INCREASE_RATE * (level - 1)
 
