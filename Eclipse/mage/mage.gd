@@ -11,8 +11,9 @@ signal dead  # Emitted at 0 hp.
 # BATTLE VARIABLES
 @export var RETICLE_DIST: float = 25.0    # distance from model center, pixels
 @export var BASE_FOLLOW_DISTANCE: int = 200
-@export var CLOSE_RANGE: int = 400
+@export var CLOSE_RANGE: int = 300
 var is_fighting: bool = false
+var is_moving: bool = false
 var target: CharacterBody2D
 var facing: Vector2  # Direction the mage is facing (v_minion.normalized()).
 var distance: float  # Distance from mage to minion
@@ -40,17 +41,35 @@ var ready_to_cast: bool = true  # Toggle false after casting spell, toggle true 
 
 # BURN
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
-@onready var BURN_TIMER = $BurnTimer
+@onready var BURN_COOLDOWN_TIMER = $BurnCooldownTimer
 @export var BURN_UNLOCK_LVL: int = 1
-@export var BASE_BURN_COOLDOWN: float = 0.4     # seconds
-@export var MIN_BURN_COOLDOWN: float = 0.1
+@export var BURN_BASE_COOLDOWN: float = 0.4     # seconds
+@export var BURN_MIN_COOLDOWN: float = 0.1
 @export var BURN_COOLDOWN_REDUCTION_RATE: float = 0.03
-@export var BASE_BURN_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast, radians.
+@export var BURN_BASE_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast, radians.
 var bullet_spawn_node: Node
-var burn_cooldown: float = BASE_BURN_COOLDOWN
+var burn_cooldown: float = BURN_BASE_COOLDOWN
 var burn_ready = true  # Updated by BurnTimer
 var burn_angle : float  # Angle offset for Burn spell.
 var swing_right = true  # Used to control the swing of the Burn angle.
+
+# FIRE RING
+@onready var FIRE_RING = preload("res://projectile/fire_ring.tscn")
+@onready var RING_COOLDOWN_TIMER = $FireRingCooldownTimer
+@onready var RING_CASTING_TIMER = $FireRingCastingTimer
+@export var RING_UNLOCK_LVL: int = 1
+@export var RING_COOLDOWN: float = 5.0
+@export var RING_BASE_CASTING_TIME: float = 2.0
+@export var RING_CASTING_TIME_REDUCTION_RATE: float = 0.2
+@export var RING_MIN_CASTING_TIME: float = 0.4
+@export var RING_BASE_DAMAGE: float = 20.0
+@export var RING_DAMAGE_INCREASE_RATE: float = 2.0
+@export var RING_BASE_ACCEL: float = 61.4  # 60 = no acceleration.
+@export var RING_ACCEL_INCREASE_RATE: float = 0.1
+var ring_ready = true
+var ring_casting_time: float = RING_BASE_CASTING_TIME
+var ring_damage: float = RING_BASE_DAMAGE
+var ring_accel: float = RING_BASE_ACCEL
 
 
 
@@ -59,7 +78,12 @@ func _ready():
 	facing = v_minion.normalized()
 	distance = v_minion.length()
 	
-	BURN_TIMER.wait_time = burn_cooldown
+	casting_timer.one_shot = true
+	BURN_COOLDOWN_TIMER.wait_time = burn_cooldown
+	RING_COOLDOWN_TIMER.wait_time = RING_COOLDOWN
+	RING_COOLDOWN_TIMER.one_shot = true
+	RING_CASTING_TIMER.wait_time = ring_casting_time
+	RING_CASTING_TIMER.one_shot = true
 	
 	# Set HealthBar to full.
 	$HealthBar.value = current_hp * 100 / current_max_hp
@@ -75,8 +99,10 @@ func _process(_delta):
 	distance = v_minion.length()
 	RETICLE.position = facing * RETICLE_DIST
 	
+	#if ready_to_cast: #testing
+		#print("\nMage is ready to cast a spell!")
 	if is_fighting and ready_to_cast:
-		_cast_spell()
+		_choose_spell()
 	
 	# Update HealthBar
 	$HealthBar.value = current_hp * 100.0 / current_max_hp
@@ -97,7 +123,7 @@ func _physics_process(_delta):
 	ANIMATION_TREE.set("parameters/StateMachine/MoveState/IdleState/blend_position", v_minion.normalized())
 	
 	# Move toward or away from MINION until reaching FOLLOW_DISTANCE.
-	if is_fighting and (!los or v_minion.length() > BASE_FOLLOW_DISTANCE):
+	if is_moving and (!los or v_minion.length() > BASE_FOLLOW_DISTANCE):
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/idle"] = false
 		ANIMATION_TREE["parameters/StateMachine/MoveState/conditions/running"] = true
 		velocity = direction * current_speed
@@ -139,7 +165,9 @@ func _on_casting_timer_timeout():
 
 
 # Choose a spell to cast from available unlocked spells then cast it.
-func _cast_spell():	
+func _choose_spell():	
+	#print("Mage is choosing a spell to cast...") #testing
+	
 	# New choose spell logic
 	#if level >= SHIELD_UNLOCK_LVL and distance > CLOSE_RANGE and !shielded:
 	#	cast shield spell
@@ -147,14 +175,17 @@ func _cast_spell():
 	#	cast glyph spell  #TODO: implement mage strafing
 	#elif level >= FIREBALL_UNLOCK_LVL and distance <= CLOSE_RANGE and fireball_ready:
 	#	cast fireball spell
-	if level >= BURN_UNLOCK_LVL and distance <= CLOSE_RANGE and burn_ready:
+	if level >= BURN_UNLOCK_LVL and distance <= CLOSE_RANGE and burn_ready and los:
 		_cast_burn()
-	#elif level >= LIGHTNING_UNLOCK_LVL and distance > CLOSE_RANGE and lightning_ready:
-	#	cast lightning spell
+	elif level >= RING_UNLOCK_LVL and  ring_ready:
+		#print("Mage chooses Fire Ring!") #testing
+		_charge_fire_ring()
 
 
 # Burn spell.
 func _cast_burn() -> void:
+	ready_to_cast = false
+	
 	var instance: CharacterBody2D = BULLET.instantiate()
 	instance.direction = facing.rotated(burn_angle)
 	instance.spawn_pos = RETICLE.global_position
@@ -165,28 +196,56 @@ func _cast_burn() -> void:
 	
 	bullet_spawn_node.add_child(instance)
 	burn_ready = false
-	BURN_TIMER.start()
+	BURN_COOLDOWN_TIMER.start()
 	
-	ready_to_cast = false
 	casting_timer.wait_time = burn_cooldown
 	casting_timer.start()
 
-func _on_burn_timer_timeout():
+func _on_burn_cooldown_timer_timeout():
 	burn_ready = true
 	
 	# Update burn_angle.
 	if swing_right:
-		if burn_angle > BASE_BURN_ANGLE:
+		if burn_angle > BURN_BASE_ANGLE:
 			swing_right = false
 			burn_angle -= 0.1
 		else:
 			burn_angle += 0.1
 	else:
-		if burn_angle < -BASE_BURN_ANGLE:
+		if burn_angle < -BURN_BASE_ANGLE:
 			swing_right = true
 			burn_angle += 0.1
 		else:
 			burn_angle -= 0.1
+
+
+# Fire Ring spell.
+func _charge_fire_ring() -> void:
+	ready_to_cast = false
+	is_moving = false
+	RING_CASTING_TIMER.start()
+
+func _cast_fire_ring() -> void:
+	is_moving = true
+	
+	var instance: Area2D = FIRE_RING.instantiate()
+	instance.direction = facing
+	instance.spawn_pos = RETICLE.global_position
+	instance.spawn_rot = facing.angle()
+	instance.acceleration = ring_accel
+	instance.damage = ring_damage
+	get_parent().add_child(instance)
+	
+	ring_ready = false
+	RING_COOLDOWN_TIMER.start()
+	casting_timer.wait_time = burn_cooldown
+	casting_timer.start()
+
+func _on_fire_ring_cooldown_timer_timeout():
+	ring_ready = true
+
+
+
 
 
 # Called by _physics_process() when a player projectile collides with the mage.
@@ -232,7 +291,14 @@ func reset():
 	current_speed = BASE_SPEED + SPEED_GROWTH_RATE * (level - 1)
 	
 	# Update Burn spell.
-	if burn_cooldown > MIN_BURN_COOLDOWN:
-		burn_cooldown = BASE_BURN_COOLDOWN - BURN_COOLDOWN_REDUCTION_RATE * (level - 1)
-	BURN_TIMER.wait_time = burn_cooldown
+	if burn_cooldown > BURN_MIN_COOLDOWN:
+		burn_cooldown = BURN_BASE_COOLDOWN - BURN_COOLDOWN_REDUCTION_RATE * (level - 1)
+	BURN_COOLDOWN_TIMER.wait_time = burn_cooldown
 	process_mode = Node.PROCESS_MODE_INHERIT
+	
+	# Update Fire Ring spell.
+	if ring_casting_time > RING_MIN_CASTING_TIME:
+		ring_casting_time = RING_BASE_CASTING_TIME + RING_CASTING_TIME_REDUCTION_RATE * (level - 1)
+	ring_damage = RING_BASE_DAMAGE + RING_DAMAGE_INCREASE_RATE * (level - 1)
+	ring_accel = RING_BASE_ACCEL + RING_ACCEL_INCREASE_RATE * (level - 1)
+
