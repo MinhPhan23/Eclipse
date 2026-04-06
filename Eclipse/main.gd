@@ -27,6 +27,7 @@ const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables
 @onready var countdown: Control = $UI/Countdown
 @onready var start_battle: PanelContainer = $UI/StartBattle
 @onready var event_report: Control = $UI/EventReport
+@onready var event_report_log: Control = $UI/EventReportLog
 @onready var battle_report: Control = $UI/BattleReport
 @onready var report_button: TextureButton = $UI/ReportButton
 
@@ -57,7 +58,7 @@ func _ready():
 func _input(event):
 	# toggle the report if it is finished running and there is not another dialog visible (i.e. tutorial)
 	if event.is_action_pressed("toggle_report") and !event_report.is_running and !demon_lord_dialog.visible:
-		event_report.toggle_report(!event_report.visible)
+		event_report_log.toggle_report(!event_report_log.visible)
 
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
@@ -109,13 +110,17 @@ func _generate_event_report_string() -> String:
 	var events: Array[String] = location_manager.events
 
 	var report_str = ""
+	var day_str = "[b]Day %d:[/b]\n" % Globals.current_day
 	for event in events:
 		if !event.is_empty():
 			report_str += event + '\n\n'
 	
 	if report_str.is_empty():
-		return "The day passes uneventfully."
+		report_str = "The day passes uneventfully."
+		event_report_log.push_report_entry(day_str + report_str)
+		return report_str
 	
+	event_report_log.push_report_entry(day_str + report_str)
 	return report_str
 
 
