@@ -158,7 +158,7 @@ func _next_day_lock_animation():
 func generate_next_day():
 	for i in _locations:
 		i.level_up_hero()
-	if Globals.current_day <= Globals.MAX_DAYS:
+	if Globals.current_day < Globals.MAX_DAYS:
 		generate_hero()
 		generate_event()
 		minion_manager.new_day()

@@ -66,14 +66,14 @@ func start_simulation_battle(_index):
 
 func _generate_next_day_events():
 	var report_str: String
+	Globals.next_day()  # Increment the day counter.
+	countdown.next_day()
 	if Globals.current_day < Globals.MAX_DAYS:
 		report_button.set_disabled(true)
-		Globals.next_day()  # Increment the day counter.
 		location_manager.generate_next_day()
 			
 		report_str = _generate_event_report_string()
 		
-		countdown.next_day()
 		event_report.show_report(report_str)
 	else:
 		# Trigger final battle
