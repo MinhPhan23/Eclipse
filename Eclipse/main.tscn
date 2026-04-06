@@ -146,12 +146,6 @@ offset_bottom = -13.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="EventReport" parent="UI" instance=ExtResource("5_hgyqh")]
-visible = false
-z_index = 1
-button_text = "Continue"
-report_title = "Event Report"
-
 [node name="BattleReport" parent="UI" instance=ExtResource("5_hgyqh")]
 visible = false
 button_text = "Start Next Day"
@@ -192,9 +186,6 @@ texture_hover = ExtResource("12_yjlqh")
 texture_disabled = ExtResource("13_326ql")
 texture_focused = ExtResource("12_yjlqh")
 
-[node name="LordDialog" parent="UI" instance=ExtResource("8_8u18f")]
-visible = false
-
 [node name="MinionStatusPanel" type="Panel" parent="UI"]
 offset_left = 805.0
 offset_top = 35.0
@@ -225,6 +216,16 @@ offset_right = 387.0
 offset_bottom = 177.0
 theme_override_constants/h_separation = 6
 columns = 3
+
+[node name="EventReport" parent="UI" instance=ExtResource("5_hgyqh")]
+visible = false
+offset_top = -150.0
+offset_bottom = 150.0
+button_text = "Continue"
+report_title = "Event Report"
+
+[node name="LordDialog" parent="UI" instance=ExtResource("8_8u18f")]
+visible = false
 
 [node name="Pause" type="CanvasLayer" parent="."]
 
