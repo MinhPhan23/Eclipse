@@ -80,6 +80,8 @@ func initialize_battle(main_scene: Node2D, location_scene: Area2D, hero: Charact
 
 func set_map(map: Globals.BATTLE_MAP) -> void:
 	current_map.set_visible(false)
+	current_map.set_layer_enabled(0, false)
+	current_map.set_layer_navigation_enabled(0, false)
 	current_map.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	match map:
@@ -93,6 +95,8 @@ func set_map(map: Globals.BATTLE_MAP) -> void:
 			current_map = $Maps/PlainsMap
 	
 	current_map.set_visible(true)
+	current_map.set_layer_enabled(0, true)
+	current_map.set_layer_navigation_enabled(0, false)
 	current_map.process_mode = Node.PROCESS_MODE_INHERIT
 
 
