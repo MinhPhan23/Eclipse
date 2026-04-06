@@ -29,21 +29,21 @@ var _hero_name: String
 var rng: RandomNumberGenerator
 var mage_spawn_locs = [
 		Vector2(182,214),
-		Vector2(826,156),
+		Vector2(826,130),
 		Vector2(1536,222),
-		Vector2(1412,827),
-		Vector2(775,840),
+		Vector2(1430,840),
+		Vector2(780,840),
 		Vector2(525,573),
-		Vector2(814,464)
+		Vector2(814,474)
 	]
 var minion_spawn_locs = [
-		Vector2(307,274),
+		Vector2(307,210),
 		Vector2(559,58),
-		Vector2(1361,94),
+		Vector2(1340,94),
 		Vector2(1253,905),
 		Vector2(763,988),
 		Vector2(264,773),
-		Vector2(694,378)
+		Vector2(816,437)
 	]
 
 

@@ -22,8 +22,6 @@ source_geometry_group_name = &"navigation_polygon_source_group"
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_2nlbe")
-metadata/_edit_vertical_guides_ = [800.0]
-metadata/_edit_horizontal_guides_ = [512.0]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_mhv11")
