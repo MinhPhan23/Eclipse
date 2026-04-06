@@ -147,8 +147,8 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="EventReport" parent="UI" instance=ExtResource("5_hgyqh")]
-z_index = 1
 visible = false
+z_index = 1
 button_text = "Continue"
 report_title = "Event Report"
 
