@@ -92,3 +92,4 @@ stream = ExtResource("6_bical")
 volume_db = -4.0
 
 [connection signal="pressed" from="Margins/VBox/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="finished" from="TextcrawlSound" to="." method="_on_textcrawl_sound_finished"]

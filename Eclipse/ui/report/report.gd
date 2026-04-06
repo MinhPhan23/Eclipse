@@ -86,3 +86,8 @@ func _on_continue_button_pressed():
 	close_report.play()
 	hide()
 	report_done.emit()
+
+
+# Loop text crawl sound effect.
+func _on_textcrawl_sound_finished():
+	textcrawl_sound.play()
