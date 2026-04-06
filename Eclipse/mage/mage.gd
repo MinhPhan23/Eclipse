@@ -99,8 +99,6 @@ func _process(_delta):
 	distance = v_minion.length()
 	RETICLE.position = facing * RETICLE_DIST
 	
-	#if ready_to_cast: #testing
-		#print("\nMage is ready to cast a spell!")
 	if is_fighting and ready_to_cast:
 		_choose_spell()
 	
@@ -165,9 +163,7 @@ func _on_casting_timer_timeout():
 
 
 # Choose a spell to cast from available unlocked spells then cast it.
-func _choose_spell():	
-	#print("Mage is choosing a spell to cast...") #testing
-	
+func _choose_spell():
 	# New choose spell logic
 	#if level >= SHIELD_UNLOCK_LVL and distance > CLOSE_RANGE and !shielded:
 	#	cast shield spell
@@ -178,7 +174,6 @@ func _choose_spell():
 	if level >= BURN_UNLOCK_LVL and distance <= CLOSE_RANGE and burn_ready and los:
 		_cast_burn()
 	elif level >= RING_UNLOCK_LVL and  ring_ready:
-		#print("Mage chooses Fire Ring!") #testing
 		_charge_fire_ring()
 
 

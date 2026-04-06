@@ -1,12 +1,12 @@
 extends Area2D
 
-@onready var cast_sound = $CastSound
+@onready var _cast_sound = $CastSound
 
-@export var BASE_SPEED: float = 50.0
+@export var _BASE_SPEED: float = 50.0
 var acceleration: float = 60.0  # No acceleration: multiplied by delta = 1/60
 var damage: float = 10.0
 
-var speed: float = BASE_SPEED
+var _speed: float = _BASE_SPEED
 var direction : Vector2
 var spawn_pos : Vector2
 var spawn_rot : float  # Used to orient a sprite with a head/tail.
@@ -15,13 +15,13 @@ var spawn_rot : float  # Used to orient a sprite with a head/tail.
 func _ready():
 	global_position = spawn_pos
 	global_rotation = spawn_rot
-	cast_sound.play()
+	_cast_sound.play()
 	$AnimatedSprite2D.play()
 
 
 func _process(delta):
-	global_position += direction * speed * delta
-	speed *= acceleration * delta
+	global_position += direction * _speed * delta
+	_speed *= acceleration * delta
 
 
 func _on_body_entered(body):
