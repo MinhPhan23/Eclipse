@@ -15,7 +15,7 @@ var _close_button_index:int
 var rand_num: RandomNumberGenerator
 var _curr_loc: Area2D
 
-signal start_next_day
+signal battles_done
 signal minion_lost
 signal minion_win
 signal minion_look_around
@@ -68,9 +68,12 @@ func transfer_minion_dialog(location_name):
 	
 	# If no minion is in the current location open the Send Minion menu.
 	else:
-		minion_choice.label_text = "Send Minion?"
 		var arr: Array[String] = []
 		arr = minion_manager.minion_arr()
+		if (arr.is_empty()):
+			minion_choice.label_text = "No deployable minion"
+		else:
+			minion_choice.label_text = "Send Minion?"
 		arr.append("Close Menu")
 		_close_button_index = arr.size() - 1
 		minion_choice.choices = arr
@@ -132,7 +135,7 @@ func simulate_battle():
 				_battle_triggered = true
 				battle_trigger.emit(i.location_name)
 	else:
-		start_next_day.emit()
+		battles_done.emit()
 
 
 func _next_day_lock_battle():
@@ -141,13 +144,13 @@ func _next_day_lock_battle():
 		i.close_battle_confirmation_dialog()
 	
 	if (_animation_finished_count == minion_manager.deployed_minion):
-		start_next_day.emit()
+		battles_done.emit()
 
 
 func _next_day_lock_animation():
 	_animation_finished_count += 1
 	if (!_battle_triggered and _animation_finished_count == minion_manager.deployed_minion):
-		start_next_day.emit()
+		battles_done.emit()
 
 
 # Generate new heroes, generate events, and tell minion_manager.gd to refresh

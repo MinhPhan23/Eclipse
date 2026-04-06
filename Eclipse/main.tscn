@@ -149,8 +149,15 @@ offset_bottom = -13.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Report" parent="UI" instance=ExtResource("5_hgyqh")]
+[node name="EventReport" parent="UI" instance=ExtResource("5_hgyqh")]
 visible = false
+button_text = "Continue"
+report_title = "Event Report"
+
+[node name="BattleReport" parent="UI" instance=ExtResource("5_hgyqh")]
+visible = false
+button_text = "Start Next Day"
+report_title = "Battle Report"
 
 [node name="Countdown" parent="UI" instance=ExtResource("6_5j7iu")]
 anchors_preset = 2
@@ -244,7 +251,7 @@ autoplay = true
 [connection signal="selection" from="LocationManager/DwarfStringhold" to="LocationManager" method="transfer_minion_dialog"]
 [connection signal="SELECTED" from="UI/MinionList" to="LocationManager" method="transfer_minion"]
 [connection signal="SELECTED" from="UI/StartBattle" to="." method="start_simulation_battle"]
-[connection signal="toggled" from="UI/ReportButton" to="UI/Report" method="toggle_report"]
+[connection signal="toggled" from="UI/ReportButton" to="UI/EventReport" method="toggle_report"]
 [connection signal="close_menu" from="Pause/PauseMenu" to="." method="_on_pause_menu_close_menu"]
 [connection signal="open_controls" from="Pause/PauseMenu" to="." method="_on_pause_menu_open_controls"]
 [connection signal="pause" from="Pause/PauseMenu" to="." method="_on_pause_menu_pause"]

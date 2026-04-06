@@ -1,28 +1,36 @@
 extends Node2D
 
-const FIRST_DEPLOYMENT: String = "These heroes are popping up everywhere according to the reports. Need to figure out where they are coming from and deal with them before they get too strong."
-const FIRST_SIMULATION_WIN: String = "Seems like those deployed to %s can still do some work I guess."
-const FIRST_SIMULATION_LOST: String = "Useless, wasted at %s can't even win a fight against some random hero."
-const FIRST_SIMULATION_NO_HERO: String = "What? No hero found at %s? Can't even write a proper report."
-const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables on you like that. All the way at %s. Need to deal with everything myself"
+const FIRST_DEPLOYMENT: Array[String] = ["These heroes are appearing everywhere, but my minions are useless. Their daily reports can't even distinguish the events of a hero from common news.", "I need to read the reports carefully to decide where they are coming from and snuff them out before they get too strong.", "To make matters worse, my minions need a full day to rest after deployment. I'll have to be strategic about how many I dispatch."]
+const FIRST_SIMULATION_WIN: String = "Seems like those deployed to %s can still do some work."
+const FIRST_SIMULATION_LOST: String = "Useless, wasted at %s, can't even put up a fight against some random hero."
+const FIRST_SIMULATION_NO_HERO: String = "What? No hero found at %s? These minions can't even write a proper report."
+const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables on you like that. I'll have to go all the way to %s to deal with them myself, how embarrassing."
 
 @onready var minion_scene_preload: PackedScene = preload("res://minion/minion.tscn")
 @onready var hero_scene_preload: PackedScene = preload("res://mage/mage.tscn")
 
 # tutorial
-@onready var demon_lord_dialog: Control = $UI/LordDialog
-@onready var demon_lord_dialog_queue: Array[String] = [FIRST_DEPLOYMENT]
-
-# UI
-@onready var ui_layer: CanvasLayer = $UI
-@onready var countdown: Control = $UI/Countdown
-@onready var start_battle: PanelContainer = $UI/StartBattle
-@onready var report: Control = $UI/Report
-@onready var report_button: TextureButton = $UI/ReportButton
+@onready var demon_lord_dialog_queue: Array[String] = FIRST_DEPLOYMENT.duplicate()
+@onready var battle_reports: Array[String] = []
+@onready var minion_win_first_time: bool = true
+@onready var minion_lost_first_time: bool = true
+@onready var minion_look_around_first_time: bool = true
+@onready var battle_trigger_first_time: bool = true
+@onready var first_day: bool = true
+@onready var battle_trigger: bool = false
 
 @onready var music = $Music
+
+# UI Nodes
+@onready var ui_layer: CanvasLayer = $UI
+@onready var demon_lord_dialog: Control = $UI/LordDialog
+@onready var countdown: Control = $UI/Countdown
+@onready var start_battle: PanelContainer = $UI/StartBattle
+@onready var event_report: Control = $UI/EventReport
+@onready var battle_report: Control = $UI/BattleReport
+@onready var report_button: TextureButton = $UI/ReportButton
+
 @onready var location_manager: Node2D = $LocationManager
-@onready var battle_trigger: bool = false
 
 # Menu Layers
 @onready var pause_menu: Control = $Pause/PauseMenu
@@ -30,24 +38,26 @@ const FIRST_BATTLE_TRIGGER: String = "Pathetic, letting the hero turn the tables
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	location_manager.start_next_day.connect(_generate_next_day_events)
-	location_manager.minion_win.connect(_on_minion_win_first_time)
-	location_manager.minion_lost.connect(_on_minion_lost_first_time)
-	location_manager.minion_look_around.connect(_on_minion_look_around_first_time)
-	location_manager.battle_trigger.connect(_on_battle_trigger_first_time)
+	location_manager.battles_done.connect(_generate_battle_report)
+	location_manager.minion_win.connect(_on_minion_win)
+	location_manager.minion_lost.connect(_on_minion_lost)
+	location_manager.minion_look_around.connect(_on_minion_look_around)
+	location_manager.battle_trigger.connect(_on_battle_trigger)
 	
 	demon_lord_dialog.demon_lord_dialog_done.connect(_on_demon_lord_dialog_done)
 	
-	report.report_done.connect(_on_report_done)
+	event_report.report_done.connect(_on_event_report_done)
+	battle_report.report_done.connect(_on_battle_report_done)
+	battle_report.disable_crawling()
 	
-	start_battle.choices = ["Start Battle"]
+	start_battle.choices = ["Deploy minion"]
 	start_battle.label_text = ""
-	_generate_next_day_events()
+	demon_lord_dialog.show_dialog(demon_lord_dialog_queue.pop_front())
 
 func _input(event):
 	# toggle the report if it is finished running and there is not another dialog visible (i.e. tutorial)
-	if event.is_action_pressed("toggle_report") and !report.is_running and !demon_lord_dialog.visible:
-		report.toggle_report(!report.visible)
+	if event.is_action_pressed("toggle_report") and !event_report.is_running and !demon_lord_dialog.visible:
+		event_report.toggle_report(!event_report.visible)
 
 func start_simulation_battle(_index):
 	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
@@ -55,20 +65,15 @@ func start_simulation_battle(_index):
 
 func _generate_next_day_events():
 	var report_str: String
-	
 	if Globals.current_day < Globals.MAX_DAYS:
 		report_button.set_disabled(true)
-		if !demon_lord_dialog_queue.is_empty():  # Demon lord yaps.
-			var next_dialog = demon_lord_dialog_queue.pop_front()
-			demon_lord_dialog.show_dialog(next_dialog)
-		else:
-			Globals.next_day()  # Increment the day counter.
-			location_manager.generate_next_day()
+		Globals.next_day()  # Increment the day counter.
+		location_manager.generate_next_day()
 			
-			report_str = _generate_report_string()
-			
-			countdown.next_day()
-			report.show_report(report_str)
+		report_str = _generate_event_report_string()
+		
+		countdown.next_day()
+		event_report.show_report(report_str)
 	else:
 		# Trigger final battle
 		location_manager.generate_next_day()
@@ -81,12 +86,28 @@ func _generate_next_day_events():
 		
 		ui_layer.add_child(final_battle_dialog)
 
+func _generate_battle_report():
+	start_battle.process_mode = Node.PROCESS_MODE_DISABLED
+	await get_tree().create_timer(0.75).timeout
+
+	if !demon_lord_dialog_queue.is_empty():  # Demon lord yaps.
+		demon_lord_dialog.show_dialog(demon_lord_dialog_queue.pop_front())
+
+	var report_str = ""
+	for report in battle_reports:
+		report_str += report + '\n\n'
+	if report_str.is_empty():
+		report_str = "No minions were deployed."
+
+	battle_report.show_report(report_str)
+	battle_reports.clear()
+
 func _start_final_battle() -> void:
 	location_manager.start_final_battle()
 
-func _generate_report_string() -> String:
+func _generate_event_report_string() -> String:
 	var events: Array[String] = location_manager.events
-	
+
 	var report_str = ""
 	for event in events:
 		if !event.is_empty():
@@ -103,25 +124,38 @@ func _on_demon_lord_dialog_done():
 	if battle_trigger:
 		# If battle is triggered, do not generate next day events.
 		battle_trigger = false
-	else:
+	elif first_day:
+		first_day = false
 		_generate_next_day_events()
+	
+	if !demon_lord_dialog_queue.is_empty():  # Demon lord yaps.
+		demon_lord_dialog.show_dialog(demon_lord_dialog_queue.pop_front())
 
-func _on_minion_win_first_time(location_name: String):
-	demon_lord_dialog_queue.push_back(FIRST_SIMULATION_WIN % location_name)
-	location_manager.minion_win.disconnect(_on_minion_win_first_time)
+func _on_minion_win(location_name: String):
+	if (minion_win_first_time):
+		minion_win_first_time = false
+		demon_lord_dialog_queue.push_back(FIRST_SIMULATION_WIN % location_name)
+	battle_reports.append("Minion won at %s." % location_name)
 
-func _on_minion_lost_first_time(location_name: String):
-	demon_lord_dialog_queue.push_back(FIRST_SIMULATION_LOST % location_name)
-	location_manager.minion_lost.disconnect(_on_minion_lost_first_time)
+func _on_minion_lost(location_name: String):
+	if (minion_lost_first_time):
+		minion_lost_first_time = false
+		demon_lord_dialog_queue.push_back(FIRST_SIMULATION_LOST % location_name)
+	battle_reports.append("Minion lost at %s." % location_name)
 
-func _on_minion_look_around_first_time(location_name: String):
-	demon_lord_dialog_queue.push_back(FIRST_SIMULATION_NO_HERO % location_name)
-	location_manager.minion_look_around.disconnect(_on_minion_look_around_first_time)
 
-func _on_battle_trigger_first_time(location_name: String):
-	battle_trigger = true
-	demon_lord_dialog.show_dialog(FIRST_BATTLE_TRIGGER % location_name)
-	location_manager.battle_trigger.disconnect(_on_battle_trigger_first_time)
+func _on_minion_look_around(location_name: String):
+	if (minion_look_around_first_time):
+		minion_look_around_first_time = false
+		demon_lord_dialog_queue.push_back(FIRST_SIMULATION_NO_HERO % location_name)
+	battle_reports.append("No hero found at %s." % location_name)
+
+func _on_battle_trigger(location_name: String):
+	if (battle_trigger_first_time):
+		battle_trigger_first_time = false
+		demon_lord_dialog.show_dialog(FIRST_BATTLE_TRIGGER % location_name)
+		battle_trigger = true
+	battle_reports.append("Battle triggered at %s." % location_name)
 
 
 # Loop background music.
@@ -146,7 +180,11 @@ func _on_pause_menu_unpause():
 	pause_menu.hide()
 	control_menu.hide()
 
-func _on_report_done():
+func _on_event_report_done():
 	report_button.set_disabled(false)
 	report_button.set_pressed_no_signal(false)
 	start_battle.process_mode = Node.PROCESS_MODE_INHERIT
+
+func _on_battle_report_done():
+	start_battle.process_mode = Node.PROCESS_MODE_INHERIT
+	_generate_next_day_events()
