@@ -76,7 +76,7 @@ pattern_index = 2
 position = Vector2(299, 692)
 location_name = "Glimmerwood"
 name_short = "Glimmerwood"
-hero_events = Array[String](["An outsider is invited to Glimmerwood after centuries of seclusion.", "The World Tree blooms, bestowing its blessing throughout the land. This miracle must have had a catalyst.", "The forest Something has convinced the beasts of the forest, once ferocious and feared, to protect mortals instead of hunting them.beasts, once ferocious and feared, are now protecting the land."])
+hero_events = Array[String](["An outsider is invited to Glimmerwood after centuries of seclusion.", "The World Tree blooms, bestowing its blessing throughout the land. This miracle must have had a catalyst.", "Something has convinced the beasts of the forest, once ferocious and feared, to protect mortals instead of hunting them."])
 location_events = Array[String](["A secret meeting is held by the High Council of Elves to discuss the encroaching darkness.", "Lost travellers appear at the edge of the forest, unaware they had been missing for days.", "A rare celestial event causes the forest to glow with an ethereal light.", "Rumours that a great white stag has been sighted circulate rapidly."])
 pattern_index = 3
 
