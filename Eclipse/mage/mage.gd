@@ -10,7 +10,7 @@ signal dead  # Emitted at 0 hp.
 
 # BATTLE VARIABLES
 @export var RETICLE_DIST: float = 25.0    # distance from model center, pixels
-@export var BASE_FOLLOW_DISTANCE: int = 200
+@export var BASE_FOLLOW_DISTANCE: int = 50
 @export var CLOSE_RANGE: int = 300
 var is_fighting: bool = false
 var is_moving: bool = false
@@ -23,7 +23,7 @@ var dead_emit_flag: bool = false
 # HERO VARIABLES
 @export var BASE_HP: float = 100.0
 @export var HP_GROWTH_RATE: int = 50
-@export var BASE_SPEED: int = 50
+@export var BASE_SPEED: int = 100
 @export var SPEED_GROWTH_RATE: int = 10
 var level_up_rate: int = 1  # Number of days it takes a hero to level up.
 # level_up_countdown is decremented and reset in generate_next_day() in
@@ -43,11 +43,11 @@ var ready_to_cast: bool = true  # Toggle false after casting spell, toggle true 
 @onready var BULLET = preload("res://projectile/firebolt.tscn")
 @onready var BURN_COOLDOWN_TIMER = $BurnCooldownTimer
 @export var BURN_UNLOCK_LVL: int = 1
-@export var BURN_BASE_COOLDOWN: float = 0.25     # seconds
-@export var BURN_MIN_COOLDOWN: float = 0.05
+@export var BURN_BASE_COOLDOWN: float = 0.2     # seconds
+@export var BURN_MIN_COOLDOWN: float = 0.025
 @export var BURN_COOLDOWN_REDUCTION_RATE: float = 0.025
-@export var BURN_BASE_SPEED: float = 180.0
-@export var BURN_SPEED_INCREASE_RATE: float = 10.0
+@export var BURN_BASE_SPEED: float = 200.0
+@export var BURN_SPEED_INCREASE_RATE: float = 12.0
 @export var BURN_BASE_ANGLE: float = 0.5  # Maximum angle away from player that spell will be cast, radians.
 var bullet_spawn_node: Node
 var burn_cooldown: float = BURN_BASE_COOLDOWN
@@ -64,13 +64,13 @@ var swing_right = true  # Used to control the swing of the Burn angle.
 @export var RING_BASE_COOLDOWN: float = 3.0
 @export var RING_COOLDOWN_REDUCTION_RATE: float = 0.25
 @export var RING_MIN_COOLDOWN: float = 1.0
-@export var RING_BASE_CASTING_TIME: float = 2.0
+@export var RING_BASE_CASTING_TIME: float = 1.5
 @export var RING_CASTING_TIME_REDUCTION_RATE: float = 0.2
-@export var RING_MIN_CASTING_TIME: float = 0.4
+@export var RING_MIN_CASTING_TIME: float = 0.1
 @export var RING_BASE_DAMAGE: float = 30.0
 @export var RING_DAMAGE_INCREASE_RATE: float = 10.0
 @export var RING_BASE_ACCEL: float = 60.5  # 60 = no acceleration.
-@export var RING_ACCEL_INCREASE_RATE: float = 0.1
+@export var RING_ACCEL_INCREASE_RATE: float = 0.15
 var ring_ready = true
 var ring_cooldown: float = RING_BASE_COOLDOWN
 var ring_casting_time: float = RING_BASE_CASTING_TIME
