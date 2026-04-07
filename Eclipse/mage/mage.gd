@@ -22,7 +22,7 @@ var dead_emit_flag: bool = false
 
 # HERO VARIABLES
 @export var BASE_HP: float = 100.0
-@export var HP_GROWTH_RATE: int = 50
+@export var HP_GROWTH_RATE: int = 75
 @export var BASE_SPEED: int = 100
 @export var SPEED_GROWTH_RATE: int = 10
 var level_up_rate: int = 1  # Number of days it takes a hero to level up.
@@ -295,7 +295,7 @@ func daily_level_up():
 		level_up_countdown = level_up_rate
 	
 	# level_up_rate starts at 1.
-	if level > 3:
+	if level > 4:
 		level_up_rate = 2
 	
 	# Decrement level_up_countdown.
