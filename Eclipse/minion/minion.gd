@@ -55,6 +55,7 @@ func _process(_delta):
 
 
 func _physics_process(_delta: float) -> void:
+	input_vector = Vector2.ZERO
 	if is_fighting:  # Only allow player movement if is_fighting == true.
 		input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	mouse_pos = get_global_mouse_position()
