@@ -31,6 +31,7 @@ func push_report_entry(text: String):
 		if (_log_size == LOG_MAX_SIZE):
 			var entry_to_be_removed: RichTextLabel = report_entry_list.get_child(_log_size - 1)
 			report_entry_list.remove_child(entry_to_be_removed)
+			_log_size -= 1
 		var entry_to_be_pushed: RichTextLabel = report_text_entry.duplicate()
 		entry_to_be_pushed.text = text
 		report_entry_list.add_child(entry_to_be_pushed)
