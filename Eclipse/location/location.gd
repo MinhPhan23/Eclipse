@@ -160,8 +160,8 @@ func simulate_battle() -> Globals.SIMULATION_BATTLE_RESULT:
 	var hero_level = hero.level
 	
 	# Roll 1d12 each and add modifiers to simulate a battle.
-	var minion_dice_roll = rng.randi_range(1, 12) + minion_level #+ minion_bonus
-	var hero_dice_roll = rng.randi_range(1, 12) + hero_level
+	var minion_dice_roll = rng.randi_range(1, 10) + minion_level/2 #+ minion_bonus
+	var hero_dice_roll = rng.randi_range(1, 12) + hero_level/2
 	
 	# Process battle results.
 	if (minion_dice_roll < hero_dice_roll):
