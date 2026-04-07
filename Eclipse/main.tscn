@@ -62,7 +62,7 @@ map = 2
 position = Vector2(612.857, 731.429)
 location_name = "Avondale"
 name_short = "Avondale"
-hero_events = Array[String](["The The king of Avondale bestows a knighthood upon a worthy servant of the crown.", "The citizens of Avondale gather for a parade. A young demon slayer will walk at its head.", "One of our agents was killed while attempting to assassinate a member of the royal family."])
+hero_events = Array[String](["The king of Avondale bestows a knighthood upon a worthy servant of the crown.", "The citizens of Avondale gather for a parade. A young demon slayer will walk at its head.", "One of our agents was killed while attempting to assassinate a member of the royal family."])
 location_events = Array[String](["The Avondale guards hunt down a monster terrorizing the populace.", "The king doubles the city guards. Petty criminals are forced to retreat into the shadows.", "A grand tournament is held in Avondale.", "A city vagrant has built up an impressive following, spouting nonsense about omens and prophecies."])
 
 [node name="TradePort" parent="LocationManager" instance=ExtResource("2_cd1vd")]
